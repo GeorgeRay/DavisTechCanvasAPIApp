@@ -1,0 +1,21 @@
+﻿5/18/2017 by Owen Horne
+Changed to tabbed format from mdi using existing forms.
+
+Added assignment tab with following abilities:
+	Create single and batch assignments
+	Set points, submission type, grading type, assignment group, omit grade, due date,
+	lock and unlock dates, allowed file extensions, peer reviews, make group assignments
+
+Added pages tab with following
+	Create single and batch pages
+	Set page body text, editing roles, and modification notifications
+
+Updated all forms with DATC Icon
+
+Set  wait cursors to display while processing requests to show user program is processing,  not locked.
+
+Retrieve user photo and added to profile form.
+
+Added get method for assignment due to API exception response different from quiz.
+
+Set message box to display if not logged in and attempt to access profile.
