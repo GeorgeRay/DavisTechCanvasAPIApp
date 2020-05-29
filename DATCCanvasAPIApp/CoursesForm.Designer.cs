@@ -56,9 +56,10 @@
             // labelLoggedIn
             // 
             this.labelLoggedIn.AutoSize = true;
-            this.labelLoggedIn.Location = new System.Drawing.Point(12, 9);
+            this.labelLoggedIn.Location = new System.Drawing.Point(24, 17);
+            this.labelLoggedIn.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelLoggedIn.Name = "labelLoggedIn";
-            this.labelLoggedIn.Size = new System.Drawing.Size(103, 13);
+            this.labelLoggedIn.Size = new System.Drawing.Size(207, 25);
             this.labelLoggedIn.TabIndex = 3;
             this.labelLoggedIn.Text = "Showing courses for";
             // 
@@ -83,38 +84,42 @@
             this.courseDataGridView.DefaultCellStyle = dataGridViewCellStyle1;
             this.courseDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.courseDataGridView.GridColor = System.Drawing.Color.White;
-            this.courseDataGridView.Location = new System.Drawing.Point(15, 35);
+            this.courseDataGridView.Location = new System.Drawing.Point(30, 67);
+            this.courseDataGridView.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.courseDataGridView.MultiSelect = false;
             this.courseDataGridView.Name = "courseDataGridView";
             this.courseDataGridView.RowHeadersVisible = false;
             this.courseDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.courseDataGridView.Size = new System.Drawing.Size(615, 614);
+            this.courseDataGridView.Size = new System.Drawing.Size(1230, 1181);
             this.courseDataGridView.TabIndex = 4;
             this.courseDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.courseDataGridView_CellClick);
             // 
             // selectedCourse
             // 
             this.selectedCourse.AutoSize = true;
-            this.selectedCourse.Location = new System.Drawing.Point(250, 9);
+            this.selectedCourse.Location = new System.Drawing.Point(500, 17);
+            this.selectedCourse.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.selectedCourse.Name = "selectedCourse";
-            this.selectedCourse.Size = new System.Drawing.Size(88, 13);
+            this.selectedCourse.Size = new System.Drawing.Size(177, 25);
             this.selectedCourse.TabIndex = 5;
             this.selectedCourse.Text = "Selected Course ";
             // 
             // searchBox
             // 
-            this.searchBox.Location = new System.Drawing.Point(530, 6);
+            this.searchBox.Location = new System.Drawing.Point(1060, 12);
+            this.searchBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.searchBox.Name = "searchBox";
-            this.searchBox.Size = new System.Drawing.Size(100, 20);
+            this.searchBox.Size = new System.Drawing.Size(196, 31);
             this.searchBox.TabIndex = 6;
             this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
             // 
             // searchLbl
             // 
             this.searchLbl.AutoSize = true;
-            this.searchLbl.Location = new System.Drawing.Point(483, 9);
+            this.searchLbl.Location = new System.Drawing.Point(966, 17);
+            this.searchLbl.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.searchLbl.Name = "searchLbl";
-            this.searchLbl.Size = new System.Drawing.Size(41, 13);
+            this.searchLbl.Size = new System.Drawing.Size(80, 25);
             this.searchLbl.TabIndex = 7;
             this.searchLbl.Text = "Search";
             // 
@@ -139,38 +144,42 @@
             this.courseStudentsGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.courseStudentsGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.courseStudentsGrid.GridColor = System.Drawing.Color.White;
-            this.courseStudentsGrid.Location = new System.Drawing.Point(636, 64);
+            this.courseStudentsGrid.Location = new System.Drawing.Point(1272, 123);
+            this.courseStudentsGrid.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.courseStudentsGrid.MultiSelect = false;
             this.courseStudentsGrid.Name = "courseStudentsGrid";
             this.courseStudentsGrid.RowHeadersVisible = false;
             this.courseStudentsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.courseStudentsGrid.Size = new System.Drawing.Size(312, 253);
+            this.courseStudentsGrid.Size = new System.Drawing.Size(624, 487);
             this.courseStudentsGrid.TabIndex = 9;
             this.courseStudentsGrid.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.courseStudentsGrid_CellMouseClick);
             // 
             // enrolledStudentsSearch
             // 
-            this.enrolledStudentsSearch.Location = new System.Drawing.Point(847, 38);
+            this.enrolledStudentsSearch.Location = new System.Drawing.Point(1694, 73);
+            this.enrolledStudentsSearch.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.enrolledStudentsSearch.Name = "enrolledStudentsSearch";
-            this.enrolledStudentsSearch.Size = new System.Drawing.Size(100, 20);
+            this.enrolledStudentsSearch.Size = new System.Drawing.Size(196, 31);
             this.enrolledStudentsSearch.TabIndex = 11;
             this.enrolledStudentsSearch.TextChanged += new System.EventHandler(this.enrolledStudentsSearch_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(800, 41);
+            this.label1.Location = new System.Drawing.Point(1600, 79);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.Size = new System.Drawing.Size(80, 25);
             this.label1.TabIndex = 13;
             this.label1.Text = "Search";
             // 
             // removeFromCourse
             // 
             this.removeFromCourse.Enabled = false;
-            this.removeFromCourse.Location = new System.Drawing.Point(636, 38);
+            this.removeFromCourse.Location = new System.Drawing.Point(1272, 73);
+            this.removeFromCourse.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.removeFromCourse.Name = "removeFromCourse";
-            this.removeFromCourse.Size = new System.Drawing.Size(75, 23);
+            this.removeFromCourse.Size = new System.Drawing.Size(150, 44);
             this.removeFromCourse.TabIndex = 15;
             this.removeFromCourse.Text = "Conclude";
             this.removeFromCourse.UseVisualStyleBackColor = true;
@@ -179,9 +188,10 @@
             // addToCourse
             // 
             this.addToCourse.Enabled = false;
-            this.addToCourse.Location = new System.Drawing.Point(636, 346);
+            this.addToCourse.Location = new System.Drawing.Point(1272, 665);
+            this.addToCourse.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.addToCourse.Name = "addToCourse";
-            this.addToCourse.Size = new System.Drawing.Size(75, 23);
+            this.addToCourse.Size = new System.Drawing.Size(150, 44);
             this.addToCourse.TabIndex = 16;
             this.addToCourse.Text = "Invite";
             this.addToCourse.UseVisualStyleBackColor = true;
@@ -208,29 +218,32 @@
             this.allStudentsGrid.DefaultCellStyle = dataGridViewCellStyle3;
             this.allStudentsGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.allStudentsGrid.GridColor = System.Drawing.Color.White;
-            this.allStudentsGrid.Location = new System.Drawing.Point(636, 374);
+            this.allStudentsGrid.Location = new System.Drawing.Point(1272, 719);
+            this.allStudentsGrid.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.allStudentsGrid.MultiSelect = false;
             this.allStudentsGrid.Name = "allStudentsGrid";
             this.allStudentsGrid.RowHeadersVisible = false;
             this.allStudentsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.allStudentsGrid.Size = new System.Drawing.Size(312, 275);
+            this.allStudentsGrid.Size = new System.Drawing.Size(624, 529);
             this.allStudentsGrid.TabIndex = 10;
             this.allStudentsGrid.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.accountStudentsGrid_CellMouseClick);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(800, 352);
+            this.label2.Location = new System.Drawing.Point(1600, 677);
+            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 13);
+            this.label2.Size = new System.Drawing.Size(80, 25);
             this.label2.TabIndex = 14;
             this.label2.Text = "Search";
             // 
             // accountStudentsSearch
             // 
-            this.accountStudentsSearch.Location = new System.Drawing.Point(847, 349);
+            this.accountStudentsSearch.Location = new System.Drawing.Point(1694, 671);
+            this.accountStudentsSearch.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.accountStudentsSearch.Name = "accountStudentsSearch";
-            this.accountStudentsSearch.Size = new System.Drawing.Size(100, 20);
+            this.accountStudentsSearch.Size = new System.Drawing.Size(196, 31);
             this.accountStudentsSearch.TabIndex = 12;
             this.accountStudentsSearch.TextChanged += new System.EventHandler(this.accountStudentsSearch_TextChanged);
             // 
@@ -238,9 +251,10 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(713, 13);
+            this.label3.Location = new System.Drawing.Point(1426, 25);
+            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(152, 18);
+            this.label3.Size = new System.Drawing.Size(287, 36);
             this.label3.TabIndex = 17;
             this.label3.Text = "Students in Course";
             // 
@@ -248,17 +262,19 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(735, 328);
+            this.label4.Location = new System.Drawing.Point(1470, 631);
+            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(97, 18);
+            this.label4.Size = new System.Drawing.Size(188, 36);
             this.label4.TabIndex = 18;
             this.label4.Text = "All Students";
             // 
             // btnLoadCourses
             // 
-            this.btnLoadCourses.Location = new System.Drawing.Point(24, 661);
+            this.btnLoadCourses.Location = new System.Drawing.Point(48, 1271);
+            this.btnLoadCourses.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnLoadCourses.Name = "btnLoadCourses";
-            this.btnLoadCourses.Size = new System.Drawing.Size(91, 26);
+            this.btnLoadCourses.Size = new System.Drawing.Size(182, 50);
             this.btnLoadCourses.TabIndex = 19;
             this.btnLoadCourses.Text = "Load Courses";
             this.btnLoadCourses.UseVisualStyleBackColor = true;
@@ -266,9 +282,9 @@
             // 
             // CoursesForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 699);
+            this.ClientSize = new System.Drawing.Size(1920, 1344);
             this.Controls.Add(this.btnLoadCourses);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -286,6 +302,7 @@
             this.Controls.Add(this.courseDataGridView);
             this.Controls.Add(this.labelLoggedIn);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "CoursesForm";
             this.Text = "Your Courses";
             this.Load += new System.EventHandler(this.CoursesForm_Load);

@@ -96,9 +96,10 @@
             // 
             // btnLoadCourse
             // 
-            this.btnLoadCourse.Location = new System.Drawing.Point(3, 26);
+            this.btnLoadCourse.Location = new System.Drawing.Point(6, 50);
+            this.btnLoadCourse.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnLoadCourse.Name = "btnLoadCourse";
-            this.btnLoadCourse.Size = new System.Drawing.Size(173, 23);
+            this.btnLoadCourse.Size = new System.Drawing.Size(346, 44);
             this.btnLoadCourse.TabIndex = 40;
             this.btnLoadCourse.Text = "Load Course Information";
             this.btnLoadCourse.UseVisualStyleBackColor = true;
@@ -106,7 +107,8 @@
             // 
             // nudCourseID
             // 
-            this.nudCourseID.Location = new System.Drawing.Point(63, 2);
+            this.nudCourseID.Location = new System.Drawing.Point(126, 4);
+            this.nudCourseID.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.nudCourseID.Maximum = new decimal(new int[] {
             2147483646,
             0,
@@ -118,7 +120,7 @@
             0,
             0});
             this.nudCourseID.Name = "nudCourseID";
-            this.nudCourseID.Size = new System.Drawing.Size(113, 20);
+            this.nudCourseID.Size = new System.Drawing.Size(226, 31);
             this.nudCourseID.TabIndex = 39;
             this.nudCourseID.Value = new decimal(new int[] {
             1,
@@ -129,54 +131,60 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(182, 9);
+            this.label10.Location = new System.Drawing.Point(364, 17);
+            this.label10.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(96, 13);
+            this.label10.Size = new System.Drawing.Size(194, 25);
             this.label10.TabIndex = 45;
             this.label10.Text = "Assign Base Name";
             // 
             // txbBaseName
             // 
             this.txbBaseName.Enabled = false;
-            this.txbBaseName.Location = new System.Drawing.Point(284, 6);
+            this.txbBaseName.Location = new System.Drawing.Point(568, 12);
+            this.txbBaseName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.txbBaseName.Name = "txbBaseName";
-            this.txbBaseName.Size = new System.Drawing.Size(262, 20);
+            this.txbBaseName.Size = new System.Drawing.Size(520, 31);
             this.txbBaseName.TabIndex = 41;
             this.txbBaseName.TextChanged += new System.EventHandler(this.txbBaseName_TextChanged_1);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(209, 35);
+            this.label9.Location = new System.Drawing.Point(418, 67);
+            this.label9.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(69, 13);
+            this.label9.Size = new System.Drawing.Size(139, 25);
             this.label9.TabIndex = 44;
             this.label9.Text = "Assign Name";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 4);
+            this.label4.Location = new System.Drawing.Point(6, 8);
+            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(54, 13);
+            this.label4.Size = new System.Drawing.Size(107, 25);
             this.label4.TabIndex = 43;
             this.label4.Text = "Course ID";
             // 
             // txbAssignName
             // 
             this.txbAssignName.Enabled = false;
-            this.txbAssignName.Location = new System.Drawing.Point(284, 32);
+            this.txbAssignName.Location = new System.Drawing.Point(568, 62);
+            this.txbAssignName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.txbAssignName.Name = "txbAssignName";
-            this.txbAssignName.Size = new System.Drawing.Size(262, 20);
+            this.txbAssignName.Size = new System.Drawing.Size(520, 31);
             this.txbAssignName.TabIndex = 42;
             this.txbAssignName.TextChanged += new System.EventHandler(this.txbAssignName_TextChanged);
             // 
             // rtbResults
             // 
-            this.rtbResults.Location = new System.Drawing.Point(563, 35);
+            this.rtbResults.Location = new System.Drawing.Point(1126, 67);
+            this.rtbResults.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.rtbResults.Name = "rtbResults";
             this.rtbResults.ReadOnly = true;
-            this.rtbResults.Size = new System.Drawing.Size(268, 516);
+            this.rtbResults.Size = new System.Drawing.Size(532, 989);
             this.rtbResults.TabIndex = 46;
             this.rtbResults.TabStop = false;
             this.rtbResults.Text = "";
@@ -184,9 +192,10 @@
             // buttonSubmitAssign
             // 
             this.buttonSubmitAssign.Enabled = false;
-            this.buttonSubmitAssign.Location = new System.Drawing.Point(10, 543);
+            this.buttonSubmitAssign.Location = new System.Drawing.Point(20, 1044);
+            this.buttonSubmitAssign.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.buttonSubmitAssign.Name = "buttonSubmitAssign";
-            this.buttonSubmitAssign.Size = new System.Drawing.Size(118, 36);
+            this.buttonSubmitAssign.Size = new System.Drawing.Size(236, 69);
             this.buttonSubmitAssign.TabIndex = 47;
             this.buttonSubmitAssign.Text = "Submit";
             this.buttonSubmitAssign.UseVisualStyleBackColor = true;
@@ -194,17 +203,19 @@
             // 
             // labelLoggedIn
             // 
-            this.labelLoggedIn.Location = new System.Drawing.Point(560, 6);
+            this.labelLoggedIn.Location = new System.Drawing.Point(1120, 12);
+            this.labelLoggedIn.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelLoggedIn.Name = "labelLoggedIn";
-            this.labelLoggedIn.Size = new System.Drawing.Size(268, 23);
+            this.labelLoggedIn.Size = new System.Drawing.Size(536, 44);
             this.labelLoggedIn.TabIndex = 48;
             this.labelLoggedIn.Text = "Enter course ID and press load to begin";
             // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(144, 543);
+            this.buttonReset.Location = new System.Drawing.Point(288, 1044);
+            this.buttonReset.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(118, 36);
+            this.buttonReset.Size = new System.Drawing.Size(236, 69);
             this.buttonReset.TabIndex = 49;
             this.buttonReset.Text = "Reset";
             this.buttonReset.UseVisualStyleBackColor = true;
@@ -215,9 +226,10 @@
             this.xbxUseBase.AutoSize = true;
             this.xbxUseBase.Checked = true;
             this.xbxUseBase.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.xbxUseBase.Location = new System.Drawing.Point(6, 67);
+            this.xbxUseBase.Location = new System.Drawing.Point(12, 129);
+            this.xbxUseBase.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.xbxUseBase.Name = "xbxUseBase";
-            this.xbxUseBase.Size = new System.Drawing.Size(245, 17);
+            this.xbxUseBase.Size = new System.Drawing.Size(486, 29);
             this.xbxUseBase.TabIndex = 50;
             this.xbxUseBase.TabStop = false;
             this.xbxUseBase.Text = "Use Base Name and Increment Numbers in [  ]";
@@ -226,22 +238,24 @@
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(281, 68);
+            this.label6.Location = new System.Drawing.Point(562, 131);
+            this.label6.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(204, 19);
+            this.label6.Size = new System.Drawing.Size(408, 37);
             this.label6.TabIndex = 52;
             this.label6.Text = "Select Number of Assignments to Make";
             // 
             // nudNumberOfAssign
             // 
-            this.nudNumberOfAssign.Location = new System.Drawing.Point(491, 64);
+            this.nudNumberOfAssign.Location = new System.Drawing.Point(982, 123);
+            this.nudNumberOfAssign.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.nudNumberOfAssign.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.nudNumberOfAssign.Name = "nudNumberOfAssign";
-            this.nudNumberOfAssign.Size = new System.Drawing.Size(46, 20);
+            this.nudNumberOfAssign.Size = new System.Drawing.Size(92, 31);
             this.nudNumberOfAssign.TabIndex = 51;
             this.nudNumberOfAssign.Value = new decimal(new int[] {
             1,
@@ -251,18 +265,20 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(3, 87);
+            this.label1.Location = new System.Drawing.Point(6, 167);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(441, 23);
+            this.label1.Size = new System.Drawing.Size(882, 44);
             this.label1.TabIndex = 53;
             this.label1.Text = "Assignment Instructions (anything in [  ] will be replaced by Assignment Name at " +
     "submit)";
             // 
             // rtbAssignInstructions
             // 
-            this.rtbAssignInstructions.Location = new System.Drawing.Point(3, 113);
+            this.rtbAssignInstructions.Location = new System.Drawing.Point(6, 217);
+            this.rtbAssignInstructions.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.rtbAssignInstructions.Name = "rtbAssignInstructions";
-            this.rtbAssignInstructions.Size = new System.Drawing.Size(542, 47);
+            this.rtbAssignInstructions.Size = new System.Drawing.Size(1080, 87);
             this.rtbAssignInstructions.TabIndex = 54;
             this.rtbAssignInstructions.TabStop = false;
             this.rtbAssignInstructions.Text = "";
@@ -270,9 +286,10 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 167);
+            this.label2.Location = new System.Drawing.Point(6, 321);
+            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 13);
+            this.label2.Size = new System.Drawing.Size(183, 25);
             this.label2.TabIndex = 55;
             this.label2.Text = "Display Grade as:";
             // 
@@ -287,25 +304,28 @@
             "Complete/Incomplete",
             "Letter Grade",
             "GPA Scale"});
-            this.comboBoxGradeType.Location = new System.Drawing.Point(3, 184);
+            this.comboBoxGradeType.Location = new System.Drawing.Point(6, 354);
+            this.comboBoxGradeType.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.comboBoxGradeType.Name = "comboBoxGradeType";
-            this.comboBoxGradeType.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxGradeType.Size = new System.Drawing.Size(238, 33);
             this.comboBoxGradeType.TabIndex = 56;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 259);
+            this.label3.Location = new System.Drawing.Point(6, 498);
+            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(81, 13);
+            this.label3.Size = new System.Drawing.Size(166, 25);
             this.label3.TabIndex = 57;
             this.label3.Text = "Points Possible:";
             // 
             // textBoxPoints
             // 
-            this.textBoxPoints.Location = new System.Drawing.Point(3, 275);
+            this.textBoxPoints.Location = new System.Drawing.Point(6, 529);
+            this.textBoxPoints.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.textBoxPoints.Name = "textBoxPoints";
-            this.textBoxPoints.Size = new System.Drawing.Size(32, 20);
+            this.textBoxPoints.Size = new System.Drawing.Size(60, 31);
             this.textBoxPoints.TabIndex = 58;
             this.textBoxPoints.Text = "0";
             // 
@@ -317,9 +337,11 @@
             this.groupBoxSubType.Controls.Add(this.checkBoxWebsite);
             this.groupBoxSubType.Controls.Add(this.checkBoxTextEntry);
             this.groupBoxSubType.Controls.Add(this.comboBoxSubTypes);
-            this.groupBoxSubType.Location = new System.Drawing.Point(337, 167);
+            this.groupBoxSubType.Location = new System.Drawing.Point(674, 321);
+            this.groupBoxSubType.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.groupBoxSubType.Name = "groupBoxSubType";
-            this.groupBoxSubType.Size = new System.Drawing.Size(200, 169);
+            this.groupBoxSubType.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBoxSubType.Size = new System.Drawing.Size(400, 325);
             this.groupBoxSubType.TabIndex = 59;
             this.groupBoxSubType.TabStop = false;
             this.groupBoxSubType.Text = "Submission Types";
@@ -327,9 +349,10 @@
             // checkBoxFileTypes
             // 
             this.checkBoxFileTypes.AutoSize = true;
-            this.checkBoxFileTypes.Location = new System.Drawing.Point(29, 134);
+            this.checkBoxFileTypes.Location = new System.Drawing.Point(58, 258);
+            this.checkBoxFileTypes.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBoxFileTypes.Name = "checkBoxFileTypes";
-            this.checkBoxFileTypes.Size = new System.Drawing.Size(156, 17);
+            this.checkBoxFileTypes.Size = new System.Drawing.Size(309, 29);
             this.checkBoxFileTypes.TabIndex = 5;
             this.checkBoxFileTypes.Text = "Restrict Upload File Types?";
             this.checkBoxFileTypes.UseVisualStyleBackColor = true;
@@ -340,9 +363,10 @@
             // 
             this.checkBoxFileUpload.AutoSize = true;
             this.checkBoxFileUpload.Enabled = false;
-            this.checkBoxFileUpload.Location = new System.Drawing.Point(7, 110);
+            this.checkBoxFileUpload.Location = new System.Drawing.Point(14, 212);
+            this.checkBoxFileUpload.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBoxFileUpload.Name = "checkBoxFileUpload";
-            this.checkBoxFileUpload.Size = new System.Drawing.Size(84, 17);
+            this.checkBoxFileUpload.Size = new System.Drawing.Size(164, 29);
             this.checkBoxFileUpload.TabIndex = 4;
             this.checkBoxFileUpload.Text = "File Uploads";
             this.checkBoxFileUpload.UseVisualStyleBackColor = true;
@@ -352,9 +376,10 @@
             // 
             this.checkBoxMedia.AutoSize = true;
             this.checkBoxMedia.Enabled = false;
-            this.checkBoxMedia.Location = new System.Drawing.Point(7, 88);
+            this.checkBoxMedia.Location = new System.Drawing.Point(14, 169);
+            this.checkBoxMedia.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBoxMedia.Name = "checkBoxMedia";
-            this.checkBoxMedia.Size = new System.Drawing.Size(112, 17);
+            this.checkBoxMedia.Size = new System.Drawing.Size(218, 29);
             this.checkBoxMedia.TabIndex = 3;
             this.checkBoxMedia.Text = "Media Recordings";
             this.checkBoxMedia.UseVisualStyleBackColor = true;
@@ -363,9 +388,10 @@
             // 
             this.checkBoxWebsite.AutoSize = true;
             this.checkBoxWebsite.Enabled = false;
-            this.checkBoxWebsite.Location = new System.Drawing.Point(7, 66);
+            this.checkBoxWebsite.Location = new System.Drawing.Point(14, 127);
+            this.checkBoxWebsite.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBoxWebsite.Name = "checkBoxWebsite";
-            this.checkBoxWebsite.Size = new System.Drawing.Size(90, 17);
+            this.checkBoxWebsite.Size = new System.Drawing.Size(170, 29);
             this.checkBoxWebsite.TabIndex = 2;
             this.checkBoxWebsite.Text = "Website URL";
             this.checkBoxWebsite.UseVisualStyleBackColor = true;
@@ -374,9 +400,10 @@
             // 
             this.checkBoxTextEntry.AutoSize = true;
             this.checkBoxTextEntry.Enabled = false;
-            this.checkBoxTextEntry.Location = new System.Drawing.Point(7, 44);
+            this.checkBoxTextEntry.Location = new System.Drawing.Point(14, 85);
+            this.checkBoxTextEntry.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBoxTextEntry.Name = "checkBoxTextEntry";
-            this.checkBoxTextEntry.Size = new System.Drawing.Size(74, 17);
+            this.checkBoxTextEntry.Size = new System.Drawing.Size(142, 29);
             this.checkBoxTextEntry.TabIndex = 1;
             this.checkBoxTextEntry.Text = "Text Entry";
             this.checkBoxTextEntry.UseVisualStyleBackColor = true;
@@ -391,27 +418,31 @@
             "Online",
             "On paper",
             "External Tool"});
-            this.comboBoxSubTypes.Location = new System.Drawing.Point(7, 16);
+            this.comboBoxSubTypes.Location = new System.Drawing.Point(14, 31);
+            this.comboBoxSubTypes.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.comboBoxSubTypes.Name = "comboBoxSubTypes";
-            this.comboBoxSubTypes.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxSubTypes.Size = new System.Drawing.Size(238, 33);
             this.comboBoxSubTypes.TabIndex = 0;
             this.comboBoxSubTypes.SelectedIndexChanged += new System.EventHandler(this.comboBoxSubTypes_SelectedIndexChanged);
             // 
             // groupBoxOmit
             // 
             this.groupBoxOmit.Controls.Add(this.checkBoxOmit);
-            this.groupBoxOmit.Location = new System.Drawing.Point(133, 167);
+            this.groupBoxOmit.Location = new System.Drawing.Point(266, 321);
+            this.groupBoxOmit.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.groupBoxOmit.Name = "groupBoxOmit";
-            this.groupBoxOmit.Size = new System.Drawing.Size(200, 67);
+            this.groupBoxOmit.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBoxOmit.Size = new System.Drawing.Size(400, 129);
             this.groupBoxOmit.TabIndex = 61;
             this.groupBoxOmit.TabStop = false;
             this.groupBoxOmit.Text = "Omit Grade";
             // 
             // checkBoxOmit
             // 
-            this.checkBoxOmit.Location = new System.Drawing.Point(6, 19);
+            this.checkBoxOmit.Location = new System.Drawing.Point(12, 37);
+            this.checkBoxOmit.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBoxOmit.Name = "checkBoxOmit";
-            this.checkBoxOmit.Size = new System.Drawing.Size(166, 37);
+            this.checkBoxOmit.Size = new System.Drawing.Size(332, 71);
             this.checkBoxOmit.TabIndex = 0;
             this.checkBoxOmit.Text = "Do not count this assignment toward final grade";
             this.checkBoxOmit.UseVisualStyleBackColor = true;
@@ -421,9 +452,11 @@
             this.groupBoxDueDate.Controls.Add(this.dtpDueTime);
             this.groupBoxDueDate.Controls.Add(this.dtpDueDate);
             this.groupBoxDueDate.Controls.Add(this.checkBoxDueDate);
-            this.groupBoxDueDate.Location = new System.Drawing.Point(8, 328);
+            this.groupBoxDueDate.Location = new System.Drawing.Point(16, 631);
+            this.groupBoxDueDate.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.groupBoxDueDate.Name = "groupBoxDueDate";
-            this.groupBoxDueDate.Size = new System.Drawing.Size(325, 82);
+            this.groupBoxDueDate.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBoxDueDate.Size = new System.Drawing.Size(650, 158);
             this.groupBoxDueDate.TabIndex = 62;
             this.groupBoxDueDate.TabStop = false;
             this.groupBoxDueDate.Text = "Due Date";
@@ -432,10 +465,11 @@
             // 
             this.dtpDueTime.Enabled = false;
             this.dtpDueTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpDueTime.Location = new System.Drawing.Point(221, 43);
+            this.dtpDueTime.Location = new System.Drawing.Point(442, 83);
+            this.dtpDueTime.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.dtpDueTime.Name = "dtpDueTime";
             this.dtpDueTime.ShowUpDown = true;
-            this.dtpDueTime.Size = new System.Drawing.Size(98, 20);
+            this.dtpDueTime.Size = new System.Drawing.Size(192, 31);
             this.dtpDueTime.TabIndex = 8;
             this.dtpDueTime.TabStop = false;
             this.dtpDueTime.Value = new System.DateTime(2016, 10, 2, 0, 0, 0, 0);
@@ -444,9 +478,10 @@
             // 
             this.dtpDueDate.Checked = false;
             this.dtpDueDate.Enabled = false;
-            this.dtpDueDate.Location = new System.Drawing.Point(6, 43);
+            this.dtpDueDate.Location = new System.Drawing.Point(12, 83);
+            this.dtpDueDate.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.dtpDueDate.Name = "dtpDueDate";
-            this.dtpDueDate.Size = new System.Drawing.Size(205, 20);
+            this.dtpDueDate.Size = new System.Drawing.Size(406, 31);
             this.dtpDueDate.TabIndex = 7;
             this.dtpDueDate.TabStop = false;
             this.dtpDueDate.Value = new System.DateTime(2016, 10, 11, 15, 20, 56, 0);
@@ -454,9 +489,10 @@
             // checkBoxDueDate
             // 
             this.checkBoxDueDate.AutoSize = true;
-            this.checkBoxDueDate.Location = new System.Drawing.Point(6, 20);
+            this.checkBoxDueDate.Location = new System.Drawing.Point(12, 38);
+            this.checkBoxDueDate.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBoxDueDate.Name = "checkBoxDueDate";
-            this.checkBoxDueDate.Size = new System.Drawing.Size(96, 17);
+            this.checkBoxDueDate.Size = new System.Drawing.Size(184, 29);
             this.checkBoxDueDate.TabIndex = 0;
             this.checkBoxDueDate.Text = "Set a due date";
             this.checkBoxDueDate.UseVisualStyleBackColor = true;
@@ -467,17 +503,19 @@
             this.cbxAssignmentGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxAssignmentGroup.Enabled = false;
             this.cbxAssignmentGroup.FormattingEnabled = true;
-            this.cbxAssignmentGroup.Location = new System.Drawing.Point(3, 227);
+            this.cbxAssignmentGroup.Location = new System.Drawing.Point(6, 437);
+            this.cbxAssignmentGroup.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.cbxAssignmentGroup.Name = "cbxAssignmentGroup";
-            this.cbxAssignmentGroup.Size = new System.Drawing.Size(121, 21);
+            this.cbxAssignmentGroup.Size = new System.Drawing.Size(238, 33);
             this.cbxAssignmentGroup.TabIndex = 63;
             this.cbxAssignmentGroup.TabStop = false;
             // 
             // lblAssignmentGroup
             // 
-            this.lblAssignmentGroup.Location = new System.Drawing.Point(3, 211);
+            this.lblAssignmentGroup.Location = new System.Drawing.Point(6, 406);
+            this.lblAssignmentGroup.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblAssignmentGroup.Name = "lblAssignmentGroup";
-            this.lblAssignmentGroup.Size = new System.Drawing.Size(124, 17);
+            this.lblAssignmentGroup.Size = new System.Drawing.Size(248, 33);
             this.lblAssignmentGroup.TabIndex = 64;
             this.lblAssignmentGroup.Text = "Assignment groups";
             // 
@@ -485,9 +523,11 @@
             // 
             this.groupBoxAllowedExtensions.Controls.Add(this.label5);
             this.groupBoxAllowedExtensions.Controls.Add(this.textBoxFileTypes);
-            this.groupBoxAllowedExtensions.Location = new System.Drawing.Point(337, 342);
+            this.groupBoxAllowedExtensions.Location = new System.Drawing.Point(674, 658);
+            this.groupBoxAllowedExtensions.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.groupBoxAllowedExtensions.Name = "groupBoxAllowedExtensions";
-            this.groupBoxAllowedExtensions.Size = new System.Drawing.Size(200, 86);
+            this.groupBoxAllowedExtensions.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBoxAllowedExtensions.Size = new System.Drawing.Size(400, 165);
             this.groupBoxAllowedExtensions.TabIndex = 65;
             this.groupBoxAllowedExtensions.TabStop = false;
             this.groupBoxAllowedExtensions.Text = "Allowed File Types";
@@ -495,17 +535,19 @@
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(6, 22);
+            this.label5.Location = new System.Drawing.Point(12, 42);
+            this.label5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(188, 34);
+            this.label5.Size = new System.Drawing.Size(376, 65);
             this.label5.TabIndex = 1;
             this.label5.Text = "Enter extensions separated by commas. Ex: doc, ppt, pdf";
             // 
             // textBoxFileTypes
             // 
-            this.textBoxFileTypes.Location = new System.Drawing.Point(9, 59);
+            this.textBoxFileTypes.Location = new System.Drawing.Point(18, 113);
+            this.textBoxFileTypes.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.textBoxFileTypes.Name = "textBoxFileTypes";
-            this.textBoxFileTypes.Size = new System.Drawing.Size(188, 20);
+            this.textBoxFileTypes.Size = new System.Drawing.Size(372, 31);
             this.textBoxFileTypes.TabIndex = 0;
             // 
             // groupBoxLock
@@ -516,9 +558,11 @@
             this.groupBoxLock.Controls.Add(this.dtpLockTime);
             this.groupBoxLock.Controls.Add(this.dtpLockDate);
             this.groupBoxLock.Controls.Add(this.checkBoxLock);
-            this.groupBoxLock.Location = new System.Drawing.Point(8, 416);
+            this.groupBoxLock.Location = new System.Drawing.Point(16, 800);
+            this.groupBoxLock.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.groupBoxLock.Name = "groupBoxLock";
-            this.groupBoxLock.Size = new System.Drawing.Size(325, 121);
+            this.groupBoxLock.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBoxLock.Size = new System.Drawing.Size(650, 233);
             this.groupBoxLock.TabIndex = 66;
             this.groupBoxLock.TabStop = false;
             this.groupBoxLock.Text = "Lock/Unlock Assignment";
@@ -527,10 +571,11 @@
             // 
             this.dtpUnlockTime.Enabled = false;
             this.dtpUnlockTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpUnlockTime.Location = new System.Drawing.Point(221, 42);
+            this.dtpUnlockTime.Location = new System.Drawing.Point(442, 81);
+            this.dtpUnlockTime.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.dtpUnlockTime.Name = "dtpUnlockTime";
             this.dtpUnlockTime.ShowUpDown = true;
-            this.dtpUnlockTime.Size = new System.Drawing.Size(98, 20);
+            this.dtpUnlockTime.Size = new System.Drawing.Size(192, 31);
             this.dtpUnlockTime.TabIndex = 11;
             this.dtpUnlockTime.TabStop = false;
             this.dtpUnlockTime.Value = new System.DateTime(2016, 10, 2, 0, 0, 0, 0);
@@ -539,9 +584,10 @@
             // 
             this.dtpUnlockDate.Checked = false;
             this.dtpUnlockDate.Enabled = false;
-            this.dtpUnlockDate.Location = new System.Drawing.Point(6, 42);
+            this.dtpUnlockDate.Location = new System.Drawing.Point(12, 81);
+            this.dtpUnlockDate.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.dtpUnlockDate.Name = "dtpUnlockDate";
-            this.dtpUnlockDate.Size = new System.Drawing.Size(205, 20);
+            this.dtpUnlockDate.Size = new System.Drawing.Size(406, 31);
             this.dtpUnlockDate.TabIndex = 10;
             this.dtpUnlockDate.TabStop = false;
             this.dtpUnlockDate.Value = new System.DateTime(2016, 10, 11, 15, 20, 56, 0);
@@ -549,9 +595,10 @@
             // checkBoxUnlock
             // 
             this.checkBoxUnlock.AutoSize = true;
-            this.checkBoxUnlock.Location = new System.Drawing.Point(6, 19);
+            this.checkBoxUnlock.Location = new System.Drawing.Point(12, 37);
+            this.checkBoxUnlock.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBoxUnlock.Name = "checkBoxUnlock";
-            this.checkBoxUnlock.Size = new System.Drawing.Size(118, 17);
+            this.checkBoxUnlock.Size = new System.Drawing.Size(226, 29);
             this.checkBoxUnlock.TabIndex = 9;
             this.checkBoxUnlock.Text = "Set an Unlock date";
             this.checkBoxUnlock.UseVisualStyleBackColor = true;
@@ -561,10 +608,11 @@
             // 
             this.dtpLockTime.Enabled = false;
             this.dtpLockTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpLockTime.Location = new System.Drawing.Point(221, 91);
+            this.dtpLockTime.Location = new System.Drawing.Point(442, 175);
+            this.dtpLockTime.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.dtpLockTime.Name = "dtpLockTime";
             this.dtpLockTime.ShowUpDown = true;
-            this.dtpLockTime.Size = new System.Drawing.Size(98, 20);
+            this.dtpLockTime.Size = new System.Drawing.Size(192, 31);
             this.dtpLockTime.TabIndex = 8;
             this.dtpLockTime.TabStop = false;
             this.dtpLockTime.Value = new System.DateTime(2016, 10, 2, 0, 0, 0, 0);
@@ -573,9 +621,10 @@
             // 
             this.dtpLockDate.Checked = false;
             this.dtpLockDate.Enabled = false;
-            this.dtpLockDate.Location = new System.Drawing.Point(6, 91);
+            this.dtpLockDate.Location = new System.Drawing.Point(12, 175);
+            this.dtpLockDate.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.dtpLockDate.Name = "dtpLockDate";
-            this.dtpLockDate.Size = new System.Drawing.Size(205, 20);
+            this.dtpLockDate.Size = new System.Drawing.Size(406, 31);
             this.dtpLockDate.TabIndex = 7;
             this.dtpLockDate.TabStop = false;
             this.dtpLockDate.Value = new System.DateTime(2016, 10, 11, 15, 20, 56, 0);
@@ -583,9 +632,10 @@
             // checkBoxLock
             // 
             this.checkBoxLock.AutoSize = true;
-            this.checkBoxLock.Location = new System.Drawing.Point(6, 68);
+            this.checkBoxLock.Location = new System.Drawing.Point(12, 131);
+            this.checkBoxLock.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBoxLock.Name = "checkBoxLock";
-            this.checkBoxLock.Size = new System.Drawing.Size(98, 17);
+            this.checkBoxLock.Size = new System.Drawing.Size(187, 29);
             this.checkBoxLock.TabIndex = 0;
             this.checkBoxLock.Text = "Set a lock date";
             this.checkBoxLock.UseVisualStyleBackColor = true;
@@ -596,9 +646,11 @@
             this.groupBoxPeer.Controls.Add(this.radioButtonPeerAuto);
             this.groupBoxPeer.Controls.Add(this.radioButtonPeerManual);
             this.groupBoxPeer.Controls.Add(this.checkBoxPeer);
-            this.groupBoxPeer.Location = new System.Drawing.Point(337, 437);
+            this.groupBoxPeer.Location = new System.Drawing.Point(674, 840);
+            this.groupBoxPeer.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.groupBoxPeer.Name = "groupBoxPeer";
-            this.groupBoxPeer.Size = new System.Drawing.Size(200, 100);
+            this.groupBoxPeer.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBoxPeer.Size = new System.Drawing.Size(400, 192);
             this.groupBoxPeer.TabIndex = 67;
             this.groupBoxPeer.TabStop = false;
             this.groupBoxPeer.Text = "Peer Reviews";
@@ -606,9 +658,10 @@
             // radioButtonPeerAuto
             // 
             this.radioButtonPeerAuto.AutoSize = true;
-            this.radioButtonPeerAuto.Location = new System.Drawing.Point(29, 68);
+            this.radioButtonPeerAuto.Location = new System.Drawing.Point(58, 131);
+            this.radioButtonPeerAuto.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.radioButtonPeerAuto.Name = "radioButtonPeerAuto";
-            this.radioButtonPeerAuto.Size = new System.Drawing.Size(81, 17);
+            this.radioButtonPeerAuto.Size = new System.Drawing.Size(158, 29);
             this.radioButtonPeerAuto.TabIndex = 2;
             this.radioButtonPeerAuto.Text = "Auto Assign";
             this.radioButtonPeerAuto.UseVisualStyleBackColor = true;
@@ -617,9 +670,10 @@
             // radioButtonPeerManual
             // 
             this.radioButtonPeerManual.AutoSize = true;
-            this.radioButtonPeerManual.Location = new System.Drawing.Point(29, 44);
+            this.radioButtonPeerManual.Location = new System.Drawing.Point(58, 85);
+            this.radioButtonPeerManual.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.radioButtonPeerManual.Name = "radioButtonPeerManual";
-            this.radioButtonPeerManual.Size = new System.Drawing.Size(107, 17);
+            this.radioButtonPeerManual.Size = new System.Drawing.Size(213, 29);
             this.radioButtonPeerManual.TabIndex = 1;
             this.radioButtonPeerManual.Text = "Mannually Assign";
             this.radioButtonPeerManual.UseVisualStyleBackColor = true;
@@ -628,9 +682,10 @@
             // checkBoxPeer
             // 
             this.checkBoxPeer.AutoSize = true;
-            this.checkBoxPeer.Location = new System.Drawing.Point(7, 20);
+            this.checkBoxPeer.Location = new System.Drawing.Point(14, 38);
+            this.checkBoxPeer.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBoxPeer.Name = "checkBoxPeer";
-            this.checkBoxPeer.Size = new System.Drawing.Size(138, 17);
+            this.checkBoxPeer.Size = new System.Drawing.Size(269, 29);
             this.checkBoxPeer.TabIndex = 0;
             this.checkBoxPeer.Text = "Require Peer Reviews?";
             this.checkBoxPeer.UseVisualStyleBackColor = true;
@@ -641,9 +696,11 @@
             this.groupBoxGroupAssign.Controls.Add(this.label7);
             this.groupBoxGroupAssign.Controls.Add(this.checkBoxGroupAssign);
             this.groupBoxGroupAssign.Controls.Add(this.cbxStudentAssignmentGroup);
-            this.groupBoxGroupAssign.Location = new System.Drawing.Point(133, 240);
+            this.groupBoxGroupAssign.Location = new System.Drawing.Point(266, 462);
+            this.groupBoxGroupAssign.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.groupBoxGroupAssign.Name = "groupBoxGroupAssign";
-            this.groupBoxGroupAssign.Size = new System.Drawing.Size(200, 89);
+            this.groupBoxGroupAssign.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBoxGroupAssign.Size = new System.Drawing.Size(400, 171);
             this.groupBoxGroupAssign.TabIndex = 68;
             this.groupBoxGroupAssign.TabStop = false;
             this.groupBoxGroupAssign.Text = "Group Assignment";
@@ -652,18 +709,20 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 44);
+            this.label7.Location = new System.Drawing.Point(12, 85);
+            this.label7.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(69, 13);
+            this.label7.Size = new System.Drawing.Size(137, 25);
             this.label7.TabIndex = 76;
             this.label7.Text = "Select Group";
             // 
             // checkBoxGroupAssign
             // 
             this.checkBoxGroupAssign.AutoSize = true;
-            this.checkBoxGroupAssign.Location = new System.Drawing.Point(6, 19);
+            this.checkBoxGroupAssign.Location = new System.Drawing.Point(12, 37);
+            this.checkBoxGroupAssign.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBoxGroupAssign.Name = "checkBoxGroupAssign";
-            this.checkBoxGroupAssign.Size = new System.Drawing.Size(118, 17);
+            this.checkBoxGroupAssign.Size = new System.Drawing.Size(233, 29);
             this.checkBoxGroupAssign.TabIndex = 75;
             this.checkBoxGroupAssign.Text = "Group Assignment?";
             this.checkBoxGroupAssign.UseVisualStyleBackColor = true;
@@ -673,27 +732,29 @@
             this.cbxStudentAssignmentGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxStudentAssignmentGroup.Enabled = false;
             this.cbxStudentAssignmentGroup.FormattingEnabled = true;
-            this.cbxStudentAssignmentGroup.Location = new System.Drawing.Point(3, 63);
+            this.cbxStudentAssignmentGroup.Location = new System.Drawing.Point(6, 121);
+            this.cbxStudentAssignmentGroup.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.cbxStudentAssignmentGroup.Name = "cbxStudentAssignmentGroup";
-            this.cbxStudentAssignmentGroup.Size = new System.Drawing.Size(121, 21);
+            this.cbxStudentAssignmentGroup.Size = new System.Drawing.Size(238, 33);
             this.cbxStudentAssignmentGroup.TabIndex = 74;
             this.cbxStudentAssignmentGroup.TabStop = false;
             // 
             // checkBoxPublish
             // 
             this.checkBoxPublish.AutoSize = true;
-            this.checkBoxPublish.Location = new System.Drawing.Point(337, 544);
+            this.checkBoxPublish.Location = new System.Drawing.Point(674, 1046);
+            this.checkBoxPublish.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBoxPublish.Name = "checkBoxPublish";
-            this.checkBoxPublish.Size = new System.Drawing.Size(174, 17);
+            this.checkBoxPublish.Size = new System.Drawing.Size(350, 29);
             this.checkBoxPublish.TabIndex = 69;
             this.checkBoxPublish.Text = "Publish Assignment on Creation";
             this.checkBoxPublish.UseVisualStyleBackColor = true;
             // 
             // AssignmentForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 661);
+            this.ClientSize = new System.Drawing.Size(1920, 1271);
             this.Controls.Add(this.checkBoxPublish);
             this.Controls.Add(this.groupBoxGroupAssign);
             this.Controls.Add(this.groupBoxPeer);
@@ -725,6 +786,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txbAssignName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "AssignmentForm";
             this.Text = "Create Assignment";
             ((System.ComponentModel.ISupportInitialize)(this.nudCourseID)).EndInit();

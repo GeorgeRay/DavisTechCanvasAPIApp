@@ -62,9 +62,10 @@
             // 
             // btnLoadCourse
             // 
-            this.btnLoadCourse.Location = new System.Drawing.Point(7, 29);
+            this.btnLoadCourse.Location = new System.Drawing.Point(14, 56);
+            this.btnLoadCourse.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnLoadCourse.Name = "btnLoadCourse";
-            this.btnLoadCourse.Size = new System.Drawing.Size(173, 23);
+            this.btnLoadCourse.Size = new System.Drawing.Size(346, 44);
             this.btnLoadCourse.TabIndex = 44;
             this.btnLoadCourse.Text = "Load Course Information";
             this.btnLoadCourse.UseVisualStyleBackColor = true;
@@ -72,22 +73,24 @@
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(258, 66);
+            this.label6.Location = new System.Drawing.Point(516, 127);
+            this.label6.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(176, 19);
+            this.label6.Size = new System.Drawing.Size(352, 37);
             this.label6.TabIndex = 54;
             this.label6.Text = "Select Number of Modules to Make";
             // 
             // nudNumberOfModule
             // 
-            this.nudNumberOfModule.Location = new System.Drawing.Point(440, 65);
+            this.nudNumberOfModule.Location = new System.Drawing.Point(880, 125);
+            this.nudNumberOfModule.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.nudNumberOfModule.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.nudNumberOfModule.Name = "nudNumberOfModule";
-            this.nudNumberOfModule.Size = new System.Drawing.Size(46, 20);
+            this.nudNumberOfModule.Size = new System.Drawing.Size(92, 31);
             this.nudNumberOfModule.TabIndex = 48;
             this.nudNumberOfModule.Value = new decimal(new int[] {
             1,
@@ -97,7 +100,8 @@
             // 
             // nudCourseID
             // 
-            this.nudCourseID.Location = new System.Drawing.Point(64, 3);
+            this.nudCourseID.Location = new System.Drawing.Point(128, 6);
+            this.nudCourseID.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.nudCourseID.Maximum = new decimal(new int[] {
             2147483646,
             0,
@@ -109,7 +113,7 @@
             0,
             0});
             this.nudCourseID.Name = "nudCourseID";
-            this.nudCourseID.Size = new System.Drawing.Size(113, 20);
+            this.nudCourseID.Size = new System.Drawing.Size(226, 31);
             this.nudCourseID.TabIndex = 43;
             this.nudCourseID.Value = new decimal(new int[] {
             1,
@@ -122,9 +126,10 @@
             this.xbxUseBase.AutoSize = true;
             this.xbxUseBase.Checked = true;
             this.xbxUseBase.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.xbxUseBase.Location = new System.Drawing.Point(7, 65);
+            this.xbxUseBase.Location = new System.Drawing.Point(14, 125);
+            this.xbxUseBase.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.xbxUseBase.Name = "xbxUseBase";
-            this.xbxUseBase.Size = new System.Drawing.Size(245, 17);
+            this.xbxUseBase.Size = new System.Drawing.Size(486, 29);
             this.xbxUseBase.TabIndex = 46;
             this.xbxUseBase.TabStop = false;
             this.xbxUseBase.Text = "Use Base Name and Increment Numbers in [  ]";
@@ -134,69 +139,77 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(183, 9);
+            this.label10.Location = new System.Drawing.Point(366, 17);
+            this.label10.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(100, 13);
+            this.label10.Size = new System.Drawing.Size(200, 25);
             this.label10.TabIndex = 53;
             this.label10.Text = "Module Base Name";
             // 
             // txbBaseName
             // 
             this.txbBaseName.Enabled = false;
-            this.txbBaseName.Location = new System.Drawing.Point(288, 6);
+            this.txbBaseName.Location = new System.Drawing.Point(576, 12);
+            this.txbBaseName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.txbBaseName.Name = "txbBaseName";
-            this.txbBaseName.Size = new System.Drawing.Size(262, 20);
+            this.txbBaseName.Size = new System.Drawing.Size(520, 31);
             this.txbBaseName.TabIndex = 47;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(209, 35);
+            this.label9.Location = new System.Drawing.Point(418, 67);
+            this.label9.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(73, 13);
+            this.label9.Size = new System.Drawing.Size(145, 25);
             this.label9.TabIndex = 52;
             this.label9.Text = "Module Name";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 5);
+            this.label4.Location = new System.Drawing.Point(8, 10);
+            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(54, 13);
+            this.label4.Size = new System.Drawing.Size(107, 25);
             this.label4.TabIndex = 51;
             this.label4.Text = "Course ID";
             // 
             // txbModuleName
             // 
             this.txbModuleName.Enabled = false;
-            this.txbModuleName.Location = new System.Drawing.Point(288, 32);
+            this.txbModuleName.Location = new System.Drawing.Point(576, 62);
+            this.txbModuleName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.txbModuleName.Name = "txbModuleName";
-            this.txbModuleName.Size = new System.Drawing.Size(262, 20);
+            this.txbModuleName.Size = new System.Drawing.Size(520, 31);
             this.txbModuleName.TabIndex = 49;
             // 
             // labelLoggedIn
             // 
-            this.labelLoggedIn.Location = new System.Drawing.Point(578, 7);
+            this.labelLoggedIn.Location = new System.Drawing.Point(1156, 13);
+            this.labelLoggedIn.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelLoggedIn.Name = "labelLoggedIn";
-            this.labelLoggedIn.Size = new System.Drawing.Size(291, 23);
+            this.labelLoggedIn.Size = new System.Drawing.Size(582, 44);
             this.labelLoggedIn.TabIndex = 56;
             this.labelLoggedIn.Text = "Enter course ID and press load to begin";
             // 
             // rtbResults
             // 
-            this.rtbResults.Location = new System.Drawing.Point(581, 36);
+            this.rtbResults.Location = new System.Drawing.Point(1162, 69);
+            this.rtbResults.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.rtbResults.Name = "rtbResults";
             this.rtbResults.ReadOnly = true;
-            this.rtbResults.Size = new System.Drawing.Size(264, 485);
+            this.rtbResults.Size = new System.Drawing.Size(524, 929);
             this.rtbResults.TabIndex = 55;
             this.rtbResults.TabStop = false;
             this.rtbResults.Text = "";
             // 
             // btnResetForm
             // 
-            this.btnResetForm.Location = new System.Drawing.Point(157, 245);
+            this.btnResetForm.Location = new System.Drawing.Point(314, 471);
+            this.btnResetForm.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnResetForm.Name = "btnResetForm";
-            this.btnResetForm.Size = new System.Drawing.Size(118, 36);
+            this.btnResetForm.Size = new System.Drawing.Size(236, 69);
             this.btnResetForm.TabIndex = 58;
             this.btnResetForm.TabStop = false;
             this.btnResetForm.Text = "Reset Form";
@@ -205,9 +218,10 @@
             // 
             // btnSubmitModule
             // 
-            this.btnSubmitModule.Location = new System.Drawing.Point(7, 245);
+            this.btnSubmitModule.Location = new System.Drawing.Point(14, 471);
+            this.btnSubmitModule.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnSubmitModule.Name = "btnSubmitModule";
-            this.btnSubmitModule.Size = new System.Drawing.Size(118, 36);
+            this.btnSubmitModule.Size = new System.Drawing.Size(236, 69);
             this.btnSubmitModule.TabIndex = 57;
             this.btnSubmitModule.Text = "Submit";
             this.btnSubmitModule.UseVisualStyleBackColor = true;
@@ -218,9 +232,10 @@
             this.seqProgress.AutoSize = true;
             this.seqProgress.Checked = true;
             this.seqProgress.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.seqProgress.Location = new System.Drawing.Point(7, 102);
+            this.seqProgress.Location = new System.Drawing.Point(14, 196);
+            this.seqProgress.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.seqProgress.Name = "seqProgress";
-            this.seqProgress.Size = new System.Drawing.Size(213, 17);
+            this.seqProgress.Size = new System.Drawing.Size(430, 29);
             this.seqProgress.TabIndex = 66;
             this.seqProgress.Text = "Require sequential assignment progress";
             this.seqProgress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -229,9 +244,10 @@
             // unlockOnDate
             // 
             this.unlockOnDate.AutoSize = true;
-            this.unlockOnDate.Location = new System.Drawing.Point(5, 3);
+            this.unlockOnDate.Location = new System.Drawing.Point(10, 6);
+            this.unlockOnDate.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.unlockOnDate.Name = "unlockOnDate";
-            this.unlockOnDate.Size = new System.Drawing.Size(138, 17);
+            this.unlockOnDate.Size = new System.Drawing.Size(267, 29);
             this.unlockOnDate.TabIndex = 67;
             this.unlockOnDate.Text = "Unlock on specific date";
             this.unlockOnDate.UseVisualStyleBackColor = true;
@@ -240,17 +256,19 @@
             // datePicker
             // 
             this.datePicker.Enabled = false;
-            this.datePicker.Location = new System.Drawing.Point(5, 26);
+            this.datePicker.Location = new System.Drawing.Point(10, 50);
+            this.datePicker.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.datePicker.Name = "datePicker";
-            this.datePicker.Size = new System.Drawing.Size(200, 20);
+            this.datePicker.Size = new System.Drawing.Size(396, 31);
             this.datePicker.TabIndex = 68;
             // 
             // setModulePos
             // 
             this.setModulePos.AutoSize = true;
-            this.setModulePos.Location = new System.Drawing.Point(6, 3);
+            this.setModulePos.Location = new System.Drawing.Point(12, 6);
+            this.setModulePos.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.setModulePos.Name = "setModulePos";
-            this.setModulePos.Size = new System.Drawing.Size(119, 17);
+            this.setModulePos.Size = new System.Drawing.Size(235, 29);
             this.setModulePos.TabIndex = 69;
             this.setModulePos.Text = "Set module Position";
             this.setModulePos.UseVisualStyleBackColor = true;
@@ -276,25 +294,27 @@
             this.courseModulesGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.courseModulesGrid.Enabled = false;
             this.courseModulesGrid.GridColor = System.Drawing.Color.White;
-            this.courseModulesGrid.Location = new System.Drawing.Point(6, 26);
+            this.courseModulesGrid.Location = new System.Drawing.Point(12, 50);
+            this.courseModulesGrid.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.courseModulesGrid.MultiSelect = false;
             this.courseModulesGrid.Name = "courseModulesGrid";
             this.courseModulesGrid.ReadOnly = true;
             this.courseModulesGrid.RowHeadersVisible = false;
-            this.courseModulesGrid.Size = new System.Drawing.Size(240, 95);
+            this.courseModulesGrid.Size = new System.Drawing.Size(480, 183);
             this.courseModulesGrid.TabIndex = 70;
             // 
             // nudModulePos
             // 
             this.nudModulePos.Enabled = false;
-            this.nudModulePos.Location = new System.Drawing.Point(131, 3);
+            this.nudModulePos.Location = new System.Drawing.Point(262, 6);
+            this.nudModulePos.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.nudModulePos.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.nudModulePos.Name = "nudModulePos";
-            this.nudModulePos.Size = new System.Drawing.Size(44, 20);
+            this.nudModulePos.Size = new System.Drawing.Size(88, 31);
             this.nudModulePos.TabIndex = 71;
             this.nudModulePos.Value = new decimal(new int[] {
             1,
@@ -308,9 +328,10 @@
             this.panel2.Controls.Add(this.setModulePos);
             this.panel2.Controls.Add(this.courseModulesGrid);
             this.panel2.Controls.Add(this.nudModulePos);
-            this.panel2.Location = new System.Drawing.Point(261, 91);
+            this.panel2.Location = new System.Drawing.Point(522, 175);
+            this.panel2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(254, 127);
+            this.panel2.Size = new System.Drawing.Size(506, 242);
             this.panel2.TabIndex = 73;
             // 
             // panel3
@@ -318,16 +339,17 @@
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.unlockOnDate);
             this.panel3.Controls.Add(this.datePicker);
-            this.panel3.Location = new System.Drawing.Point(7, 151);
+            this.panel3.Location = new System.Drawing.Point(14, 290);
+            this.panel3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(211, 52);
+            this.panel3.Size = new System.Drawing.Size(420, 98);
             this.panel3.TabIndex = 74;
             // 
             // ModuleForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 661);
+            this.ClientSize = new System.Drawing.Size(1920, 1271);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.seqProgress);
@@ -346,6 +368,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txbModuleName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "ModuleForm";
             this.Text = "ModuleForm";
             ((System.ComponentModel.ISupportInitialize)(this.nudNumberOfModule)).EndInit();
