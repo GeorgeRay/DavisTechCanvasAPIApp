@@ -6,7 +6,7 @@
       <Value Profile="(Default)">No Access Token</Value>
     </Setting>
     <Setting Name="InstructureSite" Type="(Web Service URL)" Scope="User">
-      <Value Profile="(Default)">https://weber.instructure.com</Value>
+      <Value Profile="(Default)">No URL saved</Value>
     </Setting>
   </Settings>
 </SettingsFile>
