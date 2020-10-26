@@ -66,11 +66,11 @@ namespace CanvasAPIApp
                     Properties.Settings.Default.CurrentAccessToken = txbCurrentAccessToken.Text.ToString();
                     Properties.Settings.Default.Save();
                     currentAccessToken = Properties.Settings.Default.CurrentAccessToken;
-                    //Dispaly new access Token
+                    //Display new access Token with mask
                     txbCurrentAccessToken.Text = (string.Concat(currentAccessToken.Substring(0, 7), "".PadRight(currentAccessToken.Length - 7, '*')));
                     //REST object to get
                     string name = "name";
-                    //Dispaly Name of current profile
+                    //Display Name of current profile
                     lbxCurrentUser.Text = getProfile.GetProfile(name);
                 }
                 catch (Exception callException)
@@ -140,6 +140,7 @@ namespace CanvasAPIApp
         //Saving Website
         private void btnSaveWebsite_Click(object sender, EventArgs e)
         {
+           
                 WebRequest webRequest = WebRequest.Create(txbWebsite.Text.ToString());
                 WebResponse webResponse;
                 try

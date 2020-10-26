@@ -154,6 +154,7 @@
     <Compile Include="HelpSimpleTextBox.Designer.cs">
       <DependentUpon>HelpSimpleTextBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="SimpleTextBox.cs">
       <SubType>Form</SubType>
     </Compile>

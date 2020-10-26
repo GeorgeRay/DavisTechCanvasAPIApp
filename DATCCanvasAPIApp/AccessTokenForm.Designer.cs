@@ -38,12 +38,13 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblCurrentUser = new System.Windows.Forms.Label();
             this.lbxCurrentUser = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // saveAccessToken
             // 
             this.saveAccessToken.Location = new System.Drawing.Point(24, 463);
-            this.saveAccessToken.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.saveAccessToken.Margin = new System.Windows.Forms.Padding(6);
             this.saveAccessToken.Name = "saveAccessToken";
             this.saveAccessToken.Size = new System.Drawing.Size(272, 62);
             this.saveAccessToken.TabIndex = 1;
@@ -54,7 +55,7 @@
             // txbCurrentAccessToken
             // 
             this.txbCurrentAccessToken.Location = new System.Drawing.Point(24, 410);
-            this.txbCurrentAccessToken.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txbCurrentAccessToken.Margin = new System.Windows.Forms.Padding(6);
             this.txbCurrentAccessToken.Name = "txbCurrentAccessToken";
             this.txbCurrentAccessToken.Size = new System.Drawing.Size(736, 31);
             this.txbCurrentAccessToken.TabIndex = 2;
@@ -74,7 +75,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(256, 138);
+            this.label3.Location = new System.Drawing.Point(256, 109);
             this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(292, 37);
@@ -84,7 +85,7 @@
             // txbWebsite
             // 
             this.txbWebsite.Location = new System.Drawing.Point(24, 198);
-            this.txbWebsite.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txbWebsite.Margin = new System.Windows.Forms.Padding(6);
             this.txbWebsite.Name = "txbWebsite";
             this.txbWebsite.Size = new System.Drawing.Size(736, 31);
             this.txbWebsite.TabIndex = 6;
@@ -92,7 +93,7 @@
             // btnSaveWebsite
             // 
             this.btnSaveWebsite.Location = new System.Drawing.Point(24, 248);
-            this.btnSaveWebsite.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnSaveWebsite.Margin = new System.Windows.Forms.Padding(6);
             this.btnSaveWebsite.Name = "btnSaveWebsite";
             this.btnSaveWebsite.Size = new System.Drawing.Size(272, 65);
             this.btnSaveWebsite.TabIndex = 7;
@@ -103,7 +104,7 @@
             // btnCancel
             // 
             this.btnCancel.Location = new System.Drawing.Point(442, 463);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(6);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(322, 65);
             this.btnCancel.TabIndex = 8;
@@ -131,11 +132,23 @@
             this.lbxCurrentUser.TabIndex = 11;
             this.lbxCurrentUser.Text = "No User Loaded";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label1.Location = new System.Drawing.Point(111, 161);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(583, 31);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "(example: https://your_domain.instructure.com)";
+            // 
             // AccessTokenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 567);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lbxCurrentUser);
             this.Controls.Add(this.lblCurrentUser);
             this.Controls.Add(this.btnCancel);
@@ -146,7 +159,7 @@
             this.Controls.Add(this.txbCurrentAccessToken);
             this.Controls.Add(this.saveAccessToken);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "AccessTokenForm";
             this.Text = "Access Token";
             this.Load += new System.EventHandler(this.AccessTokenForm_Load);
@@ -165,5 +178,6 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lblCurrentUser;
         private System.Windows.Forms.Label lbxCurrentUser;
+        private System.Windows.Forms.Label label1;
     }
 }
