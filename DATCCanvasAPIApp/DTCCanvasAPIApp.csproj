@@ -124,6 +124,12 @@
       <DependentUpon>CoursesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="EncriptAccessToken.cs" />
+    <Compile Include="GradingQueue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GradingQueue.Designer.cs">
+      <DependentUpon>GradingQueue.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModuleForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -177,6 +183,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CoursesForm.resx">
       <DependentUpon>CoursesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GradingQueue.resx">
+      <DependentUpon>GradingQueue.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModuleForm.resx">
       <DependentUpon>ModuleForm.cs</DependentUpon>

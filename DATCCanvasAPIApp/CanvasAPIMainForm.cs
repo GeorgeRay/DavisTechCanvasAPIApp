@@ -75,6 +75,15 @@ namespace CanvasAPIApp
             tabPageModule.Controls.Add(moduleForm);
             moduleForm.Visible = true;
 
+            //Load Grading Queue
+            GradingQueue gradingQueue = new GradingQueue();
+
+            //tab setup
+            gradingQueue.TopLevel = false;
+            gradingQueue.FormBorderStyle = FormBorderStyle.None;
+            gradingQueue.Dock = DockStyle.Fill;            
+            tabPageGradingQueue.Controls.Add(gradingQueue);
+            gradingQueue.Visible = true;
 
         }//End Main Form Loading
 
@@ -138,6 +147,12 @@ namespace CanvasAPIApp
         {
             tabControlMain.SelectedTab = tabPagePages;
         }
+        //Assigns Active tab as Grading queue tab
+        private void gradingQueueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tabControlMain.SelectedTab = tabPageGradingQueue;
+        }
+
 
         // When different tabs are selected update the course ID listed in the numericUpDown box
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
@@ -149,7 +164,7 @@ namespace CanvasAPIApp
                 //Get the Form (which is technically a control)
                 foreach (Control c in tabControlMain.TabPages[currentTab].Controls)
                 {
-                    if (c is Form && c.Name != "CoursesForm")
+                    if (c is Form && c.Controls["nudCourseID"] != null)
                     {
                         //Get the numericUpDown control
                         courseId = c.Controls["nudCourseID"];
@@ -168,5 +183,7 @@ namespace CanvasAPIApp
         {
             tabControlMain.SelectedTab = tabPageModule;
         }
+
+
     }
 }
