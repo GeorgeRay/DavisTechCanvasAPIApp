@@ -30,6 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gradingDataGrid = new System.Windows.Forms.DataGridView();
+            this.btnRefreshQueue = new System.Windows.Forms.Button();
+            this.cbxAutoRefresh = new System.Windows.Forms.CheckBox();
+            this.nudSeconds = new System.Windows.Forms.NumericUpDown();
+            this.timerRefreshQueue = new System.Windows.Forms.Timer(this.components);
             this.marked_done = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CourseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,10 +41,6 @@
             this.Submit_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Workflow_state = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Speedgrader_url = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.btnRefreshQueue = new System.Windows.Forms.Button();
-            this.cbxAutoRefresh = new System.Windows.Forms.CheckBox();
-            this.nudSeconds = new System.Windows.Forms.NumericUpDown();
-            this.timerRefreshQueue = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.gradingDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSeconds)).BeginInit();
             this.SuspendLayout();
@@ -62,66 +62,15 @@
             this.Submit_at,
             this.Workflow_state,
             this.Speedgrader_url});
-            this.gradingDataGrid.Location = new System.Drawing.Point(12, 85);
-            this.gradingDataGrid.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
+            this.gradingDataGrid.Location = new System.Drawing.Point(12, 97);
+            this.gradingDataGrid.Margin = new System.Windows.Forms.Padding(3, 30, 3, 3);
             this.gradingDataGrid.Name = "gradingDataGrid";
             this.gradingDataGrid.ReadOnly = true;
             this.gradingDataGrid.RowTemplate.Height = 33;
             this.gradingDataGrid.ShowEditingIcon = false;
-            this.gradingDataGrid.Size = new System.Drawing.Size(1688, 915);
+            this.gradingDataGrid.Size = new System.Drawing.Size(1688, 903);
             this.gradingDataGrid.TabIndex = 0;
             this.gradingDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gradingDataGrid_CellContentClick);
-            // 
-            // marked_done
-            // 
-            this.marked_done.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.marked_done.HeaderText = "Done";
-            this.marked_done.Name = "marked_done";
-            this.marked_done.ReadOnly = true;
-            this.marked_done.Width = 69;
-            // 
-            // Priority
-            // 
-            this.Priority.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Priority.HeaderText = "Priority";
-            this.Priority.Name = "Priority";
-            this.Priority.ReadOnly = true;
-            this.Priority.Width = 124;
-            // 
-            // CourseNumber
-            // 
-            this.CourseNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.CourseNumber.HeaderText = "Course";
-            this.CourseNumber.Name = "CourseNumber";
-            this.CourseNumber.ReadOnly = true;
-            // 
-            // AssignmentNameColumn
-            // 
-            this.AssignmentNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.AssignmentNameColumn.HeaderText = "Assignment";
-            this.AssignmentNameColumn.Name = "AssignmentNameColumn";
-            this.AssignmentNameColumn.ReadOnly = true;
-            this.AssignmentNameColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // Submit_at
-            // 
-            this.Submit_at.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Submit_at.HeaderText = "Submit At";
-            this.Submit_at.Name = "Submit_at";
-            this.Submit_at.ReadOnly = true;
-            this.Submit_at.Width = 149;
-            // 
-            // Workflow_state
-            // 
-            this.Workflow_state.HeaderText = "State";
-            this.Workflow_state.Name = "Workflow_state";
-            this.Workflow_state.ReadOnly = true;
-            // 
-            // Speedgrader_url
-            // 
-            this.Speedgrader_url.HeaderText = "URL";
-            this.Speedgrader_url.Name = "Speedgrader_url";
-            this.Speedgrader_url.ReadOnly = true;
             // 
             // btnRefreshQueue
             // 
@@ -170,6 +119,59 @@
             // timerRefreshQueue
             // 
             this.timerRefreshQueue.Tick += new System.EventHandler(this.timerRefreshQueue_Tick);
+            // 
+            // marked_done
+            // 
+            this.marked_done.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.marked_done.HeaderText = "Done";
+            this.marked_done.Name = "marked_done";
+            this.marked_done.ReadOnly = true;
+            this.marked_done.Width = 69;
+            // 
+            // Priority
+            // 
+            this.Priority.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Priority.HeaderText = "Priority";
+            this.Priority.Name = "Priority";
+            this.Priority.ReadOnly = true;
+            this.Priority.ToolTipText = "1 = Instructor Meeting\\n2 = Pacific Trails, 3 = Final Projects, 4 = Everything el" +
+    "se";
+            this.Priority.Width = 124;
+            // 
+            // CourseNumber
+            // 
+            this.CourseNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.CourseNumber.HeaderText = "Course";
+            this.CourseNumber.Name = "CourseNumber";
+            this.CourseNumber.ReadOnly = true;
+            // 
+            // AssignmentNameColumn
+            // 
+            this.AssignmentNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.AssignmentNameColumn.HeaderText = "Assignment";
+            this.AssignmentNameColumn.Name = "AssignmentNameColumn";
+            this.AssignmentNameColumn.ReadOnly = true;
+            this.AssignmentNameColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // Submit_at
+            // 
+            this.Submit_at.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Submit_at.HeaderText = "Submit At";
+            this.Submit_at.Name = "Submit_at";
+            this.Submit_at.ReadOnly = true;
+            this.Submit_at.Width = 149;
+            // 
+            // Workflow_state
+            // 
+            this.Workflow_state.HeaderText = "State";
+            this.Workflow_state.Name = "Workflow_state";
+            this.Workflow_state.ReadOnly = true;
+            // 
+            // Speedgrader_url
+            // 
+            this.Speedgrader_url.HeaderText = "URL";
+            this.Speedgrader_url.Name = "Speedgrader_url";
+            this.Speedgrader_url.ReadOnly = true;
             // 
             // GradingQueue
             // 

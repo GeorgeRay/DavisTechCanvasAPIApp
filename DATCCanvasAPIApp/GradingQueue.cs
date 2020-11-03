@@ -29,13 +29,14 @@ namespace CanvasAPIApp
 
         private void RefreshQueue()
         {
+            //clear stale data
             gradingDataGrid.Rows.Clear();
             courseList.Clear();
             ungradedAssignmentList.Clear();
+
+            //reload the data
             populateListOfCourses();
-            //populateListOfUngradedAssginments();
             populateGradingEventHistory();
-            LoadDataGrid();
         }
 
         private void btnRefreshQueue_Click(object sender, EventArgs e)
@@ -43,41 +44,8 @@ namespace CanvasAPIApp
             RefreshQueue();
         }
 
-        private void populateListOfUngradedAssginments()
-        {
-            //make call to get ungraded assignments
-            foreach (Course course in courseList)
-            {
-                var endPoint = url + $"/api/v1/courses/{course.CourseID}/assignments?bucket=ungraded&per_page=1000&";
-                var client = new RestClient(endPoint);
-                var json = client.MakeRequest(coursesAccessToken);
-                dynamic jsonObj = JsonConvert.DeserializeObject(json);
-
-                if (jsonObj.Count > 0)
-                {
-
-                }
-
-            }
-
-
-        }
-
-        private void btnReloadDataGrid_Click(object sender, EventArgs e)
-        {
-            LoadDataGrid();
-        }
-
-        private void LoadDataGrid()
-        {
-
-
-        }
-
         public void populateGradingEventHistory()
         {
-            //Get date for this run
-            string dateToday = DateTime.Now.ToShortDateString();
             //Setting wait cursor
             Cursor.Current = Cursors.WaitCursor;
 
@@ -134,9 +102,9 @@ namespace CanvasAPIApp
                             {
                                 priority = 4;
                             }
-                                                       
+
                             gradingDataGrid.Rows.Add(false, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url);
-                            
+
                             //submissionVersionBindingSource.Add(new SubmissionVersion(submitted_at, assignment_id
                             //    , workflow_state, graded_at, posted_at, preview_url, grader
                             //    , assignment_name, current_graded_at, current_grader));
@@ -212,7 +180,20 @@ namespace CanvasAPIApp
                 var url = gradingDataGrid.CurrentCell.EditedFormattedValue.ToString();
                 Process.Start(url);
             }
-            
+            else if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("Done"))
+            {
+                
+                if (Convert.ToBoolean(gradingDataGrid.CurrentCell.Value) == true)
+                {
+                    gradingDataGrid.CurrentCell.Value = false;
+                }
+                else
+                {
+                    gradingDataGrid.CurrentCell.Value = true;
+                }
+
+            }
+
         }
     }
 }
