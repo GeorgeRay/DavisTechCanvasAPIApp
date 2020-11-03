@@ -98,6 +98,7 @@
     <Compile Include="AccessTokenForm.Designer.cs">
       <DependentUpon>AccessTokenForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Assignment.cs" />
     <Compile Include="AssignmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +118,10 @@
     <Compile Include="CanvasAPIMainForm.Designer.cs">
       <DependentUpon>CanvasAPIMainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Course.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubmissionVersion.cs" />
     <Compile Include="CoursesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -213,6 +218,8 @@
       <DependentUpon>SimpleTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\GradingQueue.datasource" />
+    <None Include="Properties\DataSources\SubmissionVersion.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
