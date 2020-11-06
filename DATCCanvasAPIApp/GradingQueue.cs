@@ -48,11 +48,17 @@ namespace CanvasAPIApp
         {
             //Setting wait cursor
             Cursor.Current = Cursors.WaitCursor;
+            string urlParameters;
+            urlParameters = "student_ids[]=all";
+            urlParameters += "&include[]=assignment";
+            urlParameters += "&workflow_state[]=submitted";
+            urlParameters += "&workflow_state[]=pending_review";
+            urlParameters += "&enrollment_state=active";
 
             // get grading history
             foreach (Course course in courseList)
             {
-                string endPoint = url + $"/api/v1/courses/{course.CourseID}/students/submissions?student_ids[]=all&include[]=assignment&workflow_state[]=submitted&workflow_state[]=pending_review&";
+                string endPoint = url + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
                 var client = new RestClient(endPoint);
                 var json = client.MakeRequest(coursesAccessToken);
                 dynamic jsonObj = JsonConvert.DeserializeObject(json);
