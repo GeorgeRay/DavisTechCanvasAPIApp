@@ -33,10 +33,30 @@ namespace CanvasAPIApp
             //reload the data
             lblMessageBox.Text = "Getting Courses";
             var courseList = await populateListOfCourses();
-            lblMessageBox.Text = "Loading Assignments";
-            var ungradedAssignmentList = await populateGradingEventHistory(courseList);
-            gradingDataGrid.DataSource = ungradedAssignmentList;
-            lblMessageBox.Text = "";
+            if (courseList.Count > 0)
+            {
+                lblMessageBox.Text = "Loading Assignments";
+                var ungradedAssignmentList = await populateGradingEventHistory(courseList);
+                LoadDataGridView(ungradedAssignmentList);
+                lblMessageBox.Text = "";
+            }
+            else
+            {
+                lblMessageBox.Text = "Grading Queue is empty";
+            }
+
+            
+        }
+
+        private void LoadDataGridView(List<Assignment> ungradedAssignmentList)
+        {
+            gradingDataGrid.Rows.Clear();
+            foreach(Assignment assignment in ungradedAssignmentList)
+            {
+                gradingDataGrid.Rows.Add(assignment.graded, assignment.priority, assignment.courseName, 
+                    assignment.assignment_name, assignment.submitted_at, assignment.workflow_state, 
+                    assignment.speed_grader_url);
+            }
         }
 
         private async void btnRefreshQueue_Click(object sender, EventArgs e)
@@ -185,23 +205,26 @@ namespace CanvasAPIApp
 
         private void gradingDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("URL"))
+            if (gradingDataGrid.CurrentCell != null)
             {
-                var url = gradingDataGrid.CurrentCell.EditedFormattedValue.ToString();
-                Process.Start(url);
-            }
-            else if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("Done"))
-            {
-
-                if (Convert.ToBoolean(gradingDataGrid.CurrentCell.Value) == true)
+                if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("URL"))
                 {
-                    gradingDataGrid.CurrentCell.Value = false;
+                    var url = gradingDataGrid.CurrentCell.EditedFormattedValue.ToString();
+                    Process.Start(url);
                 }
-                else
+                else if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("Done"))
                 {
-                    gradingDataGrid.CurrentCell.Value = true;
-                }
 
+                    if (Convert.ToBoolean(gradingDataGrid.CurrentCell.Value) == true)
+                    {
+                        gradingDataGrid.CurrentCell.Value = false;
+                    }
+                    else
+                    {
+                        gradingDataGrid.CurrentCell.Value = true;
+                    }
+
+                }
             }
 
         }
