@@ -218,6 +218,7 @@
       <DependentUpon>SimpleTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Assignment.datasource" />
     <None Include="Properties\DataSources\GradingQueue.datasource" />
     <None Include="Properties\DataSources\SubmissionVersion.datasource" />
     <None Include="Properties\Settings.settings">

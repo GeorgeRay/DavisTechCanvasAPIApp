@@ -34,6 +34,8 @@
             this.cbxAutoRefresh = new System.Windows.Forms.CheckBox();
             this.nudSeconds = new System.Windows.Forms.NumericUpDown();
             this.timerRefreshQueue = new System.Windows.Forms.Timer(this.components);
+            this.lblMessageBox = new System.Windows.Forms.Label();
+            this.assignmentBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.marked_done = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CourseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,6 +45,7 @@
             this.Speedgrader_url = new System.Windows.Forms.DataGridViewLinkColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gradingDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSeconds)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.assignmentBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // gradingDataGrid
@@ -53,6 +56,7 @@
             this.gradingDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gradingDataGrid.AutoGenerateColumns = false;
             this.gradingDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gradingDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.marked_done,
@@ -62,6 +66,7 @@
             this.Submit_at,
             this.Workflow_state,
             this.Speedgrader_url});
+            this.gradingDataGrid.DataSource = this.assignmentBindingSource;
             this.gradingDataGrid.Location = new System.Drawing.Point(12, 97);
             this.gradingDataGrid.Margin = new System.Windows.Forms.Padding(3, 30, 3, 3);
             this.gradingDataGrid.Name = "gradingDataGrid";
@@ -120,9 +125,23 @@
             // 
             this.timerRefreshQueue.Tick += new System.EventHandler(this.timerRefreshQueue_Tick);
             // 
+            // lblMessageBox
+            // 
+            this.lblMessageBox.AutoSize = true;
+            this.lblMessageBox.Location = new System.Drawing.Point(347, 16);
+            this.lblMessageBox.Name = "lblMessageBox";
+            this.lblMessageBox.Size = new System.Drawing.Size(0, 25);
+            this.lblMessageBox.TabIndex = 4;
+            // 
+            // assignmentBindingSource
+            // 
+            this.assignmentBindingSource.DataSource = typeof(CanvasAPIApp.Assignment);
+            this.assignmentBindingSource.Sort = "priority";
+            // 
             // marked_done
             // 
             this.marked_done.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.marked_done.DataPropertyName = "graded";
             this.marked_done.HeaderText = "Done";
             this.marked_done.Name = "marked_done";
             this.marked_done.ReadOnly = true;
@@ -131,6 +150,7 @@
             // Priority
             // 
             this.Priority.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Priority.DataPropertyName = "priority";
             this.Priority.HeaderText = "Priority";
             this.Priority.Name = "Priority";
             this.Priority.ReadOnly = true;
@@ -141,6 +161,7 @@
             // CourseNumber
             // 
             this.CourseNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.CourseNumber.DataPropertyName = "courseName";
             this.CourseNumber.HeaderText = "Course";
             this.CourseNumber.Name = "CourseNumber";
             this.CourseNumber.ReadOnly = true;
@@ -148,6 +169,7 @@
             // AssignmentNameColumn
             // 
             this.AssignmentNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.AssignmentNameColumn.DataPropertyName = "assignment_name";
             this.AssignmentNameColumn.HeaderText = "Assignment";
             this.AssignmentNameColumn.Name = "AssignmentNameColumn";
             this.AssignmentNameColumn.ReadOnly = true;
@@ -156,19 +178,22 @@
             // Submit_at
             // 
             this.Submit_at.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Submit_at.HeaderText = "Submit At";
+            this.Submit_at.DataPropertyName = "submitted_at";
+            this.Submit_at.HeaderText = "Submited At";
             this.Submit_at.Name = "Submit_at";
             this.Submit_at.ReadOnly = true;
-            this.Submit_at.Width = 149;
+            this.Submit_at.Width = 173;
             // 
             // Workflow_state
             // 
+            this.Workflow_state.DataPropertyName = "workflow_state";
             this.Workflow_state.HeaderText = "State";
             this.Workflow_state.Name = "Workflow_state";
             this.Workflow_state.ReadOnly = true;
             // 
             // Speedgrader_url
             // 
+            this.Speedgrader_url.DataPropertyName = "speed_grader_url";
             this.Speedgrader_url.HeaderText = "URL";
             this.Speedgrader_url.Name = "Speedgrader_url";
             this.Speedgrader_url.ReadOnly = true;
@@ -178,6 +203,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1688, 1012);
+            this.Controls.Add(this.lblMessageBox);
             this.Controls.Add(this.nudSeconds);
             this.Controls.Add(this.cbxAutoRefresh);
             this.Controls.Add(this.btnRefreshQueue);
@@ -187,6 +213,7 @@
             this.Load += new System.EventHandler(this.GradingQueue_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gradingDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSeconds)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.assignmentBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -199,6 +226,8 @@
         private System.Windows.Forms.CheckBox cbxAutoRefresh;
         private System.Windows.Forms.NumericUpDown nudSeconds;
         private System.Windows.Forms.Timer timerRefreshQueue;
+        private System.Windows.Forms.Label lblMessageBox;
+        private System.Windows.Forms.BindingSource assignmentBindingSource;
         private System.Windows.Forms.DataGridViewCheckBoxColumn marked_done;
         private System.Windows.Forms.DataGridViewTextBoxColumn Priority;
         private System.Windows.Forms.DataGridViewTextBoxColumn CourseNumber;
