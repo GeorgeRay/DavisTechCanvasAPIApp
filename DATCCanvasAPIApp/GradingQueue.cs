@@ -4,20 +4,23 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CanvasAPIApp
 {
     public partial class GradingQueue : Form
     {
+        // declarations
+        List<Assignment> ungradedAssignmentList;
+        private bool isChanging = false;
+
         //Set access token
         string coursesAccessToken = "access_token=" + Properties.Settings.Default.CurrentAccessToken;
         string url = Properties.Settings.Default.InstructureSite;
+
         //Give Class access to Get Call
         GeneralAPIGets getProfile = new GeneralAPIGets();
-
-        //List<Course> courseList = new List<Course>();
-     
-
+        
         public GradingQueue()
         {
             InitializeComponent();
@@ -29,34 +32,36 @@ namespace CanvasAPIApp
         }
 
         private async Task RefreshQueue()
-        { 
+        {
             //reload the data
             lblMessageBox.Text = "Getting Courses";
             var courseList = await populateListOfCourses();
             if (courseList.Count > 0)
             {
                 lblMessageBox.Text = "Loading Assignments";
-                var ungradedAssignmentList = await populateGradingEventHistory(courseList);
-                LoadDataGridView(ungradedAssignmentList);
+                ungradedAssignmentList = await populateGradingEventHistory(courseList);
+                courseFilter();
                 lblMessageBox.Text = "";
             }
             else
             {
                 lblMessageBox.Text = "Grading Queue is empty";
             }
-
-            
         }
 
         private void LoadDataGridView(List<Assignment> ungradedAssignmentList)
         {
             gradingDataGrid.Rows.Clear();
-            foreach(Assignment assignment in ungradedAssignmentList)
+            foreach (Assignment assignment in ungradedAssignmentList)
             {
-                gradingDataGrid.Rows.Add(assignment.graded, assignment.priority, assignment.courseName, 
-                    assignment.assignment_name, assignment.submitted_at, assignment.workflow_state, 
+                gradingDataGrid.Rows.Add(assignment.graded, assignment.priority, assignment.courseName,
+                    assignment.assignment_name, assignment.submitted_at, assignment.workflow_state,
                     assignment.speed_grader_url);
             }
+
+            // using this method as hook to enable courseFilterTxt
+            if (!courseFilterTxt.Enabled)
+                courseFilterTxt.Enabled = true;
         }
 
         private async void btnRefreshQueue_Click(object sender, EventArgs e)
@@ -66,7 +71,6 @@ namespace CanvasAPIApp
 
         private Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList)
         {
-            DataGridView tempDataGridView = gradingDataGrid;
             return Task.Run(() =>
             {
                 List<Assignment> ungradedAssignmentList = new List<Assignment>();
@@ -131,14 +135,14 @@ namespace CanvasAPIApp
                                     priority = 4;
                                 }
 
-                               ungradedAssignmentList.Add(new Assignment(false, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url));
+                                ungradedAssignmentList.Add(new Assignment(false, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url));
 
                             }
 
                         }
                     }
-                }                    
-                
+                }
+
                 return ungradedAssignmentList;
             });
         }
@@ -146,35 +150,35 @@ namespace CanvasAPIApp
 
         private Task<List<Course>> populateListOfCourses()
         {
-            
+
             return Task.Run(() =>
-           {
+            {
 
-               List<Course> tempCourseList = new List<Course>();
+                List<Course> tempCourseList = new List<Course>();
 
-               // get jsonObj file
-               string endPoint = url + "/api/v1/courses?enrollment_type=teacher&per_page=1000&include[]=needs_grading_count&";//Get endpoint
-               var client = new RestClient(endPoint);
-               var json = client.MakeRequest(coursesAccessToken);
-               dynamic jsonObj = JsonConvert.DeserializeObject(json);
+                // get jsonObj file
+                string endPoint = url + "/api/v1/courses?enrollment_type=teacher&per_page=1000&include[]=needs_grading_count&";//Get endpoint
+                var client = new RestClient(endPoint);
+                var json = client.MakeRequest(coursesAccessToken);
+                dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
-               foreach (var course in jsonObj)
-               {
-                   var enrollments = course.enrollments;
-                   foreach (var enrollment in enrollments)
-                   {
+                foreach (var course in jsonObj)
+                {
+                    var enrollments = course.enrollments;
+                    foreach (var enrollment in enrollments)
+                    {
 
-                       var needs_grading_count = Convert.ToInt32(course.needs_grading_count);
-                       if (needs_grading_count > 0)
-                       {
-                           tempCourseList.Add(new Course(Convert.ToString(course.id), Convert.ToString(course.name)));
-                       }
+                        var needs_grading_count = Convert.ToInt32(course.needs_grading_count);
+                        if (needs_grading_count > 0)
+                        {
+                            tempCourseList.Add(new Course(Convert.ToString(course.id), Convert.ToString(course.name)));
+                        }
 
-                   }
+                    }
 
-               }
-               return tempCourseList;
-           });
+                }
+                return tempCourseList;
+            });
         }
 
         private async void cbxAutoRefresh_CheckedChanged(object sender, EventArgs e)
@@ -227,6 +231,46 @@ namespace CanvasAPIApp
                 }
             }
 
+        }
+
+        // filters ungradedAssignmentList by courseName property
+        private void courseFilter()
+        {
+            if (!courseFilterTxt.Text.Equals(string.Empty)) // textbox is not empty
+            {
+                // get assignments where courseName contains textbox text
+                // NOTES: is case sensitive, will filter spaces
+                var result = from assignment in ungradedAssignmentList
+                             where assignment.courseName.Contains(courseFilterTxt.Text)
+                             select assignment;
+
+                // show filtered assignments
+                LoadDataGridView(result.ToList());
+            }
+            else // textbox is empty
+            {
+                // show all assignments
+                LoadDataGridView(ungradedAssignmentList);
+            }
+        }
+
+        // filter courses on courseFilterTxt TextChanged event
+        private async void courseFilterTxt_TextChanged(object sender, EventArgs e)
+        {
+            // set delay amount to prevent filtering on each key press
+            int delayEvent = 750;
+
+            // if delaying, do nothing
+            if (isChanging)
+                return;
+
+            // indicate delay then delay
+            isChanging = true;
+            await Task.Delay(delayEvent);
+            
+            // delay over, filter input then reset flag
+            courseFilter();
+            isChanging = false;
         }
     }
 }
