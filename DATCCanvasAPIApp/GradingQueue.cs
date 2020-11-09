@@ -20,7 +20,7 @@ namespace CanvasAPIApp
 
         //Give Class access to Get Call
         GeneralAPIGets getProfile = new GeneralAPIGets();
-        
+
         public GradingQueue()
         {
             InitializeComponent();
@@ -60,7 +60,8 @@ namespace CanvasAPIApp
             bool sortByPriority = false;
             clearDataGridView();
 
-            if (assignmentList.Count > 0) {
+            if (assignmentList.Count > 0)
+            {
                 foreach (Assignment assignment in assignmentList)
                 {
                     if (assignment.priority < 4 && sortByPriority == false)
@@ -79,7 +80,8 @@ namespace CanvasAPIApp
                 {
                     gradingDataGrid.Sort(gradingDataGrid.Columns[4], System.ComponentModel.ListSortDirection.Ascending);
                 }
-          }
+            }
+        }
 
         private async void btnRefreshQueue_Click(object sender, EventArgs e)
         {
@@ -289,7 +291,7 @@ namespace CanvasAPIApp
             // indicate delay then delay
             isChanging = true;
             await Task.Delay(delayEvent);
-            
+
             // delay over, filter input and reload ui then reset flag
             LoadDataGridView(courseFilter(ungradedAssignmentList, courseFilterTxt.Text));
             isChanging = false;
