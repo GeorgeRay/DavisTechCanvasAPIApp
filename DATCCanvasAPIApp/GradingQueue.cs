@@ -51,7 +51,6 @@ namespace CanvasAPIApp
 
         private void clearDataGridView()
         {
-            bool sortByPriority = false;
             gradingDataGrid.Rows.Clear();
         }
 
