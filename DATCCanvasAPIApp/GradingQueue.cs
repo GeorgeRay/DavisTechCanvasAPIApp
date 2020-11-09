@@ -51,6 +51,7 @@ namespace CanvasAPIApp
 
         private void clearDataGridView()
         {
+            bool sortByPriority = false;
             gradingDataGrid.Rows.Clear();
         }
 
@@ -78,8 +79,7 @@ namespace CanvasAPIApp
                 {
                     gradingDataGrid.Sort(gradingDataGrid.Columns[4], System.ComponentModel.ListSortDirection.Ascending);
                 }
-            }
-        }
+          }
 
         private async void btnRefreshQueue_Click(object sender, EventArgs e)
         {
