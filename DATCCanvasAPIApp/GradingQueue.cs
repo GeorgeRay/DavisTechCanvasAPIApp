@@ -40,33 +40,41 @@ namespace CanvasAPIApp
             {
                 lblMessageBox.Text = "Loading Assignments";
                 ungradedAssignmentList = await populateGradingEventHistory(courseList);
-                courseFilter();
-                lblMessageBox.Text = "";
+                LoadDataGridView(courseFilter(ungradedAssignmentList, courseFilterTxt.Text));
             }
             else
             {
                 lblMessageBox.Text = "Grading Queue is empty";
+                clearDataGridView();
             }
         }
 
-        private void LoadDataGridView(List<Assignment> ungradedAssignmentList)
+        private void clearDataGridView()
         {
             gradingDataGrid.Rows.Clear();
-            foreach (Assignment assignment in ungradedAssignmentList)
-            {
-                gradingDataGrid.Rows.Add(assignment.graded, assignment.priority, assignment.courseName,
-                    assignment.assignment_name, assignment.submitted_at, assignment.workflow_state,
-                    assignment.speed_grader_url);
-            }
+        }
 
-            // using this method as hook to enable courseFilterTxt
-            if (!courseFilterTxt.Enabled)
-                courseFilterTxt.Enabled = true;
+        private void LoadDataGridView(List<Assignment> assignmentList)
+        {
+            clearDataGridView();
+
+            if (assignmentList.Count > 0) {
+                foreach (Assignment assignment in assignmentList)
+                {
+                    gradingDataGrid.Rows.Add(assignment.graded, assignment.priority, assignment.courseName,
+                        assignment.assignment_name, assignment.submitted_at, assignment.workflow_state,
+                        assignment.speed_grader_url);
+                }
+            }
         }
 
         private async void btnRefreshQueue_Click(object sender, EventArgs e)
         {
             await RefreshQueue();
+
+            // using this method as hook to enable courseFilterTxt
+            if (!courseFilterTxt.Enabled)
+                courseFilterTxt.Enabled = true;
         }
 
         private Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList)
@@ -185,8 +193,8 @@ namespace CanvasAPIApp
         {
             if (cbxAutoRefresh.Checked)
             {
-                await RefreshQueue();
                 btnRefreshQueue.Enabled = false;
+                await RefreshQueue();
                 nudSeconds.Enabled = true;
                 timerRefreshQueue.Interval = Convert.ToInt32(nudSeconds.Value) * 1000;
                 timerRefreshQueue.Start();
@@ -203,7 +211,7 @@ namespace CanvasAPIApp
 
         private async void timerRefreshQueue_Tick(object sender, EventArgs e)
         {
-            await this.RefreshQueue();
+            await RefreshQueue();
         }
 
 
@@ -234,23 +242,24 @@ namespace CanvasAPIApp
         }
 
         // filters ungradedAssignmentList by courseName property
-        private void courseFilter()
+        private List<Assignment> courseFilter(List<Assignment> assignments, string filterFor)
         {
-            if (!courseFilterTxt.Text.Equals(string.Empty)) // textbox is not empty
+            if (!filterFor.Equals(string.Empty)) // argument is not empty
             {
-                // get assignments where courseName contains textbox text
-                // NOTES: is case sensitive, will filter spaces
-                var result = from assignment in ungradedAssignmentList
-                             where assignment.courseName.Contains(courseFilterTxt.Text)
+                lblMessageBox.Text = "Filtering by course";
+                // get assignments where courseName contains argument
+                var result = from assignment in assignments
+                             where assignment.courseName.ToLower().Contains(filterFor.ToLower())
                              select assignment;
 
-                // show filtered assignments
-                LoadDataGridView(result.ToList());
+                // return filtered assignments
+                return result.ToList();
             }
-            else // textbox is empty
+            else // argument is empty
             {
-                // show all assignments
-                LoadDataGridView(ungradedAssignmentList);
+                lblMessageBox.Text = "";
+                // return all assignments
+                return assignments;
             }
         }
 
@@ -268,8 +277,8 @@ namespace CanvasAPIApp
             isChanging = true;
             await Task.Delay(delayEvent);
             
-            // delay over, filter input then reset flag
-            courseFilter();
+            // delay over, filter input and reload ui then reset flag
+            LoadDataGridView(courseFilter(ungradedAssignmentList, courseFilterTxt.Text));
             isChanging = false;
         }
     }

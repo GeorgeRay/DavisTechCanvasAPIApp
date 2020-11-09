@@ -131,7 +131,7 @@
             // btnRefreshQueue
             // 
             this.btnRefreshQueue.Location = new System.Drawing.Point(6, 24);
-            this.btnRefreshQueue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRefreshQueue.Margin = new System.Windows.Forms.Padding(2);
             this.btnRefreshQueue.Name = "btnRefreshQueue";
             this.btnRefreshQueue.Size = new System.Drawing.Size(152, 23);
             this.btnRefreshQueue.TabIndex = 1;
@@ -143,7 +143,7 @@
             // 
             this.cbxAutoRefresh.AutoSize = true;
             this.cbxAutoRefresh.Location = new System.Drawing.Point(6, 6);
-            this.cbxAutoRefresh.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxAutoRefresh.Margin = new System.Windows.Forms.Padding(2);
             this.cbxAutoRefresh.Name = "cbxAutoRefresh";
             this.cbxAutoRefresh.Size = new System.Drawing.Size(88, 17);
             this.cbxAutoRefresh.TabIndex = 2;
@@ -155,7 +155,7 @@
             // 
             this.nudSeconds.Enabled = false;
             this.nudSeconds.Location = new System.Drawing.Point(98, 5);
-            this.nudSeconds.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nudSeconds.Margin = new System.Windows.Forms.Padding(2);
             this.nudSeconds.Maximum = new decimal(new int[] {
             3600,
             0,
@@ -191,7 +191,7 @@
             // courseFilterTxt
             // 
             this.courseFilterTxt.Enabled = false;
-            this.courseFilterTxt.Location = new System.Drawing.Point(234, 27);
+            this.courseFilterTxt.Location = new System.Drawing.Point(245, 27);
             this.courseFilterTxt.Name = "courseFilterTxt";
             this.courseFilterTxt.Size = new System.Drawing.Size(100, 20);
             this.courseFilterTxt.TabIndex = 5;
@@ -200,7 +200,7 @@
             // courseFilterLbl
             // 
             this.courseFilterLbl.AutoSize = true;
-            this.courseFilterLbl.Location = new System.Drawing.Point(163, 30);
+            this.courseFilterLbl.Location = new System.Drawing.Point(174, 30);
             this.courseFilterLbl.Name = "courseFilterLbl";
             this.courseFilterLbl.Size = new System.Drawing.Size(65, 13);
             this.courseFilterLbl.TabIndex = 6;
@@ -218,7 +218,7 @@
             this.Controls.Add(this.cbxAutoRefresh);
             this.Controls.Add(this.btnRefreshQueue);
             this.Controls.Add(this.gradingDataGrid);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "GradingQueue";
             this.Text = "GradingQueue";
             this.Load += new System.EventHandler(this.GradingQueue_Load);

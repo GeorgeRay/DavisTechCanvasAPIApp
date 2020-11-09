@@ -16,8 +16,6 @@ namespace CanvasAPIApp
             //Get Profile
             string endPoint = Properties.Settings.Default.InstructureSite;
             var client = new RestClient(endPoint);
-         
-
             //Get Profile
             var json = client.MakeRequest("/api/v1/users/self/profile?" + token);
             //Deserialize json object
