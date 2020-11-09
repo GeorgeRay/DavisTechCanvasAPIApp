@@ -36,10 +36,12 @@ namespace CanvasAPIApp
             //reload the data
             lblMessageBox.Text = "Getting Courses";
             var courseList = await populateListOfCourses();
+
             if (courseList.Count > 0)
             {
                 lblMessageBox.Text = "Loading Assignments";
                 ungradedAssignmentList = await populateGradingEventHistory(courseList);
+                clearDataGridView();
                 LoadDataGridView(courseFilter(ungradedAssignmentList, courseFilterTxt.Text));
             }
             else
@@ -57,8 +59,7 @@ namespace CanvasAPIApp
         private void LoadDataGridView(List<Assignment> assignmentList)
         {
             bool sortByPriority = false;
-            clearDataGridView();
-
+           
             if (assignmentList.Count > 0)
             {
                 foreach (Assignment assignment in assignmentList)
