@@ -14,6 +14,22 @@ namespace CanvasAPIApp
         List<Assignment> ungradedAssignmentList;
         private bool isChanging = false;
 
+        // priority flags
+        List<string> priority1Flags = new List<string>()
+        {
+            "instructor meeting",
+            "completion",
+            "cisco networking academy account setup",
+        };
+        List<string> priority2Flags = new List<string>()
+        {
+            "pacific trails",
+        };
+        List<string> priority3Flags = new List<string>()
+        {
+            "final",
+        };
+
         //Set access token
         string coursesAccessToken = "access_token=" + Properties.Settings.Default.CurrentAccessToken;
         string url = Properties.Settings.Default.InstructureSite;
@@ -91,6 +107,20 @@ namespace CanvasAPIApp
                 courseFilterTxt.Enabled = true;
         }
 
+        // return priority based on assignment name
+        private int assignPriority(string assignmentName)
+        {
+            // check if name contains any flag and return priority
+            if (priority1Flags.Any(flag => assignmentName.ToLower().Contains(flag.ToLower())))
+                return 1;
+            else if (priority2Flags.Any(flag => assignmentName.ToLower().Contains(flag.ToLower())))
+                return 2;
+            else if (priority3Flags.Any(flag => assignmentName.ToLower().Contains(flag.ToLower())))
+                return 3;
+            else
+                return 4;
+        }
+
         private Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList)
         {
             return Task.Run(() =>
@@ -140,31 +170,13 @@ namespace CanvasAPIApp
                                 var speed_grader_url = $"{url}/courses/{course.CourseID}/gradebook/speed_grader?assignment_id={assignment_id}&student_id={user_id}";
 
                                 //assigning priority for sorting
-                                if (assignment_name.Contains("Instructor Meeting"))
-                                {
-                                    priority = 1;
-                                }
-                                else if (assignment_name.Contains("Pacific Trails"))
-                                {
-                                    priority = 2;
-                                }
-                                else if (assignment_name.Contains("Final"))
-                                {
-                                    priority = 3;
-                                }
-                                else
-                                {
-                                    priority = 4;
-                                }
+                                priority = assignPriority(assignment_name);
 
                                 ungradedAssignmentList.Add(new Assignment(false, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url));
-
                             }
-
                         }
                     }
                 }
-
                 return ungradedAssignmentList;
             });
         }
