@@ -98,13 +98,18 @@ namespace CanvasAPIApp
             }
         }
 
+        private void enableCourseFilter()
+        {
+            if (!courseFilterTxt.Enabled)
+                courseFilterTxt.Enabled = true;
+        }
+
         private async void btnRefreshQueue_Click(object sender, EventArgs e)
         {
             await RefreshQueue();
 
             // using this method as hook to enable courseFilterTxt
-            if (!courseFilterTxt.Enabled)
-                courseFilterTxt.Enabled = true;
+            enableCourseFilter();
         }
 
         // return priority based on assignment name
@@ -232,7 +237,8 @@ namespace CanvasAPIApp
                 nudSeconds.Enabled = false;
                 timerRefreshQueue.Stop();
             }
-
+            // using this method as hook to enable courseFilterTxt
+            enableCourseFilter();
         }
 
         private async void timerRefreshQueue_Tick(object sender, EventArgs e)
