@@ -23,6 +23,13 @@ namespace CanvasAPIApp
             connectionString = Properties.Settings.Default.MongoDBConnectionString;
             txbConnection.Text = connectionString.Replace(Properties.Settings.Default.MongoDBPW, "<password>");
 
+            //Turn on event handlers after the form loads to prevent form closing with unsaved data
+            this.TxbUserName.TextChanged += new System.EventHandler(this.TextChange);
+            this.TxbPassword.TextChanged += new System.EventHandler(this.TextChange);
+            this.txbDefaultDatabase.TextChanged += new System.EventHandler(this.TextChange);
+            this.TxbGradingCollecion.TextChanged += new System.EventHandler(this.TextChange);
+            this.txbConnection.TextChanged += new System.EventHandler(this.TextChange);
+
         }
         private void SaveSettings()
         {
@@ -45,6 +52,8 @@ namespace CanvasAPIApp
             try
             {                
                 var client = new MongoClient(connectionString);
+                //Set wait cursor
+                Cursor.Current = Cursors.WaitCursor;
                 var database = client.GetDatabase(txbDefaultDatabase.Text);
 
                 foreach (var collection in database.ListCollectionsAsync().Result.ToListAsync<BsonDocument>().Result)
@@ -56,7 +65,9 @@ namespace CanvasAPIApp
                 {
                     btnSave.Enabled = true;                    
                 }
-               
+                //Return cursor to default
+                Cursor.Current = Cursors.Default;
+
             }
             catch (Exception ex)
             {

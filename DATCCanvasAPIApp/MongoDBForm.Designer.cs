@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MongoDBForm));
             this.btnSave = new System.Windows.Forms.Button();
             this.TxbUserName = new System.Windows.Forms.TextBox();
             this.lblUserName = new System.Windows.Forms.Label();
@@ -62,7 +63,6 @@
             this.TxbUserName.Name = "TxbUserName";
             this.TxbUserName.Size = new System.Drawing.Size(214, 20);
             this.TxbUserName.TabIndex = 3;
-            this.TxbUserName.TextChanged += new System.EventHandler(this.TextChange);
             // 
             // lblUserName
             // 
@@ -89,7 +89,6 @@
             this.TxbPassword.PasswordChar = '*';
             this.TxbPassword.Size = new System.Drawing.Size(214, 20);
             this.TxbPassword.TabIndex = 6;
-            this.TxbPassword.TextChanged += new System.EventHandler(this.TextChange);
             // 
             // lblConnectionString
             // 
@@ -124,7 +123,6 @@
             this.TxbGradingCollecion.Name = "TxbGradingCollecion";
             this.TxbGradingCollecion.Size = new System.Drawing.Size(214, 20);
             this.TxbGradingCollecion.TabIndex = 10;
-            this.TxbGradingCollecion.TextChanged += new System.EventHandler(this.TextChange);
             // 
             // label2
             // 
@@ -167,7 +165,6 @@
             this.txbDefaultDatabase.Name = "txbDefaultDatabase";
             this.txbDefaultDatabase.Size = new System.Drawing.Size(214, 20);
             this.txbDefaultDatabase.TabIndex = 15;
-            this.txbDefaultDatabase.TextChanged += new System.EventHandler(this.TextChange);
             // 
             // MongoDBForm
             // 
@@ -188,6 +185,7 @@
             this.Controls.Add(this.lblUserName);
             this.Controls.Add(this.TxbUserName);
             this.Controls.Add(this.btnSave);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MongoDBForm";
             this.Text = "MongoDB";
