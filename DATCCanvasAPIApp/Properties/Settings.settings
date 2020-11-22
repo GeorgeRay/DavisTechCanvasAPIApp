@@ -15,12 +15,15 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="MongoDBGradingCollection" Type="System.String" Scope="User">
-      <Value Profile="(Default)">No Collection Selected</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="MongoDBConnectionString" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="MongoDBDefaultDB" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="AppUserName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

@@ -71,7 +71,7 @@ namespace CanvasAPIApp
             }
             catch (Exception ex)
             {
-                rtbOutput.AppendText("Connection Failed");
+                rtbOutput.AppendText($"Connection Failed\n{ex}");
             }          
 
         }

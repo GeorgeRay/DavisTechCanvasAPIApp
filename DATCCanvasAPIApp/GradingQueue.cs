@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Linq;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace CanvasAPIApp
 {
@@ -13,6 +15,8 @@ namespace CanvasAPIApp
         // declarations
         List<Assignment> ungradedAssignmentList;
         private bool isChanging = false;
+        MongoClient mongoClient;
+        IMongoDatabase mongoDatabase;
 
         // priority flags
         List<string> priority1Flags = new List<string>()
@@ -33,13 +37,13 @@ namespace CanvasAPIApp
         //Set access token
         string coursesAccessToken = "access_token=" + Properties.Settings.Default.CurrentAccessToken;
         string url = Properties.Settings.Default.InstructureSite;
-
-        //Give Class access to Get Call
-        GeneralAPIGets getProfile = new GeneralAPIGets();
+        private bool mongoWarningshown = false;
 
         public GradingQueue()
         {
             InitializeComponent();
+            mongoClient = new MongoClient(Properties.Settings.Default.MongoDBConnectionString);
+            mongoDatabase = mongoClient.GetDatabase(Properties.Settings.Default.MongoDBDefaultDB);
         }
 
         private void GradingQueue_Load(object sender, EventArgs e)
@@ -250,16 +254,59 @@ namespace CanvasAPIApp
                     var url = gradingDataGrid.CurrentCell.EditedFormattedValue.ToString();
                     Process.Start(url);
                 }
-                else if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("Done"))
+                else if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("Reserved"))
                 {
-
-                    if (Convert.ToBoolean(gradingDataGrid.CurrentCell.Value) == true)
+                    if (Properties.Settings.Default.MongoDBGradingCollection == "" && mongoWarningshown == false)
                     {
-                        gradingDataGrid.CurrentCell.Value = false;
+                        mongoWarningshown = true;
+                        var result = MessageBox.Show("To Reserve assignment you must add a MongoDB Connection.\nWould you like to connect to a database?", "Create Database", MessageBoxButtons.YesNo);
+
+                        switch (result)
+                        {
+                            case DialogResult.Yes:
+                                Cursor.Current = Cursors.WaitCursor;
+                                Form dataSources = new MongoDBForm();
+                                dataSources.StartPosition = FormStartPosition.CenterParent;
+                                dataSources.ShowDialog();
+                                Cursor.Current = Cursors.Default;
+                                break;
+                            case DialogResult.No:
+                                break;
+                        }                        
                     }
                     else
                     {
-                        gradingDataGrid.CurrentCell.Value = true;
+                        if (Convert.ToBoolean(gradingDataGrid.CurrentCell.Value) == true)
+                        {
+                            gradingDataGrid.CurrentCell.Value = false;
+                            //Remove the data from the database
+                            var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
+                            string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
+                            //Make call for URL
+                            var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
+                            mongoCollection.DeleteOne(filter);
+                        }
+                        else
+                        {
+                            var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
+                            gradingDataGrid.CurrentCell.Value = true;
+                            string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
+                            Process.Start(url);
+                            //Add the data to the database
+                            BsonDocument documentToWrite = new BsonDocument { { "_id", url }, { "grader", Properties.Settings.Default.AppUserName }, { "reserved_at", DateTime.UtcNow.ToString() } };
+                            try
+                            {
+                                mongoCollection.InsertOne(documentToWrite);
+                            }
+                            catch (MongoDB.Driver.MongoWriteException writeException)
+                            {
+                                //Make call for URL
+                                var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
+                                var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
+                                var grader = conflictDocument.GetElement("grader");
+                                MessageBox.Show($"This assignment was reserved by {grader.Value}");
+                            }
+                        }
                     }
 
                 }

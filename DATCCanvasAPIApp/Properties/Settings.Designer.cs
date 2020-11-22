@@ -74,7 +74,7 @@ namespace CanvasAPIApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("No Collection Selected")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string MongoDBGradingCollection {
             get {
                 return ((string)(this["MongoDBGradingCollection"]));
@@ -105,6 +105,18 @@ namespace CanvasAPIApp.Properties {
             }
             set {
                 this["MongoDBDefaultDB"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AppUserName {
+            get {
+                return ((string)(this["AppUserName"]));
+            }
+            set {
+                this["AppUserName"] = value;
             }
         }
     }
