@@ -8,5 +8,23 @@
     <Setting Name="InstructureSite" Type="(Web Service URL)" Scope="User">
       <Value Profile="(Default)">No URL saved</Value>
     </Setting>
+    <Setting Name="MongoDBUserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">No User Name Saved</Value>
+    </Setting>
+    <Setting Name="MongoDBPW" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MongoDBGradingCollection" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MongoDBConnectionString" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MongoDBDefaultDB" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="AppUserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

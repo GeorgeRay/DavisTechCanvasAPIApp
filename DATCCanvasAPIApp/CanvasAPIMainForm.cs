@@ -184,6 +184,14 @@ namespace CanvasAPIApp
             tabControlMain.SelectedTab = tabPageModule;
         }
 
+        private void mongoDBToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            Form dataSources = new MongoDBForm();
+            dataSources.StartPosition = FormStartPosition.CenterParent;
+            dataSources.ShowDialog();
+            Cursor.Current = Cursors.Default;
 
+        }
     }
 }

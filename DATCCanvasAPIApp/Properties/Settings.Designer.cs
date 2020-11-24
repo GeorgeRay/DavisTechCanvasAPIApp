@@ -12,7 +12,7 @@ namespace CanvasAPIApp.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.6.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -45,6 +45,78 @@ namespace CanvasAPIApp.Properties {
             }
             set {
                 this["InstructureSite"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No User Name Saved")]
+        public string MongoDBUserName {
+            get {
+                return ((string)(this["MongoDBUserName"]));
+            }
+            set {
+                this["MongoDBUserName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MongoDBPW {
+            get {
+                return ((string)(this["MongoDBPW"]));
+            }
+            set {
+                this["MongoDBPW"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MongoDBGradingCollection {
+            get {
+                return ((string)(this["MongoDBGradingCollection"]));
+            }
+            set {
+                this["MongoDBGradingCollection"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MongoDBConnectionString {
+            get {
+                return ((string)(this["MongoDBConnectionString"]));
+            }
+            set {
+                this["MongoDBConnectionString"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MongoDBDefaultDB {
+            get {
+                return ((string)(this["MongoDBDefaultDB"]));
+            }
+            set {
+                this["MongoDBDefaultDB"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AppUserName {
+            get {
+                return ((string)(this["AppUserName"]));
+            }
+            set {
+                this["AppUserName"] = value;
             }
         }
     }

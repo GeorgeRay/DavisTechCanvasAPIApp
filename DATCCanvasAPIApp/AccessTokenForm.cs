@@ -53,6 +53,7 @@ namespace CanvasAPIApp
 
             //Setting variable for try catch and web call
             String currentAccessToken = Properties.Settings.Default.CurrentAccessToken;
+            
 
             //Set wait cursor
             Cursor.Current = Cursors.WaitCursor;
@@ -72,6 +73,9 @@ namespace CanvasAPIApp
                     string name = "name";
                     //Display Name of current profile
                     lbxCurrentUser.Text = getProfile.GetProfile(name);
+                    //Save name to the app settings
+                    Properties.Settings.Default.AppUserName = lbxCurrentUser.Text;
+                    Properties.Settings.Default.Save();
                 }
                 catch (Exception callException)
                 {
