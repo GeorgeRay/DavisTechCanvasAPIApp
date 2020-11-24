@@ -95,9 +95,9 @@
             this.lblConnectionString.AutoSize = true;
             this.lblConnectionString.Location = new System.Drawing.Point(12, 185);
             this.lblConnectionString.Name = "lblConnectionString";
-            this.lblConnectionString.Size = new System.Drawing.Size(89, 13);
+            this.lblConnectionString.Size = new System.Drawing.Size(118, 13);
             this.lblConnectionString.TabIndex = 7;
-            this.lblConnectionString.Text = "Connection string";
+            this.lblConnectionString.Text = "Collections in Database";
             // 
             // rtbOutput
             // 
