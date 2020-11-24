@@ -12,9 +12,9 @@ namespace CanvasAPIApp
         public string workflow_state { get; set; }
         public string speed_grader_url { get; set; }
 
-        public Assignment(bool graded, int priority, string courseName, string assignment_name, DateTime submitted_at, string workflow_state, string speed_grader_url)
+        public Assignment(bool reserved, int priority, string courseName, string assignment_name, DateTime submitted_at, string workflow_state, string speed_grader_url)
         {
-            this.graded = graded;
+            this.graded = reserved;
             this.priority = priority;
             this.courseName = courseName;
             this.assignment_name = assignment_name;
