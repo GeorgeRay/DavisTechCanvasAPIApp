@@ -14,8 +14,9 @@ namespace CanvasAPIApp
     public partial class GradingQueue : Form
     {
         // declarations
-        List<Assignment> ungradedAssignmentList;        
+        List<Assignment> ungradedAssignmentList;
         private bool isChanging = false;
+        private bool connectedToMongoDB = false;
         MongoClient mongoClient;
         IMongoDatabase mongoDatabase;
         String userName = Properties.Settings.Default.AppUserName;
@@ -44,8 +45,32 @@ namespace CanvasAPIApp
         public GradingQueue()
         {
             InitializeComponent();
-            mongoClient = new MongoClient(Properties.Settings.Default.MongoDBConnectionString);
-            mongoDatabase = mongoClient.GetDatabase(Properties.Settings.Default.MongoDBDefaultDB);
+            if (Properties.Settings.Default.MongoDBDefaultDB != "")
+            {
+                ConnectToMongoDB();               
+            }
+        }
+
+        public void ConnectToMongoDB()
+        {
+            if (Properties.Settings.Default.MongoDBGradingCollection != "")
+            {
+                try
+                {
+                    mongoClient = new MongoClient(Properties.Settings.Default.MongoDBConnectionString);
+                    mongoDatabase = mongoClient.GetDatabase(Properties.Settings.Default.MongoDBDefaultDB);
+                    lblMessageBox.Text = "Connected to MongoDB";
+                    connectedToMongoDB = true;
+                } catch
+                {
+                    MessageBox.Show("Connection Failed");
+                    lblMessageBox.Text = "Not connect to database";
+                }
+            }
+            else
+            {
+                lblMessageBox.Text = "Credentials Not Stored";
+            }
         }
 
         private void GradingQueue_Load(object sender, EventArgs e)
@@ -58,7 +83,11 @@ namespace CanvasAPIApp
             //reload the data
             lblMessageBox.Text = "Getting Courses";
             var courseList = await populateListOfCourses();
-            var gradingReservedList = await PopulateListOfReservedAssignments();
+            List<ReservedAssignment> gradingReservedList = new List<ReservedAssignment>();
+            if (connectedToMongoDB == true)
+            {
+                gradingReservedList = await PopulateListOfReservedAssignments();
+            }
             if (courseList.Count > 0)
             {
                 lblMessageBox.Text = "Loading Assignments";
@@ -75,7 +104,7 @@ namespace CanvasAPIApp
             {
                 if (assignment.grader == userName)
                 {
-                    var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);                    
+                    var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
                     var filter = Builders<BsonDocument>.Filter.Eq("_id", assignment._id);
                     mongoCollection.DeleteOne(filter);
                 }
@@ -87,7 +116,7 @@ namespace CanvasAPIApp
         {
             return Task.Run(() =>
             {
-                return mongoDatabase.GetCollection<ReservedAssignment>(Properties.Settings.Default.MongoDBGradingCollection).AsQueryable<ReservedAssignment>().ToList();                
+                return mongoDatabase.GetCollection<ReservedAssignment>(Properties.Settings.Default.MongoDBGradingCollection).AsQueryable<ReservedAssignment>().ToList();
             });
         }
 
@@ -210,7 +239,7 @@ namespace CanvasAPIApp
                                     reserved = true;
                                     //remove the item from the grading reserve list, the list will be used to trim up the grading database
                                     gradingReservedList.Remove(temp.ElementAt(0));
-                                }                      
+                                }
 
                                 ungradedAssignmentList.Add(new Assignment(reserved, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url));
                             }
@@ -306,10 +335,11 @@ namespace CanvasAPIApp
                                 dataSources.StartPosition = FormStartPosition.CenterParent;
                                 dataSources.ShowDialog();
                                 Cursor.Current = Cursors.Default;
+                                ConnectToMongoDB();
                                 break;
                             case DialogResult.No:
                                 break;
-                        }                        
+                        }
                     }
                     else
                     {
@@ -317,31 +347,38 @@ namespace CanvasAPIApp
                         {
                             gradingDataGrid.CurrentCell.Value = false;
                             //Remove the data from the database
-                            var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
-                            string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
-                            //Make call for URL
-                            var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
-                            mongoCollection.DeleteOne(filter);
+                            if (connectedToMongoDB == true)
+                            {
+                                var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
+                                string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
+                                //Make call for URL
+                                var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
+                                mongoCollection.DeleteOne(filter);
+                            }
                         }
                         else
                         {
-                            var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
                             gradingDataGrid.CurrentCell.Value = true;
                             string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
                             Process.Start(url);
                             //Add the data to the database
-                            BsonDocument documentToWrite = new BsonDocument { { "_id", url }, { "grader", Properties.Settings.Default.AppUserName }, { "reserved_at", DateTime.UtcNow.ToString() } };
-                            try
+                            if (connectedToMongoDB == true)
                             {
-                                mongoCollection.InsertOne(documentToWrite);
-                            }
-                            catch (MongoDB.Driver.MongoWriteException writeException)
-                            {
-                                //Make call for URL
-                                var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
-                                var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
-                                var grader = conflictDocument.GetElement("grader");
-                                MessageBox.Show($"This assignment was reserved by {grader.Value}");
+                                var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
+
+                                BsonDocument documentToWrite = new BsonDocument { { "_id", url }, { "grader", Properties.Settings.Default.AppUserName }, { "reserved_at", DateTime.UtcNow.ToString() } };
+                                try
+                                {
+                                    mongoCollection.InsertOne(documentToWrite);
+                                }
+                                catch (MongoDB.Driver.MongoWriteException writeException)
+                                {
+                                    //Make call for URL
+                                    var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
+                                    var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
+                                    var grader = conflictDocument.GetElement("grader");
+                                    MessageBox.Show($"This assignment was reserved by {grader.Value}");
+                                }
                             }
                         }
                     }
@@ -394,7 +431,7 @@ namespace CanvasAPIApp
 
         private class ReservedAssignment
         {
-           
+
             public ReservedAssignment(string url, string grader, string reserved_at)
             {
                 this._id = url;
@@ -403,7 +440,7 @@ namespace CanvasAPIApp
             }
 
             public string _id { get; set; }
-            public string grader { get ; set; }
+            public string grader { get; set; }
             public string reserved_at { get; set; }
         }
     }

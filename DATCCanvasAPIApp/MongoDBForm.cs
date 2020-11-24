@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace CanvasAPIApp
@@ -15,13 +16,16 @@ namespace CanvasAPIApp
         }
 
         private void MongoDBForm_Load(object sender, EventArgs e)
-        {            
+        {
             TxbUserName.Text = Properties.Settings.Default.MongoDBUserName;
             TxbPassword.Text = Properties.Settings.Default.MongoDBPW;
             txbDefaultDatabase.Text = Properties.Settings.Default.MongoDBDefaultDB;
             TxbGradingCollecion.Text = Properties.Settings.Default.MongoDBGradingCollection;
             connectionString = Properties.Settings.Default.MongoDBConnectionString;
-            txbConnection.Text = connectionString.Replace(Properties.Settings.Default.MongoDBPW, "<password>");
+            if (Properties.Settings.Default.MongoDBPW.Length > 0)
+            {
+                txbConnection.Text = connectionString.Replace(Properties.Settings.Default.MongoDBPW, "<password>");
+            }
 
             //Turn on event handlers after the form loads to prevent form closing with unsaved data
             this.TxbUserName.TextChanged += new System.EventHandler(this.TextChange);
@@ -43,6 +47,17 @@ namespace CanvasAPIApp
             rtbOutput.Clear();
             rtbOutput.AppendText("Settings Saved");
             textChanged = false;
+
+            var frm = Application.OpenForms.Cast<Form>().Where(x => x.Name == "GradingQueue").FirstOrDefault();
+
+            if (null != frm)
+            {
+                GradingQueue gradingForm = (GradingQueue)frm;
+                gradingForm.ConnectToMongoDB();
+                frm = null;
+            }
+
+
         }
 
         private void btnParseConnection_Click(object sender, EventArgs e)
@@ -50,7 +65,7 @@ namespace CanvasAPIApp
             rtbOutput.Clear();
             connectionString = txbConnection.Text.Replace("<password>", TxbPassword.Text).Replace("<dbname>", txbDefaultDatabase.Text);
             try
-            {                
+            {
                 var client = new MongoClient(connectionString);
                 //Set wait cursor
                 Cursor.Current = Cursors.WaitCursor;
@@ -60,10 +75,10 @@ namespace CanvasAPIApp
                 {
                     rtbOutput.AppendText(collection.ToString());
                 }
-                
-                if(textChanged == true)
+
+                if (textChanged == true)
                 {
-                    btnSave.Enabled = true;                    
+                    btnSave.Enabled = true;
                 }
                 //Return cursor to default
                 Cursor.Current = Cursors.Default;
@@ -72,13 +87,13 @@ namespace CanvasAPIApp
             catch (Exception ex)
             {
                 rtbOutput.AppendText($"Connection Failed\n{ex}");
-            }          
+            }
 
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            SaveSettings();            
+            SaveSettings();
         }
 
         private void TextChange(object sender, EventArgs e)
@@ -97,7 +112,7 @@ namespace CanvasAPIApp
                         SaveSettings();
                         break;
                     case DialogResult.No:
-                        break;                   
+                        break;
                 }
             }
 
