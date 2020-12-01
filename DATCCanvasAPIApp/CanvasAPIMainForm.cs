@@ -29,6 +29,12 @@ namespace CanvasAPIApp
                 accessTokenForm.StartPosition = FormStartPosition.CenterScreen;
                 accessTokenForm.ShowDialog();
             }
+            //if there is no user saved add the user, this is to update the user name in the properties if the user already saved the canvas access
+            if(Properties.Settings.Default.AppUserName == "")
+            {
+                GeneralAPIGets getProfile = new GeneralAPIGets();
+                Properties.Settings.Default.AppUserName = getProfile.GetProfile("name");
+            }
 
             //Load assignment tab
             AssignmentForm assignForm = new AssignmentForm("Create Assignement");
