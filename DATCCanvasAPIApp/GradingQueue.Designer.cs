@@ -40,7 +40,7 @@
             this.reserved = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CourseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AssignmentNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AssignmentNameColumn = new System.Windows.Forms.DataGridViewLinkColumn();
             this.Submit_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Workflow_state = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Speedgrader_url = new System.Windows.Forms.DataGridViewLinkColumn();
@@ -185,6 +185,7 @@
             this.AssignmentNameColumn.Name = "AssignmentNameColumn";
             this.AssignmentNameColumn.ReadOnly = true;
             this.AssignmentNameColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.AssignmentNameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // Submit_at
             // 
@@ -196,16 +197,17 @@
             // 
             // Workflow_state
             // 
+            this.Workflow_state.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Workflow_state.HeaderText = "State";
             this.Workflow_state.Name = "Workflow_state";
             this.Workflow_state.ReadOnly = true;
-            this.Workflow_state.Visible = false;
             // 
             // Speedgrader_url
             // 
             this.Speedgrader_url.HeaderText = "URL";
             this.Speedgrader_url.Name = "Speedgrader_url";
             this.Speedgrader_url.ReadOnly = true;
+            this.Speedgrader_url.Visible = false;
             this.Speedgrader_url.Width = 245;
             // 
             // GradingQueue
@@ -244,7 +246,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn reserved;
         private System.Windows.Forms.DataGridViewTextBoxColumn Priority;
         private System.Windows.Forms.DataGridViewTextBoxColumn CourseNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AssignmentNameColumn;
+        private System.Windows.Forms.DataGridViewLinkColumn AssignmentNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Submit_at;
         private System.Windows.Forms.DataGridViewTextBoxColumn Workflow_state;
         private System.Windows.Forms.DataGridViewLinkColumn Speedgrader_url;

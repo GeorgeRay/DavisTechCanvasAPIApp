@@ -238,7 +238,7 @@ namespace CanvasAPIApp
                                 {
                                     var theReservation = results.ElementAt(0);
                                     reserved = true;
-                                    speed_grader_url = $"Reserved by {theReservation.grader} at {theReservation.reserved_at}";
+                                    workflow_state = $"Reserved by {theReservation.grader} at {theReservation.reserved_at}";
                                     //remove the item from the grading reserve list, the list will be used to trim up the grading database
                                     gradingReservedList.Remove(theReservation);
                                 }
@@ -391,7 +391,13 @@ namespace CanvasAPIApp
                     }
 
                 }
+                else if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("Assignment"))
+                {
+                    var url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
+                    Process.Start(url);
+                }
             }
+            
 
         }
 
