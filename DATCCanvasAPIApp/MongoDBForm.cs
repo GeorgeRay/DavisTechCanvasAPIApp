@@ -66,9 +66,10 @@ namespace CanvasAPIApp
             connectionString = txbConnection.Text.Replace("<password>", TxbPassword.Text).Replace("<dbname>", txbDefaultDatabase.Text);
             try
             {
-                var client = new MongoClient(connectionString);
                 //Set wait cursor
                 Cursor.Current = Cursors.WaitCursor;
+                var client = new MongoClient(connectionString);
+                
                 var database = client.GetDatabase(txbDefaultDatabase.Text);
 
                 foreach (var collection in database.ListCollectionsAsync().Result.ToListAsync<BsonDocument>().Result)
