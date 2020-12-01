@@ -39,7 +39,7 @@ namespace CanvasAPIApp
 
         //Set access token
         string coursesAccessToken = "access_token=" + Properties.Settings.Default.CurrentAccessToken;
-        string url = Properties.Settings.Default.InstructureSite;
+        string instructureSiteURL = Properties.Settings.Default.InstructureSite;
         private bool mongoWarningshown = false;
 
         public GradingQueue()
@@ -47,7 +47,7 @@ namespace CanvasAPIApp
             InitializeComponent();
             if (Properties.Settings.Default.MongoDBDefaultDB != "")
             {
-                ConnectToMongoDB();               
+                ConnectToMongoDB();
             }
         }
 
@@ -61,7 +61,8 @@ namespace CanvasAPIApp
                     mongoDatabase = mongoClient.GetDatabase(Properties.Settings.Default.MongoDBDefaultDB);
                     lblMessageBox.Text = "Connected to MongoDB";
                     connectedToMongoDB = true;
-                } catch
+                }
+                catch
                 {
                     MessageBox.Show("Connection Failed");
                     lblMessageBox.Text = "Not connect to database";
@@ -196,7 +197,7 @@ namespace CanvasAPIApp
                 // get grading history
                 foreach (Course course in courseList)
                 {
-                    string endPoint = url + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
+                    string endPoint = instructureSiteURL + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
                     var client = new RestClient(endPoint);
                     var json = client.MakeRequest(coursesAccessToken);
                     dynamic jsonObj = JsonConvert.DeserializeObject(json);
@@ -227,18 +228,19 @@ namespace CanvasAPIApp
                                 var assignment_name = Convert.ToString(assignment.name);
                                 var current_graded_at = Convert.ToString(submission.current_graded_at);
                                 var current_grader = Convert.ToString(submission.current_grader);
-                                var speed_grader_url = $"{url}/courses/{course.CourseID}/gradebook/speed_grader?assignment_id={assignment_id}&student_id={user_id}";
+                                var speed_grader_url = $"{instructureSiteURL}/courses/{course.CourseID}/gradebook/speed_grader?assignment_id={assignment_id}&student_id={user_id}";
                                 var reserved = false;
                                 //assigning priority for sorting
                                 priority = assignPriority(assignment_name);
-                                //see if assignment is reserved
-                                var tempCount = gradingReservedList.Count();
-                                var temp = gradingReservedList.Where(reservedAssignment => reservedAssignment._id == speed_grader_url);
-                                if (temp.Count() > 0)
+                                //see if assignment is reserved                                
+                                var results = gradingReservedList.Where(reservedAssignment => reservedAssignment._id == speed_grader_url);
+                                if (results.Count() > 0)
                                 {
+                                    var theReservation = results.ElementAt(0);
                                     reserved = true;
+                                    speed_grader_url = $"Reserved by {theReservation.grader} at {theReservation.reserved_at}";
                                     //remove the item from the grading reserve list, the list will be used to trim up the grading database
-                                    gradingReservedList.Remove(temp.ElementAt(0));
+                                    gradingReservedList.Remove(theReservation);
                                 }
 
                                 ungradedAssignmentList.Add(new Assignment(reserved, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url));
@@ -260,7 +262,7 @@ namespace CanvasAPIApp
                 List<Course> tempCourseList = new List<Course>();
 
                 // get jsonObj file
-                string endPoint = url + "/api/v1/courses?enrollment_type=teacher&per_page=1000&include[]=needs_grading_count&";//Get endpoint
+                string endPoint = instructureSiteURL + "/api/v1/courses?enrollment_type=teacher&per_page=1000&include[]=needs_grading_count&";//Get endpoint
                 var client = new RestClient(endPoint);
                 var json = client.MakeRequest(coursesAccessToken);
                 dynamic jsonObj = JsonConvert.DeserializeObject(json);
@@ -315,13 +317,15 @@ namespace CanvasAPIApp
         {
             if (gradingDataGrid.CurrentCell != null)
             {
-                if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("URL"))
+                if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("URL") && gradingDataGrid.CurrentCell.EditedFormattedValue.ToString().Contains("https"))
                 {
                     var url = gradingDataGrid.CurrentCell.EditedFormattedValue.ToString();
                     Process.Start(url);
                 }
+                //Reserved Column gets clicked 
                 else if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("Reserved"))
                 {
+                    //If there is no database connected let the user know.
                     if (Properties.Settings.Default.MongoDBGradingCollection == "" && mongoWarningshown == false)
                     {
                         mongoWarningshown = true;
@@ -343,6 +347,7 @@ namespace CanvasAPIApp
                     }
                     else
                     {
+                        //Reserved is checked
                         if (Convert.ToBoolean(gradingDataGrid.CurrentCell.Value) == true)
                         {
                             gradingDataGrid.CurrentCell.Value = false;
@@ -359,14 +364,16 @@ namespace CanvasAPIApp
                         else
                         {
                             gradingDataGrid.CurrentCell.Value = true;
+
                             string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
                             Process.Start(url);
+
                             //Add the data to the database
                             if (connectedToMongoDB == true)
                             {
                                 var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
 
-                                BsonDocument documentToWrite = new BsonDocument { { "_id", url }, { "grader", Properties.Settings.Default.AppUserName }, { "reserved_at", DateTime.UtcNow.ToString() } };
+                                BsonDocument documentToWrite = new BsonDocument { { "_id", url }, { "grader", Properties.Settings.Default.AppUserName }, { "reserved_at", DateTime.Now.ToString() } };
                                 try
                                 {
                                     mongoCollection.InsertOne(documentToWrite);

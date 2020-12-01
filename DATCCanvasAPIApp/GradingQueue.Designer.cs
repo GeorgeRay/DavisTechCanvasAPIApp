@@ -199,12 +199,14 @@
             this.Workflow_state.HeaderText = "State";
             this.Workflow_state.Name = "Workflow_state";
             this.Workflow_state.ReadOnly = true;
+            this.Workflow_state.Visible = false;
             // 
             // Speedgrader_url
             // 
             this.Speedgrader_url.HeaderText = "URL";
             this.Speedgrader_url.Name = "Speedgrader_url";
             this.Speedgrader_url.ReadOnly = true;
+            this.Speedgrader_url.Width = 245;
             // 
             // GradingQueue
             // 
