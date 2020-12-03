@@ -84,6 +84,7 @@ namespace CanvasAPIApp
             //reload the data
             lblMessageBox.Text = "Getting Courses";
             var courseList = await populateListOfCourses();
+            lblMessageBox.Text = "Getting Reserved Assignments";
             List<ReservedAssignment> gradingReservedList = new List<ReservedAssignment>();
             if (connectedToMongoDB == true)
             {
@@ -140,7 +141,7 @@ namespace CanvasAPIApp
 
                     gradingDataGrid.Rows.Add(assignment.graded, assignment.priority, assignment.courseName,
                         assignment.assignment_name, assignment.submitted_at, assignment.workflow_state,
-                        assignment.speed_grader_url);
+                        assignment.speed_grader_url,assignment.grades_url);
                 }
                 //default sorting on priority column 
                 if (sortByPriority == true)
@@ -229,6 +230,7 @@ namespace CanvasAPIApp
                                 var current_graded_at = Convert.ToString(submission.current_graded_at);
                                 var current_grader = Convert.ToString(submission.current_grader);
                                 var speed_grader_url = $"{instructureSiteURL}/courses/{course.CourseID}/gradebook/speed_grader?assignment_id={assignment_id}&student_id={user_id}";
+                                var grades_url = $"{instructureSiteURL}/courses/{course.CourseID}/grades/{user_id}";                            
                                 var reserved = false;
                                 //assigning priority for sorting
                                 priority = assignPriority(assignment_name);
@@ -243,7 +245,7 @@ namespace CanvasAPIApp
                                     gradingReservedList.Remove(theReservation);
                                 }
 
-                                ungradedAssignmentList.Add(new Assignment(reserved, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url));
+                                ungradedAssignmentList.Add(new Assignment(reserved, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url, grades_url));
                             }
                         }
                     }
@@ -390,6 +392,12 @@ namespace CanvasAPIApp
                         }
                     }
 
+                }
+                //Course column gets clicked
+                else if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("Course"))
+                {
+                    var url = gradingDataGrid.Rows[e.RowIndex].Cells[7].EditedFormattedValue.ToString();
+                    Process.Start(url);
                 }
                 else if (gradingDataGrid.Columns[e.ColumnIndex].HeaderText.Contains("Assignment"))
                 {

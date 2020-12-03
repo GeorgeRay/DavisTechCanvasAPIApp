@@ -39,11 +39,12 @@
             this.courseFilterLbl = new System.Windows.Forms.Label();
             this.reserved = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CourseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CourseNumber = new System.Windows.Forms.DataGridViewLinkColumn();
             this.AssignmentNameColumn = new System.Windows.Forms.DataGridViewLinkColumn();
             this.Submit_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Workflow_state = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Speedgrader_url = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.grades_url = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gradingDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSeconds)).BeginInit();
             this.SuspendLayout();
@@ -64,7 +65,8 @@
             this.AssignmentNameColumn,
             this.Submit_at,
             this.Workflow_state,
-            this.Speedgrader_url});
+            this.Speedgrader_url,
+            this.grades_url});
             this.gradingDataGrid.Location = new System.Drawing.Point(6, 50);
             this.gradingDataGrid.Margin = new System.Windows.Forms.Padding(2, 16, 2, 2);
             this.gradingDataGrid.Name = "gradingDataGrid";
@@ -177,6 +179,9 @@
             this.CourseNumber.HeaderText = "Course";
             this.CourseNumber.Name = "CourseNumber";
             this.CourseNumber.ReadOnly = true;
+            this.CourseNumber.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.CourseNumber.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.CourseNumber.ToolTipText = "Links to students grades in course.";
             // 
             // AssignmentNameColumn
             // 
@@ -209,6 +214,13 @@
             this.Speedgrader_url.ReadOnly = true;
             this.Speedgrader_url.Visible = false;
             this.Speedgrader_url.Width = 245;
+            // 
+            // grades_url
+            // 
+            this.grades_url.HeaderText = "Grades URL";
+            this.grades_url.Name = "grades_url";
+            this.grades_url.ReadOnly = true;
+            this.grades_url.Visible = false;
             // 
             // GradingQueue
             // 
@@ -245,10 +257,11 @@
         private System.Windows.Forms.Label courseFilterLbl;
         private System.Windows.Forms.DataGridViewCheckBoxColumn reserved;
         private System.Windows.Forms.DataGridViewTextBoxColumn Priority;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CourseNumber;
+        private System.Windows.Forms.DataGridViewLinkColumn CourseNumber;
         private System.Windows.Forms.DataGridViewLinkColumn AssignmentNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Submit_at;
         private System.Windows.Forms.DataGridViewTextBoxColumn Workflow_state;
         private System.Windows.Forms.DataGridViewLinkColumn Speedgrader_url;
+        private System.Windows.Forms.DataGridViewTextBoxColumn grades_url;
     }
 }

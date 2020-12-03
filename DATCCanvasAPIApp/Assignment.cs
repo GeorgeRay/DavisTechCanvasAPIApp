@@ -11,8 +11,9 @@ namespace CanvasAPIApp
         public DateTime submitted_at { get; set; }
         public string workflow_state { get; set; }
         public string speed_grader_url { get; set; }
+        public string grades_url { get; private set; }
 
-        public Assignment(bool reserved, int priority, string courseName, string assignment_name, DateTime submitted_at, string workflow_state, string speed_grader_url)
+        public Assignment(bool reserved, int priority, string courseName, string assignment_name, DateTime submitted_at, string workflow_state, string speed_grader_url, string grades_url)
         {
             this.graded = reserved;
             this.priority = priority;
@@ -21,6 +22,7 @@ namespace CanvasAPIApp
             this.submitted_at = submitted_at;
             this.workflow_state = workflow_state;
             this.speed_grader_url = speed_grader_url;
+            this.grades_url = grades_url;
         }
     }
 }
