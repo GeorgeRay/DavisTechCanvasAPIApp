@@ -49,6 +49,7 @@ namespace CanvasAPIApp
             {
                 ConnectToMongoDB();
             }
+            RefreshQueue();
         }
 
         public void ConnectToMongoDB()
@@ -82,6 +83,7 @@ namespace CanvasAPIApp
         private async Task RefreshQueue()
         {
             //reload the data
+            btnRefreshQueue.Enabled = false;
             lblMessageBox.Text = "Getting Courses";
             var courseList = await populateListOfCourses();
             lblMessageBox.Text = "Getting Reserved Assignments";
@@ -101,6 +103,7 @@ namespace CanvasAPIApp
                 lblMessageBox.Text = "Grading Queue is empty";
                 clearDataGridView();
             }
+            btnRefreshQueue.Enabled = true;
             //Clean up data remove anything in the database reserved by user that is no longer in the queue
             foreach (ReservedAssignment assignment in gradingReservedList)
             {
@@ -291,8 +294,7 @@ namespace CanvasAPIApp
         private async void cbxAutoRefresh_CheckedChanged(object sender, EventArgs e)
         {
             if (cbxAutoRefresh.Checked)
-            {
-                btnRefreshQueue.Enabled = false;
+            {                
                 await RefreshQueue();
                 nudSeconds.Enabled = true;
                 timerRefreshQueue.Interval = Convert.ToInt32(nudSeconds.Value) * 1000;
@@ -300,8 +302,7 @@ namespace CanvasAPIApp
 
             }
             else
-            {
-                btnRefreshQueue.Enabled = true;
+            {               
                 nudSeconds.Enabled = false;
                 timerRefreshQueue.Stop();
             }
