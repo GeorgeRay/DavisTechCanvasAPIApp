@@ -43,6 +43,7 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accessTokenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.dataSourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mongoDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutCanvasAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -54,7 +55,6 @@
             this.tabPageModule = new System.Windows.Forms.TabPage();
             this.tabPageCalendar = new System.Windows.Forms.TabPage();
             this.tabPageGradingQueue = new System.Windows.Forms.TabPage();
-            this.mongoDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.apiMenuStrip.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.SuspendLayout();
@@ -157,7 +157,7 @@
             // accessTokenToolStripMenuItem1
             // 
             this.accessTokenToolStripMenuItem1.Name = "accessTokenToolStripMenuItem1";
-            this.accessTokenToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.accessTokenToolStripMenuItem1.Size = new System.Drawing.Size(170, 22);
             this.accessTokenToolStripMenuItem1.Text = "Instructure Access";
             this.accessTokenToolStripMenuItem1.Click += new System.EventHandler(this.accessTokenToolStripMenuItem1_Click);
             // 
@@ -166,8 +166,15 @@
             this.dataSourcesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mongoDBToolStripMenuItem});
             this.dataSourcesToolStripMenuItem.Name = "dataSourcesToolStripMenuItem";
-            this.dataSourcesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.dataSourcesToolStripMenuItem.Text = "Data Sources";        
+            this.dataSourcesToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.dataSourcesToolStripMenuItem.Text = "Data Sources";
+            // 
+            // mongoDBToolStripMenuItem
+            // 
+            this.mongoDBToolStripMenuItem.Name = "mongoDBToolStripMenuItem";
+            this.mongoDBToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.mongoDBToolStripMenuItem.Text = "MongoDB";
+            this.mongoDBToolStripMenuItem.Click += new System.EventHandler(this.mongoDBToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -203,7 +210,7 @@
             this.tabControlMain.Location = new System.Drawing.Point(0, 24);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(984, 531);
+            this.tabControlMain.Size = new System.Drawing.Size(984, 627);
             this.tabControlMain.TabIndex = 3;
             this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
             // 
@@ -211,8 +218,8 @@
             // 
             this.tabPageCourses.Location = new System.Drawing.Point(4, 22);
             this.tabPageCourses.Name = "tabPageCourses";
-            this.tabPageCourses.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageCourses.Size = new System.Drawing.Size(976, 505);
+            this.tabPageCourses.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCourses.Size = new System.Drawing.Size(976, 601);
             this.tabPageCourses.TabIndex = 3;
             this.tabPageCourses.Text = "Courses";
             this.tabPageCourses.UseVisualStyleBackColor = true;
@@ -221,8 +228,8 @@
             // 
             this.tabPageAssign.Location = new System.Drawing.Point(4, 22);
             this.tabPageAssign.Name = "tabPageAssign";
-            this.tabPageAssign.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageAssign.Size = new System.Drawing.Size(976, 700);
+            this.tabPageAssign.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAssign.Size = new System.Drawing.Size(976, 505);
             this.tabPageAssign.TabIndex = 0;
             this.tabPageAssign.Text = "Assignments";
             this.tabPageAssign.UseVisualStyleBackColor = true;
@@ -231,8 +238,8 @@
             // 
             this.tabPageQuiz.Location = new System.Drawing.Point(4, 22);
             this.tabPageQuiz.Name = "tabPageQuiz";
-            this.tabPageQuiz.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageQuiz.Size = new System.Drawing.Size(976, 700);
+            this.tabPageQuiz.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageQuiz.Size = new System.Drawing.Size(976, 505);
             this.tabPageQuiz.TabIndex = 1;
             this.tabPageQuiz.Text = "Quizzes";
             this.tabPageQuiz.UseVisualStyleBackColor = true;
@@ -241,7 +248,7 @@
             // 
             this.tabPagePages.Location = new System.Drawing.Point(4, 22);
             this.tabPagePages.Name = "tabPagePages";
-            this.tabPagePages.Size = new System.Drawing.Size(976, 700);
+            this.tabPagePages.Size = new System.Drawing.Size(976, 505);
             this.tabPagePages.TabIndex = 2;
             this.tabPagePages.Text = "Pages";
             this.tabPagePages.UseVisualStyleBackColor = true;
@@ -250,7 +257,7 @@
             // 
             this.tabPageModule.Location = new System.Drawing.Point(4, 22);
             this.tabPageModule.Name = "tabPageModule";
-            this.tabPageModule.Size = new System.Drawing.Size(976, 700);
+            this.tabPageModule.Size = new System.Drawing.Size(976, 505);
             this.tabPageModule.TabIndex = 4;
             this.tabPageModule.Text = "Modules";
             this.tabPageModule.UseVisualStyleBackColor = true;
@@ -259,7 +266,7 @@
             // 
             this.tabPageCalendar.Location = new System.Drawing.Point(4, 22);
             this.tabPageCalendar.Name = "tabPageCalendar";
-            this.tabPageCalendar.Size = new System.Drawing.Size(976, 700);
+            this.tabPageCalendar.Size = new System.Drawing.Size(976, 505);
             this.tabPageCalendar.TabIndex = 5;
             this.tabPageCalendar.Text = "Calendar";
             this.tabPageCalendar.UseVisualStyleBackColor = true;
@@ -268,24 +275,17 @@
             // 
             this.tabPageGradingQueue.Location = new System.Drawing.Point(4, 22);
             this.tabPageGradingQueue.Name = "tabPageGradingQueue";
-            this.tabPageGradingQueue.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageGradingQueue.Size = new System.Drawing.Size(976, 700);
+            this.tabPageGradingQueue.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGradingQueue.Size = new System.Drawing.Size(976, 505);
             this.tabPageGradingQueue.TabIndex = 6;
             this.tabPageGradingQueue.Text = "Grading Queue";
             this.tabPageGradingQueue.UseVisualStyleBackColor = true;
-            // 
-            // mongoDBToolStripMenuItem
-            // 
-            this.mongoDBToolStripMenuItem.Name = "mongoDBToolStripMenuItem";
-            this.mongoDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.mongoDBToolStripMenuItem.Text = "MongoDB";
-            this.mongoDBToolStripMenuItem.Click += new System.EventHandler(this.mongoDBToolStripMenuItem_Click);
             // 
             // CanvasAPIMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 555);
+            this.ClientSize = new System.Drawing.Size(984, 651);
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.apiMenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
