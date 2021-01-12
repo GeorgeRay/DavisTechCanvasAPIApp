@@ -23,7 +23,7 @@ namespace CanvasAPIApp
         string userName;
 
         //Initialize Form
-        public QuizForm(string title, string resourseName)
+        public QuizForm(string title, string resourceName)
         {
             InitializeComponent();
             Text = title; //set title text3
