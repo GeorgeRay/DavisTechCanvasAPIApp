@@ -30,66 +30,77 @@ namespace CanvasAPIApp
                 accessTokenForm.ShowDialog();
             }
             //if there is no user saved add the user, this is to update the user name in the properties if the user already saved the canvas access
-            if(Properties.Settings.Default.AppUserName == "")
+            if (Properties.Settings.Default.AppUserName == "")
             {
                 GeneralAPIGets getProfile = new GeneralAPIGets();
                 Properties.Settings.Default.AppUserName = getProfile.GetProfile("name");
             }
 
-            //Load assignment tab
-            AssignmentForm assignForm = new AssignmentForm("Create Assignement");
-            //tab setup
-            assignForm.TopLevel = false;
-            assignForm.FormBorderStyle = FormBorderStyle.None;
-            assignForm.Dock = DockStyle.Fill;
-            tabPageAssign.Controls.Add(assignForm);
-            assignForm.Visible = true;
+            //only loads the main form if an access token has been provided
+            if (Properties.Settings.Default.CurrentAccessToken == "No Access Token" || Properties.Settings.Default.CurrentAccessToken == "") //acess token has not been set
+            {
+                Application.Exit(); //exits application, because AccessTokenForm was cancelled with no input
 
-            //Load quiz form
-            QuizForm quizForm = new QuizForm("Create Quiz", "Create Quiz");
-            //tab setup
-            quizForm.TopLevel = false;
-            quizForm.FormBorderStyle = FormBorderStyle.None;
-            quizForm.Dock = DockStyle.Fill;
-            tabPageQuiz.Controls.Add(quizForm);
-            quizForm.Visible = true;
+            }else //access token has been set
+            {
 
-            //Load pages form
-            PagesForm pageForm = new PagesForm();
-            //tab setup
-            pageForm.TopLevel = false;
-            pageForm.FormBorderStyle = FormBorderStyle.None;
-            pageForm.Dock = DockStyle.Fill;
-            tabPagePages.Controls.Add(pageForm);
-            pageForm.Visible = true;
+                //Load assignment tab
+                AssignmentForm assignForm = new AssignmentForm("Create Assignement");
+                //tab setup
+                assignForm.TopLevel = false;
+                assignForm.FormBorderStyle = FormBorderStyle.None;
+                assignForm.Dock = DockStyle.Fill;
+                tabPageAssign.Controls.Add(assignForm);
+                assignForm.Visible = true;
 
-            //Load courses form
-            CoursesForm coursesForm = new CoursesForm();
-            //tab setup
-            coursesForm.TopLevel = false;
-            coursesForm.FormBorderStyle = FormBorderStyle.None;
-            coursesForm.Dock = DockStyle.Fill;
-            tabPageCourses.Controls.Add(coursesForm);
-            coursesForm.Visible = true;
+                //Load quiz form
+                QuizForm quizForm = new QuizForm("Create Quiz", "Create Quiz");
+                //tab setup
+                quizForm.TopLevel = false;
+                quizForm.FormBorderStyle = FormBorderStyle.None;
+                quizForm.Dock = DockStyle.Fill;
+                tabPageQuiz.Controls.Add(quizForm);
+                quizForm.Visible = true;
 
-            //Load Module form
-            ModuleForm moduleForm = new ModuleForm();
-            //tab setup
-            moduleForm.TopLevel = false;
-            moduleForm.FormBorderStyle = FormBorderStyle.None;
-            moduleForm.Dock = DockStyle.Fill;
-            tabPageModule.Controls.Add(moduleForm);
-            moduleForm.Visible = true;
+                //Load pages form
+                PagesForm pageForm = new PagesForm();
+                //tab setup
+                pageForm.TopLevel = false;
+                pageForm.FormBorderStyle = FormBorderStyle.None;
+                pageForm.Dock = DockStyle.Fill;
+                tabPagePages.Controls.Add(pageForm);
+                pageForm.Visible = true;
 
-            //Load Grading Queue
-            GradingQueue gradingQueue = new GradingQueue();
+                //Load courses form
+                CoursesForm coursesForm = new CoursesForm();
+                //tab setup
+                coursesForm.TopLevel = false;
+                coursesForm.FormBorderStyle = FormBorderStyle.None;
+                coursesForm.Dock = DockStyle.Fill;
+                tabPageCourses.Controls.Add(coursesForm);
+                coursesForm.Visible = true;
 
-            //tab setup
-            gradingQueue.TopLevel = false;
-            gradingQueue.FormBorderStyle = FormBorderStyle.None;
-            gradingQueue.Dock = DockStyle.Fill;            
-            tabPageGradingQueue.Controls.Add(gradingQueue);
-            gradingQueue.Visible = true;
+                //Load Module form
+                ModuleForm moduleForm = new ModuleForm();
+                //tab setup
+                moduleForm.TopLevel = false;
+                moduleForm.FormBorderStyle = FormBorderStyle.None;
+                moduleForm.Dock = DockStyle.Fill;
+                tabPageModule.Controls.Add(moduleForm);
+                moduleForm.Visible = true;
+
+                //Load Grading Queue
+                GradingQueue gradingQueue = new GradingQueue();
+
+                //tab setup
+                gradingQueue.TopLevel = false;
+                gradingQueue.FormBorderStyle = FormBorderStyle.None;
+                gradingQueue.Dock = DockStyle.Fill;
+                tabPageGradingQueue.Controls.Add(gradingQueue);
+                gradingQueue.Visible = true;
+            
+            }//End form load if
+
 
         }//End Main Form Loading
 
