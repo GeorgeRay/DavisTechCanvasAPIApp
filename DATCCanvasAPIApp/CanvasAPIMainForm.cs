@@ -23,26 +23,24 @@ namespace CanvasAPIApp
         //Loading Main form
         private void CanvasAPIMainForm_Load(object sender, EventArgs e)
         {
+           
+
             //If there is no token automaticly open settings
             if (Properties.Settings.Default.CurrentAccessToken == "No Access Token" || Properties.Settings.Default.CurrentAccessToken == "")
             {
                 accessTokenForm.StartPosition = FormStartPosition.CenterScreen;
                 accessTokenForm.ShowDialog();
-            }
-            //if there is no user saved add the user, this is to update the user name in the properties if the user already saved the canvas access
-            if (Properties.Settings.Default.AppUserName == "")
-            {
-                GeneralAPIGets getProfile = new GeneralAPIGets();
-                Properties.Settings.Default.AppUserName = getProfile.GetProfile("name");
+
+                //asks for access token until one is provided. User should not be allowed to continue without a token
+                while (Properties.Settings.Default.CurrentAccessToken == "No Access Token" || Properties.Settings.Default.CurrentAccessToken == "")
+                {
+                    MessageBox.Show("You must provide an acess token.");
+                    accessTokenForm.ShowDialog();
+                }
             }
 
-            //only loads the main form if an access token has been provided
-            if (Properties.Settings.Default.CurrentAccessToken == "No Access Token" || Properties.Settings.Default.CurrentAccessToken == "") //acess token has not been set
-            {
-                Application.Exit(); //exits application, because AccessTokenForm was cancelled with no input
 
-            }else //access token has been set
-            {
+            //loads main form components
 
                 //Load assignment tab
                 AssignmentForm assignForm = new AssignmentForm("Create Assignement");
@@ -99,7 +97,18 @@ namespace CanvasAPIApp
                 tabPageGradingQueue.Controls.Add(gradingQueue);
                 gradingQueue.Visible = true;
             
-            }//End form load if
+
+
+
+            //if there is no user saved add the user, this is to update the user name in the properties if the user already saved the canvas access
+            if (Properties.Settings.Default.AppUserName == "")
+            {
+                GeneralAPIGets getProfile = new GeneralAPIGets();
+                Properties.Settings.Default.AppUserName = getProfile.GetProfile("name");
+            }
+
+            //only loads the main form if an access token has been provided
+            
 
 
         }//End Main Form Loading
