@@ -151,6 +151,7 @@
     <Compile Include="Course.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="EncryptAccessToken.cs" />
     <Compile Include="MongoDBForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,7 +171,6 @@
     <Compile Include="CoursesForm.Designer.cs">
       <DependentUpon>CoursesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EncriptAccessToken.cs" />
     <Compile Include="GradingQueue.cs">
       <SubType>Form</SubType>
     </Compile>
