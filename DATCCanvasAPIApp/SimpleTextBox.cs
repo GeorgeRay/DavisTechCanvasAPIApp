@@ -6,7 +6,7 @@ namespace CanvasAPIApp
 {
    public partial class SimpleTextBox : Form
    {
-      public SimpleTextBox(string title, string resourseName)
+      public SimpleTextBox(string title, string resourceName)
       {
          InitializeComponent();
          Text = title; //set title text
