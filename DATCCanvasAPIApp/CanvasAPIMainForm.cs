@@ -31,12 +31,6 @@ namespace CanvasAPIApp
                 accessTokenForm.StartPosition = FormStartPosition.CenterScreen;
                 accessTokenForm.ShowDialog();
 
-                //asks for access token until one is provided. User should not be allowed to continue without a token
-                while (Properties.Settings.Default.CurrentAccessToken == "No Access Token" || Properties.Settings.Default.CurrentAccessToken == "")
-                {
-                    MessageBox.Show("You must provide an acess token.");
-                    accessTokenForm.ShowDialog();
-                }
             }
 
 
@@ -87,6 +81,9 @@ namespace CanvasAPIApp
                 tabPageModule.Controls.Add(moduleForm);
                 moduleForm.Visible = true;
 
+            //if access token has not been set, don't load grading queue
+            if ( ! (Properties.Settings.Default.CurrentAccessToken == "No Access Token" || Properties.Settings.Default.CurrentAccessToken == "")) //if default access token
+            {
                 //Load Grading Queue
                 GradingQueue gradingQueue = new GradingQueue();
 
@@ -96,8 +93,8 @@ namespace CanvasAPIApp
                 gradingQueue.Dock = DockStyle.Fill;
                 tabPageGradingQueue.Controls.Add(gradingQueue);
                 gradingQueue.Visible = true;
-            
 
+            }
 
 
             //if there is no user saved add the user, this is to update the user name in the properties if the user already saved the canvas access
@@ -134,6 +131,21 @@ namespace CanvasAPIApp
             accessTokenForm.StartPosition = FormStartPosition.CenterScreen;
             accessTokenForm.ShowDialog();
             Cursor.Current = Cursors.Default;
+
+            //loads grading queue if access token is set
+            if ( ! (Properties.Settings.Default.CurrentAccessToken == "No Access Token" || Properties.Settings.Default.CurrentAccessToken == ""))
+            {
+                //Load Grading Queue
+                GradingQueue gradingQueue = new GradingQueue();
+
+                //tab setup
+                gradingQueue.TopLevel = false;
+                gradingQueue.FormBorderStyle = FormBorderStyle.None;
+                gradingQueue.Dock = DockStyle.Fill;
+                tabPageGradingQueue.Controls.Add(gradingQueue);
+                gradingQueue.Visible = true;
+            }
+
         }
 
         //Open Current Profile form
