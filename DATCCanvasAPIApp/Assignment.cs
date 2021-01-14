@@ -23,6 +23,9 @@ namespace CanvasAPIApp
             this.workflow_state = workflow_state;
             this.speed_grader_url = speed_grader_url;
             this.grades_url = grades_url;
+
+
+
         }
     }
 }

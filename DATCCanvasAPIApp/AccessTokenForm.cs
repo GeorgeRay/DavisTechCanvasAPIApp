@@ -165,17 +165,6 @@ namespace CanvasAPIApp
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
-
-            //Update courseForm to current course
-            FormCollection fc = Application.OpenForms;
-            foreach (Form frm in fc)
-            {
-                if (frm.Name == "CoursesForm")
-                {
-                    (frm as CoursesForm).loadCourseLists();
-                    return;
-                }
-            }
         }//End Closing Form
     }
 }

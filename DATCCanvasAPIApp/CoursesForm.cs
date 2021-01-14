@@ -360,8 +360,7 @@ namespace CanvasAPIApp
 
         private void btnLoadCourses_Click(object sender, EventArgs e)
         { 
-            loadCourseLists();
-            btnLoadCourses.Enabled = false;
+            loadCourseLists();           
         }
     }
 }
