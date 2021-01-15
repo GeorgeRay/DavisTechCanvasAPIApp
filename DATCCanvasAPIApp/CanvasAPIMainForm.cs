@@ -23,21 +23,21 @@ namespace CanvasAPIApp
         //Loading Main form
         private void CanvasAPIMainForm_Load(object sender, EventArgs e)
         {
-            //If there is no token automaticly open settings
+
+          
+            //If there is no canvas token automatically open settings, this will generally only happen on the first opening. This is just a first time user check.
             if (Properties.Settings.Default.CurrentAccessToken == "No Access Token" || Properties.Settings.Default.CurrentAccessToken == "")
             {
                 accessTokenForm.StartPosition = FormStartPosition.CenterScreen;
                 accessTokenForm.ShowDialog();
-            }
-            //if there is no user saved add the user, this is to update the user name in the properties if the user already saved the canvas access
-            if(Properties.Settings.Default.AppUserName == "")
-            {
-                GeneralAPIGets getProfile = new GeneralAPIGets();
-                Properties.Settings.Default.AppUserName = getProfile.GetProfile("name");
+
             }
 
+
+            //loads main form components
+
             //Load assignment tab
-            AssignmentForm assignForm = new AssignmentForm("Create Assignement");
+            AssignmentForm assignForm = new AssignmentForm("Create Assignment");
             //tab setup
             assignForm.TopLevel = false;
             assignForm.FormBorderStyle = FormBorderStyle.None;
@@ -87,7 +87,7 @@ namespace CanvasAPIApp
             //tab setup
             gradingQueue.TopLevel = false;
             gradingQueue.FormBorderStyle = FormBorderStyle.None;
-            gradingQueue.Dock = DockStyle.Fill;            
+            gradingQueue.Dock = DockStyle.Fill;
             tabPageGradingQueue.Controls.Add(gradingQueue);
             gradingQueue.Visible = true;
 
@@ -97,7 +97,7 @@ namespace CanvasAPIApp
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
-        }//End Closing Main Applicaion
+        }//End Closing Main Application
 
         //Open Create Quiz Form
         private void createQuizToolStripMenuItem_Click(object sender, EventArgs e)
@@ -114,25 +114,27 @@ namespace CanvasAPIApp
             accessTokenForm.StartPosition = FormStartPosition.CenterScreen;
             accessTokenForm.ShowDialog();
             Cursor.Current = Cursors.Default;
+            //Load Grading Queue
+            GradingQueue gradingQueue = new GradingQueue();
+
+            //tab setup
+            gradingQueue.TopLevel = false;
+            gradingQueue.FormBorderStyle = FormBorderStyle.None;
+            gradingQueue.Dock = DockStyle.Fill;
+            tabPageGradingQueue.Controls.Add(gradingQueue);
+            gradingQueue.Visible = true;
+
+
         }
 
         //Open Current Profile form
         private void getCurrentProfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
-            {
                 Cursor.Current = Cursors.WaitCursor;
                 SimpleTextBox simpleTxbForm = new SimpleTextBox("Current Profile", "Current Profile");
                 simpleTxbForm.StartPosition = FormStartPosition.CenterScreen;
                 simpleTxbForm.ShowDialog();
-                Cursor.Current = Cursors.Default;
-            }
-            else
-            {
-                MessageBox.Show("Not logged in", "Authentication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
+                Cursor.Current = Cursors.Default;           
 
         }//End Open Current Profile Form
 

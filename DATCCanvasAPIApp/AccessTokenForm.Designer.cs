@@ -43,7 +43,7 @@
             // 
             // saveAccessToken
             // 
-            this.saveAccessToken.Location = new System.Drawing.Point(24, 463);
+            this.saveAccessToken.Location = new System.Drawing.Point(37, 466);
             this.saveAccessToken.Margin = new System.Windows.Forms.Padding(6);
             this.saveAccessToken.Name = "saveAccessToken";
             this.saveAccessToken.Size = new System.Drawing.Size(272, 62);
@@ -54,17 +54,17 @@
             // 
             // txbCurrentAccessToken
             // 
-            this.txbCurrentAccessToken.Location = new System.Drawing.Point(24, 410);
+            this.txbCurrentAccessToken.Location = new System.Drawing.Point(37, 407);
             this.txbCurrentAccessToken.Margin = new System.Windows.Forms.Padding(6);
             this.txbCurrentAccessToken.Name = "txbCurrentAccessToken";
-            this.txbCurrentAccessToken.Size = new System.Drawing.Size(736, 31);
+            this.txbCurrentAccessToken.Size = new System.Drawing.Size(1060, 31);
             this.txbCurrentAccessToken.TabIndex = 2;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(256, 348);
+            this.label2.Location = new System.Drawing.Point(30, 350);
             this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(218, 37);
@@ -75,7 +75,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(256, 109);
+            this.label3.Location = new System.Drawing.Point(30, 124);
             this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(292, 37);
@@ -84,15 +84,15 @@
             // 
             // txbWebsite
             // 
-            this.txbWebsite.Location = new System.Drawing.Point(24, 198);
+            this.txbWebsite.Location = new System.Drawing.Point(37, 198);
             this.txbWebsite.Margin = new System.Windows.Forms.Padding(6);
             this.txbWebsite.Name = "txbWebsite";
-            this.txbWebsite.Size = new System.Drawing.Size(736, 31);
+            this.txbWebsite.Size = new System.Drawing.Size(1060, 31);
             this.txbWebsite.TabIndex = 6;
             // 
             // btnSaveWebsite
             // 
-            this.btnSaveWebsite.Location = new System.Drawing.Point(24, 248);
+            this.btnSaveWebsite.Location = new System.Drawing.Point(37, 241);
             this.btnSaveWebsite.Margin = new System.Windows.Forms.Padding(6);
             this.btnSaveWebsite.Name = "btnSaveWebsite";
             this.btnSaveWebsite.Size = new System.Drawing.Size(272, 65);
@@ -103,7 +103,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(442, 463);
+            this.btnCancel.Location = new System.Drawing.Point(369, 463);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(6);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(322, 65);
@@ -115,20 +115,22 @@
             // lblCurrentUser
             // 
             this.lblCurrentUser.AutoSize = true;
-            this.lblCurrentUser.Location = new System.Drawing.Point(76, 40);
+            this.lblCurrentUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentUser.Location = new System.Drawing.Point(32, 58);
             this.lblCurrentUser.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblCurrentUser.Name = "lblCurrentUser";
-            this.lblCurrentUser.Size = new System.Drawing.Size(140, 25);
+            this.lblCurrentUser.Size = new System.Drawing.Size(209, 37);
             this.lblCurrentUser.TabIndex = 9;
             this.lblCurrentUser.Text = "Current User:";
             // 
             // lbxCurrentUser
             // 
             this.lbxCurrentUser.AutoSize = true;
-            this.lbxCurrentUser.Location = new System.Drawing.Point(258, 40);
+            this.lbxCurrentUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbxCurrentUser.Location = new System.Drawing.Point(253, 58);
             this.lbxCurrentUser.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lbxCurrentUser.Name = "lbxCurrentUser";
-            this.lbxCurrentUser.Size = new System.Drawing.Size(168, 25);
+            this.lbxCurrentUser.Size = new System.Drawing.Size(251, 37);
             this.lbxCurrentUser.TabIndex = 11;
             this.lbxCurrentUser.Text = "No User Loaded";
             // 
@@ -136,7 +138,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label1.Location = new System.Drawing.Point(111, 161);
+            this.label1.Location = new System.Drawing.Point(31, 161);
             this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(583, 31);
@@ -147,7 +149,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(788, 567);
+            this.ClientSize = new System.Drawing.Size(1234, 567);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lbxCurrentUser);
             this.Controls.Add(this.lblCurrentUser);
@@ -163,6 +165,7 @@
             this.Name = "AccessTokenForm";
             this.Text = "Access Token";
             this.Load += new System.EventHandler(this.AccessTokenForm_Load);
+            this.Shown += new System.EventHandler(this.AccessTokenForm_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

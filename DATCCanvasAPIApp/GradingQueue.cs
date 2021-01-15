@@ -18,8 +18,7 @@ namespace CanvasAPIApp
         private bool isChanging = false;
         private bool connectedToMongoDB = false;
         MongoClient mongoClient;
-        IMongoDatabase mongoDatabase;
-        String userName = Properties.Settings.Default.AppUserName;
+        IMongoDatabase mongoDatabase;      
 
         // priority flags
         List<string> priority1Flags = new List<string>()
@@ -35,21 +34,20 @@ namespace CanvasAPIApp
         List<string> priority3Flags = new List<string>()
         {
             "final",
-        };
-
-        //Set access token
-        string coursesAccessToken = "access_token=" + Properties.Settings.Default.CurrentAccessToken;
-        string instructureSiteURL = Properties.Settings.Default.InstructureSite;
+        };     
+      
         private bool mongoWarningshown = false;
 
         public GradingQueue()
         {
             InitializeComponent();
+            //Checking MongoDB has been set up
             if (Properties.Settings.Default.MongoDBDefaultDB != "")
             {
                 ConnectToMongoDB();
             }
             RefreshQueue();
+
         }
 
         public void ConnectToMongoDB()
@@ -107,7 +105,7 @@ namespace CanvasAPIApp
             //Clean up data remove anything in the database reserved by user that is no longer in the queue
             foreach (ReservedAssignment assignment in gradingReservedList)
             {
-                if (assignment.grader == userName)
+                if (assignment.grader == Properties.Settings.Default.AppUserName)
                 {
                     var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
                     var filter = Builders<BsonDocument>.Filter.Eq("_id", assignment._id);
@@ -144,7 +142,7 @@ namespace CanvasAPIApp
 
                     gradingDataGrid.Rows.Add(assignment.graded, assignment.priority, assignment.courseName,
                         assignment.assignment_name, assignment.submitted_at, assignment.workflow_state,
-                        assignment.speed_grader_url,assignment.grades_url);
+                        assignment.speed_grader_url, assignment.grades_url);
                 }
                 //default sorting on priority column 
                 if (sortByPriority == true)
@@ -201,9 +199,9 @@ namespace CanvasAPIApp
                 // get grading history
                 foreach (Course course in courseList)
                 {
-                    string endPoint = instructureSiteURL + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
+                    string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
                     var client = new RestClient(endPoint);
-                    var json = client.MakeRequest(coursesAccessToken);
+                    var json = client.MakeRequest("access_token=" + Properties.Settings.Default.CurrentAccessToken);
                     dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
                     if (jsonObj.Count > 0)
@@ -232,8 +230,8 @@ namespace CanvasAPIApp
                                 var assignment_name = Convert.ToString(assignment.name);
                                 var current_graded_at = Convert.ToString(submission.current_graded_at);
                                 var current_grader = Convert.ToString(submission.current_grader);
-                                var speed_grader_url = $"{instructureSiteURL}/courses/{course.CourseID}/gradebook/speed_grader?assignment_id={assignment_id}&student_id={user_id}";
-                                var grades_url = $"{instructureSiteURL}/courses/{course.CourseID}/grades/{user_id}";                            
+                                var speed_grader_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/gradebook/speed_grader?assignment_id={assignment_id}&student_id={user_id}";
+                                var grades_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/grades/{user_id}";
                                 var reserved = false;
                                 //assigning priority for sorting
                                 priority = assignPriority(assignment_name);
@@ -267,25 +265,29 @@ namespace CanvasAPIApp
                 List<Course> tempCourseList = new List<Course>();
 
                 // get jsonObj file
-                string endPoint = instructureSiteURL + "/api/v1/courses?enrollment_type=teacher&per_page=1000&include[]=needs_grading_count&";//Get endpoint
+                string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?enrollment_type=teacher&per_page=1000&include[]=needs_grading_count&";//Get endpoint
                 var client = new RestClient(endPoint);
-                var json = client.MakeRequest(coursesAccessToken);
-                dynamic jsonObj = JsonConvert.DeserializeObject(json);
-
-                foreach (var course in jsonObj)
+                var json = client.MakeRequest("access_token=" + Properties.Settings.Default.CurrentAccessToken);
+                //if request fails a empty string will be returned, resulting in a null object
+                if (json != "")
                 {
-                    var enrollments = course.enrollments;
-                    foreach (var enrollment in enrollments)
-                    {
+                    dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
-                        var needs_grading_count = Convert.ToInt32(course.needs_grading_count);
-                        if (needs_grading_count > 0)
+                    foreach (var course in jsonObj)
+                    {
+                        var enrollments = course.enrollments;
+                        foreach (var enrollment in enrollments)
                         {
-                            tempCourseList.Add(new Course(Convert.ToString(course.id), Convert.ToString(course.name)));
+
+                            var needs_grading_count = Convert.ToInt32(course.needs_grading_count);
+                            if (needs_grading_count > 0)
+                            {
+                                tempCourseList.Add(new Course(Convert.ToString(course.id), Convert.ToString(course.name)));
+                            }
+
                         }
 
                     }
-
                 }
                 return tempCourseList;
             });
@@ -294,7 +296,7 @@ namespace CanvasAPIApp
         private async void cbxAutoRefresh_CheckedChanged(object sender, EventArgs e)
         {
             if (cbxAutoRefresh.Checked)
-            {                
+            {
                 await RefreshQueue();
                 nudSeconds.Enabled = true;
                 timerRefreshQueue.Interval = Convert.ToInt32(nudSeconds.Value) * 1000;
@@ -302,7 +304,7 @@ namespace CanvasAPIApp
 
             }
             else
-            {               
+            {
                 nudSeconds.Enabled = false;
                 timerRefreshQueue.Stop();
             }
@@ -384,10 +386,17 @@ namespace CanvasAPIApp
                                 catch (MongoDB.Driver.MongoWriteException writeException)
                                 {
                                     //Make call for URL
-                                    var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
-                                    var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
-                                    var grader = conflictDocument.GetElement("grader");
-                                    MessageBox.Show($"This assignment was reserved by {grader.Value}");
+                                    if (writeException.WriteError.Category == ServerErrorCategory.DuplicateKey)
+                                    {
+                                        var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
+                                        var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
+                                        var grader = conflictDocument.GetElement("grader");
+                                        MessageBox.Show($"This assignment was reserved by {grader.Value}");
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show($"There was a MongoDB write error {writeException.Message}");
+                                    }
                                 }
                             }
                         }
@@ -406,7 +415,7 @@ namespace CanvasAPIApp
                     Process.Start(url);
                 }
             }
-            
+
 
         }
 

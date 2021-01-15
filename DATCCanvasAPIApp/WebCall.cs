@@ -2,6 +2,8 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Windows.Forms;
+using System.Net.Http;
 
 //Declare Enumeration
 public enum HttpVerb
@@ -62,26 +64,28 @@ namespace CanvasAPIApp
 
         public string MakeRequest(string parameters)
         {
-            
-            
-                var request = (HttpWebRequest)WebRequest.Create(EndPoint + parameters);
-                request.Method = Method.ToString();
-                request.ContentLength = 0;
-                request.ContentType = ContentType;
 
 
-                if (!string.IsNullOrEmpty(PostData) && Method == HttpVerb.POST)
+            var request = (HttpWebRequest)WebRequest.Create(EndPoint + parameters);
+            request.Method = Method.ToString();
+            request.ContentLength = 0;
+            request.ContentType = ContentType;
+
+
+            if (!string.IsNullOrEmpty(PostData) && Method == HttpVerb.POST)
+            {
+                var encoding = new UTF8Encoding();
+                var bytes = Encoding.GetEncoding("iso-8859-1").GetBytes(PostData);
+                request.ContentLength = bytes.Length;
+
+                using (var writeStream = request.GetRequestStream())
                 {
-                    var encoding = new UTF8Encoding();
-                    var bytes = Encoding.GetEncoding("iso-8859-1").GetBytes(PostData);
-                    request.ContentLength = bytes.Length;
-
-                    using (var writeStream = request.GetRequestStream())
-                    {
-                        writeStream.Write(bytes, 0, bytes.Length);
-                    }
+                    writeStream.Write(bytes, 0, bytes.Length);
                 }
+            }
 
+            try
+            {
                 using (var response = (HttpWebResponse)request.GetResponse())
                 {
                     var responseValue = string.Empty;
@@ -100,12 +104,19 @@ namespace CanvasAPIApp
                             {
                                 responseValue = reader.ReadToEnd();
                             }
-                    
 
-                    return responseValue;
+
+                        return responseValue;
+                    }
                 }
             }
-            
+            catch (WebException e)
+            {
+                WebResponse response = e.Response;
+                MessageBox.Show($"Request Error: \n{e.Message}");
+                return "";
+            }
+
         }//End Make Request.  Code was used http://www.codeproject.com/Tips/497123/How-to-make-REST-requests-with-Csharp
 
         //Method for assignment call due to different status parameters
@@ -116,7 +127,7 @@ namespace CanvasAPIApp
             request.Method = Method.ToString();
             request.ContentLength = 0;
             request.ContentType = ContentType;
-         
+
 
             if (!string.IsNullOrEmpty(PostData) && Method == HttpVerb.POST)
             {
@@ -141,16 +152,25 @@ namespace CanvasAPIApp
                 }
 
                 // grab the response
-                using (var responseStream = response.GetResponseStream())
+                try
                 {
-                    if (responseStream != null)
-                        using (var reader = new StreamReader(responseStream))
-                        {
-                            responseValue = reader.ReadToEnd();
-                        }
+                    using (var responseStream = response.GetResponseStream())
+                    {
+                        if (responseStream != null)
+                            using (var reader = new StreamReader(responseStream))
+                            {
+                                responseValue = reader.ReadToEnd();
+                            }
+                    }
+
+                    return responseValue;
+                }
+                catch (WebException e)
+                {
+                    MessageBox.Show($"Request Error: \n{e.Message}");
+                    return "";
                 }
 
-                return responseValue;
             }
         }//End Make Request.  Code was used http://www.codeproject.com/Tips/497123/How-to-make-REST-requests-with-Csharp
 
