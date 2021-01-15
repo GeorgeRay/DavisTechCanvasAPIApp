@@ -23,9 +23,9 @@ namespace CanvasAPIApp
         //Loading Main form
         private void CanvasAPIMainForm_Load(object sender, EventArgs e)
         {
-           
 
-            //If there is no token automaticly open settings
+          
+            //If there is no canvas token automatically open settings, this will generally only happen on the first opening. This is just a first time user check.
             if (Properties.Settings.Default.CurrentAccessToken == "No Access Token" || Properties.Settings.Default.CurrentAccessToken == "")
             {
                 accessTokenForm.StartPosition = FormStartPosition.CenterScreen;
@@ -36,77 +36,60 @@ namespace CanvasAPIApp
 
             //loads main form components
 
-                //Load assignment tab
-                AssignmentForm assignForm = new AssignmentForm("Create Assignement");
-                //tab setup
-                assignForm.TopLevel = false;
-                assignForm.FormBorderStyle = FormBorderStyle.None;
-                assignForm.Dock = DockStyle.Fill;
-                tabPageAssign.Controls.Add(assignForm);
-                assignForm.Visible = true;
+            //Load assignment tab
+            AssignmentForm assignForm = new AssignmentForm("Create Assignment");
+            //tab setup
+            assignForm.TopLevel = false;
+            assignForm.FormBorderStyle = FormBorderStyle.None;
+            assignForm.Dock = DockStyle.Fill;
+            tabPageAssign.Controls.Add(assignForm);
+            assignForm.Visible = true;
 
-                //Load quiz form
-                QuizForm quizForm = new QuizForm("Create Quiz", "Create Quiz");
-                //tab setup
-                quizForm.TopLevel = false;
-                quizForm.FormBorderStyle = FormBorderStyle.None;
-                quizForm.Dock = DockStyle.Fill;
-                tabPageQuiz.Controls.Add(quizForm);
-                quizForm.Visible = true;
+            //Load quiz form
+            QuizForm quizForm = new QuizForm("Create Quiz", "Create Quiz");
+            //tab setup
+            quizForm.TopLevel = false;
+            quizForm.FormBorderStyle = FormBorderStyle.None;
+            quizForm.Dock = DockStyle.Fill;
+            tabPageQuiz.Controls.Add(quizForm);
+            quizForm.Visible = true;
 
-                //Load pages form
-                PagesForm pageForm = new PagesForm();
-                //tab setup
-                pageForm.TopLevel = false;
-                pageForm.FormBorderStyle = FormBorderStyle.None;
-                pageForm.Dock = DockStyle.Fill;
-                tabPagePages.Controls.Add(pageForm);
-                pageForm.Visible = true;
+            //Load pages form
+            PagesForm pageForm = new PagesForm();
+            //tab setup
+            pageForm.TopLevel = false;
+            pageForm.FormBorderStyle = FormBorderStyle.None;
+            pageForm.Dock = DockStyle.Fill;
+            tabPagePages.Controls.Add(pageForm);
+            pageForm.Visible = true;
 
-                //Load courses form
-                CoursesForm coursesForm = new CoursesForm();
-                //tab setup
-                coursesForm.TopLevel = false;
-                coursesForm.FormBorderStyle = FormBorderStyle.None;
-                coursesForm.Dock = DockStyle.Fill;
-                tabPageCourses.Controls.Add(coursesForm);
-                coursesForm.Visible = true;
+            //Load courses form
+            CoursesForm coursesForm = new CoursesForm();
+            //tab setup
+            coursesForm.TopLevel = false;
+            coursesForm.FormBorderStyle = FormBorderStyle.None;
+            coursesForm.Dock = DockStyle.Fill;
+            tabPageCourses.Controls.Add(coursesForm);
+            coursesForm.Visible = true;
 
-                //Load Module form
-                ModuleForm moduleForm = new ModuleForm();
-                //tab setup
-                moduleForm.TopLevel = false;
-                moduleForm.FormBorderStyle = FormBorderStyle.None;
-                moduleForm.Dock = DockStyle.Fill;
-                tabPageModule.Controls.Add(moduleForm);
-                moduleForm.Visible = true;
+            //Load Module form
+            ModuleForm moduleForm = new ModuleForm();
+            //tab setup
+            moduleForm.TopLevel = false;
+            moduleForm.FormBorderStyle = FormBorderStyle.None;
+            moduleForm.Dock = DockStyle.Fill;
+            tabPageModule.Controls.Add(moduleForm);
+            moduleForm.Visible = true;
 
-            //if access token has not been set, don't load grading queue
-            if ( ! (Properties.Settings.Default.CurrentAccessToken == "No Access Token" || Properties.Settings.Default.CurrentAccessToken == "")) //if default access token
-            {
-                //Load Grading Queue
-                GradingQueue gradingQueue = new GradingQueue();
+            //Load Grading Queue
+            GradingQueue gradingQueue = new GradingQueue();
 
-                //tab setup
-                gradingQueue.TopLevel = false;
-                gradingQueue.FormBorderStyle = FormBorderStyle.None;
-                gradingQueue.Dock = DockStyle.Fill;
-                tabPageGradingQueue.Controls.Add(gradingQueue);
-                gradingQueue.Visible = true;
-
-            }
-
-
-            //if there is no user saved add the user, this is to update the user name in the properties if the user already saved the canvas access
-            if (Properties.Settings.Default.AppUserName == "")
-            {
-                GeneralAPIGets getProfile = new GeneralAPIGets();
-                Properties.Settings.Default.AppUserName = getProfile.GetProfile("name");
-            }
-
-            //only loads the main form if an access token has been provided
-            
-
+            //tab setup
+            gradingQueue.TopLevel = false;
+            gradingQueue.FormBorderStyle = FormBorderStyle.None;
+            gradingQueue.Dock = DockStyle.Fill;
+            tabPageGradingQueue.Controls.Add(gradingQueue);
+            gradingQueue.Visible = true;
 
         }//End Main Form Loading
 
@@ -114,7 +97,7 @@ namespace CanvasAPIApp
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
-        }//End Closing Main Applicaion
+        }//End Closing Main Application
 
         //Open Create Quiz Form
         private void createQuizToolStripMenuItem_Click(object sender, EventArgs e)
@@ -131,40 +114,27 @@ namespace CanvasAPIApp
             accessTokenForm.StartPosition = FormStartPosition.CenterScreen;
             accessTokenForm.ShowDialog();
             Cursor.Current = Cursors.Default;
+            //Load Grading Queue
+            GradingQueue gradingQueue = new GradingQueue();
 
-            //loads grading queue if access token is set
-            if ( ! (Properties.Settings.Default.CurrentAccessToken == "No Access Token" || Properties.Settings.Default.CurrentAccessToken == ""))
-            {
-                //Load Grading Queue
-                GradingQueue gradingQueue = new GradingQueue();
+            //tab setup
+            gradingQueue.TopLevel = false;
+            gradingQueue.FormBorderStyle = FormBorderStyle.None;
+            gradingQueue.Dock = DockStyle.Fill;
+            tabPageGradingQueue.Controls.Add(gradingQueue);
+            gradingQueue.Visible = true;
 
-                //tab setup
-                gradingQueue.TopLevel = false;
-                gradingQueue.FormBorderStyle = FormBorderStyle.None;
-                gradingQueue.Dock = DockStyle.Fill;
-                tabPageGradingQueue.Controls.Add(gradingQueue);
-                gradingQueue.Visible = true;
-            }
 
         }
 
         //Open Current Profile form
         private void getCurrentProfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
-            {
                 Cursor.Current = Cursors.WaitCursor;
                 SimpleTextBox simpleTxbForm = new SimpleTextBox("Current Profile", "Current Profile");
                 simpleTxbForm.StartPosition = FormStartPosition.CenterScreen;
                 simpleTxbForm.ShowDialog();
-                Cursor.Current = Cursors.Default;
-            }
-            else
-            {
-                MessageBox.Show("Not logged in", "Authentication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
+                Cursor.Current = Cursors.Default;           
 
         }//End Open Current Profile Form
 

@@ -45,11 +45,13 @@ namespace CanvasAPIApp
         public GradingQueue()
         {
             InitializeComponent();
+            //Checking MongoDB has been set up
             if (Properties.Settings.Default.MongoDBDefaultDB != "")
             {
                 ConnectToMongoDB();
             }
             RefreshQueue();
+
         }
 
         public void ConnectToMongoDB()
@@ -144,7 +146,7 @@ namespace CanvasAPIApp
 
                     gradingDataGrid.Rows.Add(assignment.graded, assignment.priority, assignment.courseName,
                         assignment.assignment_name, assignment.submitted_at, assignment.workflow_state,
-                        assignment.speed_grader_url,assignment.grades_url);
+                        assignment.speed_grader_url, assignment.grades_url);
                 }
                 //default sorting on priority column 
                 if (sortByPriority == true)
@@ -233,7 +235,7 @@ namespace CanvasAPIApp
                                 var current_graded_at = Convert.ToString(submission.current_graded_at);
                                 var current_grader = Convert.ToString(submission.current_grader);
                                 var speed_grader_url = $"{instructureSiteURL}/courses/{course.CourseID}/gradebook/speed_grader?assignment_id={assignment_id}&student_id={user_id}";
-                                var grades_url = $"{instructureSiteURL}/courses/{course.CourseID}/grades/{user_id}";                            
+                                var grades_url = $"{instructureSiteURL}/courses/{course.CourseID}/grades/{user_id}";
                                 var reserved = false;
                                 //assigning priority for sorting
                                 priority = assignPriority(assignment_name);
@@ -270,22 +272,26 @@ namespace CanvasAPIApp
                 string endPoint = instructureSiteURL + "/api/v1/courses?enrollment_type=teacher&per_page=1000&include[]=needs_grading_count&";//Get endpoint
                 var client = new RestClient(endPoint);
                 var json = client.MakeRequest(coursesAccessToken);
-                dynamic jsonObj = JsonConvert.DeserializeObject(json);
-
-                foreach (var course in jsonObj)
+                //if request fails a empty string will be returned, resulting in a null object
+                if (json != "")
                 {
-                    var enrollments = course.enrollments;
-                    foreach (var enrollment in enrollments)
-                    {
+                    dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
-                        var needs_grading_count = Convert.ToInt32(course.needs_grading_count);
-                        if (needs_grading_count > 0)
+                    foreach (var course in jsonObj)
+                    {
+                        var enrollments = course.enrollments;
+                        foreach (var enrollment in enrollments)
                         {
-                            tempCourseList.Add(new Course(Convert.ToString(course.id), Convert.ToString(course.name)));
+
+                            var needs_grading_count = Convert.ToInt32(course.needs_grading_count);
+                            if (needs_grading_count > 0)
+                            {
+                                tempCourseList.Add(new Course(Convert.ToString(course.id), Convert.ToString(course.name)));
+                            }
+
                         }
 
                     }
-
                 }
                 return tempCourseList;
             });
@@ -294,7 +300,7 @@ namespace CanvasAPIApp
         private async void cbxAutoRefresh_CheckedChanged(object sender, EventArgs e)
         {
             if (cbxAutoRefresh.Checked)
-            {                
+            {
                 await RefreshQueue();
                 nudSeconds.Enabled = true;
                 timerRefreshQueue.Interval = Convert.ToInt32(nudSeconds.Value) * 1000;
@@ -302,7 +308,7 @@ namespace CanvasAPIApp
 
             }
             else
-            {               
+            {
                 nudSeconds.Enabled = false;
                 timerRefreshQueue.Stop();
             }
@@ -384,10 +390,17 @@ namespace CanvasAPIApp
                                 catch (MongoDB.Driver.MongoWriteException writeException)
                                 {
                                     //Make call for URL
-                                    var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
-                                    var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
-                                    var grader = conflictDocument.GetElement("grader");
-                                    MessageBox.Show($"This assignment was reserved by {grader.Value}");
+                                    if (writeException.WriteError.Category == ServerErrorCategory.DuplicateKey)
+                                    {
+                                        var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
+                                        var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
+                                        var grader = conflictDocument.GetElement("grader");
+                                        MessageBox.Show($"This assignment was reserved by {grader.Value}");
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show($"There was a MongoDB write error {writeException.Message}");
+                                    }
                                 }
                             }
                         }
@@ -406,7 +419,7 @@ namespace CanvasAPIApp
                     Process.Start(url);
                 }
             }
-            
+
 
         }
 

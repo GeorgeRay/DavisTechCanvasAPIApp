@@ -64,10 +64,8 @@ namespace CanvasAPIApp
             coursesAccessToken = "access_token=" + Properties.Settings.Default.CurrentAccessToken;
             CanvasAPIMainForm.GlobalCourseID = 1;
             try
-            {  //Ensure if there is active token
-                if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
-                {
-                    //Setting wait curser
+            {  
+                    //Setting wait cursor
                     Cursor.Current = Cursors.WaitCursor;
 
                     //Make Call to get user name
@@ -161,7 +159,7 @@ namespace CanvasAPIApp
                     removeFromCourse.Enabled = false;
                     courseDataGridView.Sort(courseDataGridView.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
                     courseDataGridView.ClearSelection();
-                }
+                
             } //end try
             catch (Exception apiException)
             {
