@@ -171,9 +171,40 @@ namespace CanvasAPIApp
         {
             //Clear columns
             courseStudentsGrid.Columns.Clear();
+
+            //local function to determine current user's role in a specific course
+            bool amITeacher(string courseId)
+            {
+                string roleEndPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + courseId + "/?";//Get endpoint for role
+                var roleClient = new RestClient(roleEndPoint);
+                Console.Out.WriteLine(roleEndPoint);
+                var roleJson = roleClient.MakeRequest(coursesAccessToken);
+                dynamic roleJsonObj = JsonConvert.DeserializeObject(roleJson);
+
+                foreach (var v in roleJsonObj.enrollments)
+                {
+                    if (v.type == "teacher")
+                        return true;
+                }
+
+                //else return false
+                return false;
+            }
+
             //Get list of students for course selected
             try
             {
+                //sets role
+                bool isTeacher = amITeacher(CanvasAPIMainForm.GlobalCourseID.ToString());
+                if (isTeacher)
+                    courseRole.Text = "Role: Teacher";
+                else
+                    courseRole.Text = "Role: Student";
+                //
+
+
+
+
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/users?per_page=1000&";//Get endpoint
                 var client = new RestClient(endPoint);
                 var json = client.MakeRequest(coursesAccessToken);
