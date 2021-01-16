@@ -172,7 +172,7 @@ namespace CanvasAPIApp
             //Clear columns
             courseStudentsGrid.Columns.Clear();
 
-            //local function to determine current user's role in a specific course
+            //local function returns if current user is a teacher for specified class
             bool amITeacher(string courseId)
             {
                 string roleEndPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + courseId + "/?";//Get endpoint for role
@@ -196,6 +196,7 @@ namespace CanvasAPIApp
             {
                 //gets role for course selected:
                 bool isTeacher = amITeacher(CanvasAPIMainForm.GlobalCourseID.ToString());
+
                 if (isTeacher)
                     courseRole.Text = "Role: Teacher";
                 else
@@ -205,7 +206,6 @@ namespace CanvasAPIApp
 
 
                 //Get list of students for course selected:
-
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/users?per_page=1000&";//Get endpoint
                 var client = new RestClient(endPoint);
                 var json = client.MakeRequest(coursesAccessToken);
