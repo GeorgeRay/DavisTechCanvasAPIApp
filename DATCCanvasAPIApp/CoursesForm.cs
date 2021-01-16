@@ -191,10 +191,10 @@ namespace CanvasAPIApp
                 return false;
             }
 
-            //Get list of students for course selected
+            
             try
             {
-                //sets role
+                //gets role for course selected:
                 bool isTeacher = amITeacher(CanvasAPIMainForm.GlobalCourseID.ToString());
                 if (isTeacher)
                     courseRole.Text = "Role: Teacher";
@@ -204,6 +204,7 @@ namespace CanvasAPIApp
 
 
 
+                //Get list of students for course selected:
 
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/users?per_page=1000&";//Get endpoint
                 var client = new RestClient(endPoint);
