@@ -20,21 +20,177 @@ namespace CanvasAPIApp
         MongoClient mongoClient;
         IMongoDatabase mongoDatabase;
 
-        // priority flags
-        List<string> priority1Flags = new List<string>()
+
+        public class PrioritySettings
         {
-            "instructor meeting",
-            "completion",
-            "cisco networking academy account setup",
-        };
-        List<string> priority2Flags = new List<string>()
-        {
-            "pacific trails",
-        };
-        List<string> priority3Flags = new List<string>()
-        {
-            "final",
-        };
+
+            public List<string> priority1Flags { get; set; } = new List<string>();
+
+            public List<string> priority2Flags { get; set; } = new List<string>();
+
+            public List<string> priority3Flags { get; set; } = new List<string>();
+
+            //clears lists
+            public void ClearPriorityList(int num=0)
+            {
+                switch (num)
+                {
+                    case 1:
+                        priority1Flags.Clear();
+                        break;
+                    case 2:
+                        priority2Flags.Clear();
+                        break;
+                    case 3:
+                        priority3Flags.Clear();
+                        break;
+                    case 0:
+                        ClearPriorityList(1);
+                        ClearPriorityList(2);
+                        ClearPriorityList(3);
+                        break;
+
+                    default:break;
+
+                }
+                
+            }
+
+            //returns whether settings have been set
+            public static bool IsSet()
+            {
+                if (Properties.Settings.Default.Priority1Flags == "" && Properties.Settings.Default.Priority2Flags == "" && Properties.Settings.Default.Priority3Flags == "")
+                    return false;
+                else
+                    return true;
+            }
+
+            //sets priority list with a string, separated by commas
+            public void SetPriorityString(string priString, int num)
+            {
+                ClearPriorityList(num);
+
+                string[] ps = priString.Split(',');
+
+                for (int i = 0; i < ps.Length; i++)
+                {
+                    ps[i] = ps[i].Trim(' ');
+                    ps[i] = ps[i].Trim(',');
+
+                }
+
+                
+
+
+                switch (num)
+                {
+                    case 1:
+                        for (int i = 0; i < ps.Length; i++)
+                            priority1Flags.Add(ps[i]);
+                        
+                        break;
+
+                    case 2:
+                        for (int i = 0; i < ps.Length; i++)
+                            priority2Flags.Add(ps[i]);
+                        break;
+
+                    case 3:
+                        for (int i = 0; i < ps.Length; i++)
+                            priority3Flags.Add(ps[i]);
+                        break;
+                }
+
+            }
+
+            //returns priority list separated with commas
+            public string GetPriorityString(int num)
+            {
+                
+                string st = "";
+
+                switch(num)
+                {
+                    case 1:
+                        foreach (string s in priority1Flags)
+                        {
+                            st += $"{s}, ";
+                        }
+                        break;
+
+                    case 2:
+                        foreach (string s in priority2Flags)
+                        {
+                            st += $"{s}, ";
+                        }
+                        break;
+
+                    case 3:
+                        foreach (string s in priority3Flags)
+                        {
+                            st += $"{s}, ";
+                        }
+                        break;
+
+                    default: break;
+                }
+                st = st.Trim(' ');
+                st = st.Trim(',');
+                st = st.Trim(' ');
+                return st;
+            }
+
+            //sets default settings (then calls saveSettings())
+            public void SetDefaults()
+            {
+                priority1Flags.Add("instructor meeting");
+                priority1Flags.Add("completion");
+                priority1Flags.Add("cisco networking academy account setup");
+
+                priority2Flags.Add("pacific trails");
+
+                priority3Flags.Add("final");
+
+                SaveSettings();
+                
+            }
+
+            //loads settings from properties
+            public void LoadSettings()
+            {
+                string p1 = Properties.Settings.Default.Priority1Flags;
+                System.Console.WriteLine("loading: " + p1);
+                SetPriorityString(p1, 1);
+
+                string p2 = Properties.Settings.Default.Priority2Flags;
+                SetPriorityString(p2, 2);
+
+                string p3 = Properties.Settings.Default.Priority3Flags;
+                SetPriorityString(p3, 3);
+
+            }
+
+            //saves settings to properties
+            public void SaveSettings()
+            {
+                string settingsString1 = GetPriorityString(1);
+                System.Console.WriteLine("saving: " + settingsString1);
+                string settingsString2 = GetPriorityString(2);
+                string settingsString3 = GetPriorityString(3);
+
+
+                Properties.Settings.Default.Priority1Flags = settingsString1;
+                Properties.Settings.Default.Priority2Flags = settingsString2;
+                Properties.Settings.Default.Priority3Flags = settingsString3;
+
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        public static PrioritySettings prioritySettings;
+
+
+
 
         private bool mongoWarningshown = false;
 
@@ -75,7 +231,15 @@ namespace CanvasAPIApp
 
         private void GradingQueue_Load(object sender, EventArgs e)
         {
+            prioritySettings = new PrioritySettings();
 
+            if (! PrioritySettings.IsSet())
+            {
+                prioritySettings.SetDefaults();
+            }else
+            {
+                prioritySettings.LoadSettings();
+            }
         }
 
         private async Task RefreshQueue()
@@ -174,11 +338,11 @@ namespace CanvasAPIApp
         private int assignPriority(string assignmentName)
         {
             // check if name contains any flag and return priority
-            if (priority1Flags.Any(flag => assignmentName.ToLower().Contains(flag.ToLower())))
+            if (prioritySettings.priority1Flags.Any(flag => assignmentName.ToLower().Contains(flag.ToLower())))
                 return 1;
-            else if (priority2Flags.Any(flag => assignmentName.ToLower().Contains(flag.ToLower())))
+            else if (prioritySettings.priority2Flags.Any(flag => assignmentName.ToLower().Contains(flag.ToLower())))
                 return 2;
-            else if (priority3Flags.Any(flag => assignmentName.ToLower().Contains(flag.ToLower())))
+            else if (prioritySettings.priority3Flags.Any(flag => assignmentName.ToLower().Contains(flag.ToLower())))
                 return 3;
             else
                 return 4;
@@ -479,6 +643,17 @@ namespace CanvasAPIApp
             public string _id { get; set; }
             public string grader { get; set; }
             public string reserved_at { get; set; }
+        }
+
+        private async void btnPrioritySettings_Click(object sender, EventArgs e)
+        {
+
+            GradingQueuePriorityForm gradingQueuePriorityForm = new GradingQueuePriorityForm();
+            gradingQueuePriorityForm.ShowDialog();
+
+            
+
+            await RefreshQueue();
         }
     }
 }

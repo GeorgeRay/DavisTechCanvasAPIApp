@@ -158,6 +158,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EncryptAccessToken.cs" />
+    <Compile Include="GradingQueuePriorityForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GradingQueuePriorityForm.Designer.cs">
+      <DependentUpon>GradingQueuePriorityForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MongoDBForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -236,6 +242,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CoursesForm.resx">
       <DependentUpon>CoursesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GradingQueuePriorityForm.resx">
+      <DependentUpon>GradingQueuePriorityForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MongoDBForm.resx">
       <DependentUpon>MongoDBForm.cs</DependentUpon>
