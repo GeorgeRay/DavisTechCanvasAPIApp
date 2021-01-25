@@ -540,7 +540,12 @@ namespace CanvasAPIApp
             {
                 string json = Properties.Settings.Default.PriorityFlags;
 
-                SetPrioritiesJson(json);
+                if(json == "")
+                {
+
+                }
+                else
+                    SetPrioritiesJson(json);
 
             }
 
