@@ -53,7 +53,7 @@ namespace CanvasAPIApp
 
                     if (row.Cells[0].Value == null || row.Cells[1].Value == null || row.Cells[0].Value.ToString() == "" || row.Cells[1].Value.ToString() == "")
                     {
-                        Console.WriteLine("asdfasdf");
+                        
                         throw new Exception("Values and priorites must be set.");
                     }
                     
