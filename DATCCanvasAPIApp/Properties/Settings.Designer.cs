@@ -123,36 +123,12 @@ namespace CanvasAPIApp.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Priority1Flags {
+        public string PriorityFlags {
             get {
-                return ((string)(this["Priority1Flags"]));
+                return ((string)(this["PriorityFlags"]));
             }
             set {
-                this["Priority1Flags"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Priority2Flags {
-            get {
-                return ((string)(this["Priority2Flags"]));
-            }
-            set {
-                this["Priority2Flags"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Priority3Flags {
-            get {
-                return ((string)(this["Priority3Flags"]));
-            }
-            set {
-                this["Priority3Flags"] = value;
+                this["PriorityFlags"] = value;
             }
         }
     }

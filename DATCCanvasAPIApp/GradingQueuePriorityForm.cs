@@ -19,11 +19,20 @@ namespace CanvasAPIApp
 
         private void GradingQueuePriorityForm_Load(object sender, EventArgs e)
         {
+
+            List<KeyValuePair<int, string>> flags = GradingQueue.prioritySettings.priorityFlags;
+
+
             
-            txtP1.Text = GradingQueue.prioritySettings.GetPriorityString(1);
-            txtP2.Text = GradingQueue.prioritySettings.GetPriorityString(2);
-            txtP3.Text = GradingQueue.prioritySettings.GetPriorityString(3);
+
+            foreach (KeyValuePair<int, string> flag in flags)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                dgvPriority.Rows.Add(new object[] {flag.Value, flag.Key.ToString() });
+            }
+
         }
+
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -33,20 +42,39 @@ namespace CanvasAPIApp
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            string p1 = txtP1.Text;
-            string p2 = txtP2.Text;
-            string p3 = txtP3.Text;
+            try
+            {
+                List<KeyValuePair<int, string>> flags = new List<KeyValuePair<int, string>>();
 
-            GradingQueue.prioritySettings.SetPriorityString(p1, 1);
-            GradingQueue.prioritySettings.SetPriorityString(p2, 2);
-            GradingQueue.prioritySettings.SetPriorityString(p3, 3);
+                for (int i = 0; i < dgvPriority.Rows.Count - 1; i++)
+                {
 
-            GradingQueue.prioritySettings.SaveSettings();
+                    DataGridViewRow row = dgvPriority.Rows[i];
 
-            MessageBox.Show("Your priority settings have been updated.");
+                    if (row.Cells[0].Value == null || row.Cells[1].Value == null || row.Cells[0].Value.ToString() == "" || row.Cells[1].Value.ToString() == "")
+                    {
+                        Console.WriteLine("asdfasdf");
+                        throw new Exception("Values and priorites must be set.");
+                    }
+                    
+                    KeyValuePair<int, string> flag = new KeyValuePair<int, string>(int.Parse(row.Cells[1].Value.ToString()), row.Cells[0].Value.ToString());
 
-            this.Close();
-            this.Dispose();
+                    flags.Add(flag);
+                }
+
+                GradingQueue.prioritySettings.priorityFlags = flags;
+
+                GradingQueue.prioritySettings.SaveSettings();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show($"Error - {exc.Message}");
+            }
+            finally
+            {
+                this.Close();
+                this.Dispose();
+            }
         }
     }
 }
