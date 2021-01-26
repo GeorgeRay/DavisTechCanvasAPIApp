@@ -23,12 +23,10 @@ namespace CanvasAPIApp
         private void GradingQueuePriorityForm_Load(object sender, EventArgs e)
         {
             
-
+            
             menuItemDefaultPriority.Text = Properties.Settings.Default.DefaultPriority.ToString();
 
             List<KeyValuePair<int, string>> flags = GradingQueue.prioritySettings.priorityFlags;
-
-
             
             //fills data grid with each priority
             foreach (KeyValuePair<int, string> flag in flags)
@@ -36,8 +34,7 @@ namespace CanvasAPIApp
                 DataGridViewRow row = new DataGridViewRow();
                 dgvPriority.Rows.Add(new object[] {flag.Value, flag.Key.ToString() });
             }
-
-        }
+        }//end on load
 
         //cancel button
         private void btnCancel_Click(object sender, EventArgs e)
@@ -82,7 +79,7 @@ namespace CanvasAPIApp
                 this.Close();
                 this.Dispose();
             }
-        }
+        }//end accept button
 
         //delete button
         private void btnDeleteSelected_Click(object sender, EventArgs e)
@@ -103,9 +100,8 @@ namespace CanvasAPIApp
             if (control != null)
                 control.DroppedDown = true;
         }
-
         
-
+        //menu item: Options>Default priority
         private void menuItemDefaultPriority_SelectedIndexChanged(object sender, EventArgs e)
         {
             GradingQueue.defaultPriority = int.Parse( menuItemDefaultPriority.Text.ToString());

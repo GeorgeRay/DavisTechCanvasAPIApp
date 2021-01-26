@@ -21,11 +21,8 @@ namespace CanvasAPIApp
         IMongoDatabase mongoDatabase;
 
 
-        
-
         public static PrioritySettings prioritySettings = new PrioritySettings();
         public static int defaultPriority { get; set; }
-
 
 
         private bool mongoWarningshown = false;
@@ -39,7 +36,6 @@ namespace CanvasAPIApp
                 ConnectToMongoDB();
             }
             RefreshQueue();
-
         }
 
         public void ConnectToMongoDB()
@@ -182,9 +178,7 @@ namespace CanvasAPIApp
             }
 
             //otherwise return the set default 
-            return 5;
-
-           
+            return defaultPriority;
         }
 
         private Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
@@ -258,7 +252,6 @@ namespace CanvasAPIApp
                     }
 
 
-
                 }
                 return ungradedAssignmentList;
             });
@@ -325,7 +318,6 @@ namespace CanvasAPIApp
         {
             await RefreshQueue();
         }
-
 
         private void gradingDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -425,7 +417,6 @@ namespace CanvasAPIApp
                 }
             }
 
-
         }
 
         // filters ungradedAssignmentList by courseName property
@@ -471,7 +462,6 @@ namespace CanvasAPIApp
 
         private class ReservedAssignment
         {
-
             public ReservedAssignment(string url, string grader, string reserved_at)
             {
                 this._id = url;
@@ -486,12 +476,10 @@ namespace CanvasAPIApp
 
         private async void btnPrioritySettings_Click(object sender, EventArgs e)
         {
-
             GradingQueuePriorityForm gradingQueuePriorityForm = new GradingQueuePriorityForm();
             gradingQueuePriorityForm.StartPosition = FormStartPosition.CenterScreen;
             gradingQueuePriorityForm.ShowDialog();
 
-            
 
             await RefreshQueue();
         }
@@ -515,7 +503,6 @@ namespace CanvasAPIApp
                 priorityFlags.Clear();
             }
 
-
             //sets priority list with a string, separated by commas
             public void SetPrioritiesJson(string json)
             {
@@ -533,10 +520,6 @@ namespace CanvasAPIApp
 
             }
 
-            
-
-            
-
             //loads settings from properties
             public void LoadSettings()
             {
@@ -544,7 +527,6 @@ namespace CanvasAPIApp
 
                 if(!String.IsNullOrEmpty(json))
                     SetPrioritiesJson(json);
-
             }
 
             //saves settings to properties
