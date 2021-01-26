@@ -90,7 +90,7 @@ namespace CanvasAPIApp
             foreach(DataGridViewRow row in dgvPriority.Rows)
             {
 
-                if (row.Selected || row.Cells[0].Selected) 
+                if ((row.Selected || row.Cells[0].Selected) && row.Index < dgvPriority.Rows.Count - 1)
                     dgvPriority.Rows.Remove(row);
             }
         }
