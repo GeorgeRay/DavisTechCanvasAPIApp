@@ -24,7 +24,7 @@ namespace CanvasAPIApp
         
 
         public static PrioritySettings prioritySettings = new PrioritySettings();
-
+        public static int defaultPriority { get; set; }
 
 
 
@@ -68,6 +68,7 @@ namespace CanvasAPIApp
         private void GradingQueue_Load(object sender, EventArgs e)
         {
             prioritySettings = new PrioritySettings();
+            defaultPriority = Properties.Settings.Default.DefaultPriority;
 
         }
 
@@ -180,6 +181,7 @@ namespace CanvasAPIApp
 
             }
 
+            //otherwise return the set default 
             return 5;
 
            

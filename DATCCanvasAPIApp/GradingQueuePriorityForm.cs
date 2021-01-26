@@ -17,14 +17,20 @@ namespace CanvasAPIApp
             InitializeComponent();
         }
 
+        
+
+
         private void GradingQueuePriorityForm_Load(object sender, EventArgs e)
         {
+            
+
+            menuItemDefaultPriority.Text = Properties.Settings.Default.DefaultPriority.ToString();
 
             List<KeyValuePair<int, string>> flags = GradingQueue.prioritySettings.priorityFlags;
 
 
             
-
+            //fills data grid with each priority
             foreach (KeyValuePair<int, string> flag in flags)
             {
                 DataGridViewRow row = new DataGridViewRow();
@@ -33,13 +39,14 @@ namespace CanvasAPIApp
 
         }
 
-
+        //cancel button
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
             this.Dispose();
         }
 
+        //accept button
         private void btnAccept_Click(object sender, EventArgs e)
         {
             try
@@ -75,6 +82,36 @@ namespace CanvasAPIApp
                 this.Close();
                 this.Dispose();
             }
+        }
+
+        //delete button
+        private void btnDeleteSelected_Click(object sender, EventArgs e)
+        {
+            foreach(DataGridViewRow row in dgvPriority.Rows)
+            {
+
+                if (row.Selected || row.Cells[0].Selected) 
+                    dgvPriority.Rows.Remove(row);
+            }
+        }
+
+        //on cell click
+        private void dgvPriority_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //makes combobox cells more responsive
+            DataGridViewComboBoxEditingControl control = dgvPriority.EditingControl as DataGridViewComboBoxEditingControl;
+            if (control != null)
+                control.DroppedDown = true;
+        }
+
+        
+
+        private void menuItemDefaultPriority_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GradingQueue.defaultPriority = int.Parse( menuItemDefaultPriority.Text.ToString());
+
+            Properties.Settings.Default.DefaultPriority = GradingQueue.defaultPriority;
+
         }
     }
 }

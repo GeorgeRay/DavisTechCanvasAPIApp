@@ -131,5 +131,17 @@ namespace CanvasAPIApp.Properties {
                 this["PriorityFlags"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int DefaultPriority {
+            get {
+                return ((int)(this["DefaultPriority"]));
+            }
+            set {
+                this["DefaultPriority"] = value;
+            }
+        }
     }
 }
