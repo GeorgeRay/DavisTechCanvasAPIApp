@@ -113,5 +113,12 @@ namespace CanvasAPIApp
             Properties.Settings.Default.DefaultPriority = GradingQueue.defaultPriority;
 
         }
+
+        //on new row
+        private void dgvPriority_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            //helps set default on the added row
+            dgvPriority.Rows[dgvPriority.Rows.Count - 1].Cells[1].Value = GradingQueue.defaultPriority.ToString();
+        }
     }
 }

@@ -88,6 +88,7 @@ namespace CanvasAPIApp
             this.dgvPriority.Size = new System.Drawing.Size(664, 253);
             this.dgvPriority.TabIndex = 11;
             this.dgvPriority.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPriority_CellClick);
+            this.dgvPriority.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvPriority_RowsAdded);
             // 
             // keywordsColumn
             // 
