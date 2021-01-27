@@ -48,6 +48,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.btnLoadCourses = new System.Windows.Forms.Button();
+            this.courseRole = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.courseDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.courseStudentsGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.allStudentsGrid)).BeginInit();
@@ -273,11 +274,21 @@
             this.btnLoadCourses.UseVisualStyleBackColor = true;
             this.btnLoadCourses.Click += new System.EventHandler(this.btnLoadCourses_Click);
             // 
+            // courseRole
+            // 
+            this.courseRole.AutoSize = true;
+            this.courseRole.Location = new System.Drawing.Point(336, 20);
+            this.courseRole.Name = "courseRole";
+            this.courseRole.Size = new System.Drawing.Size(35, 13);
+            this.courseRole.TabIndex = 20;
+            this.courseRole.Text = "Role: ";
+            // 
             // CoursesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(966, 609);
+            this.Controls.Add(this.courseRole);
             this.Controls.Add(this.btnLoadCourses);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -323,5 +334,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnLoadCourses;
+        private System.Windows.Forms.Label courseRole;
     }
 }

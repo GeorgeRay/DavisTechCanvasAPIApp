@@ -164,7 +164,6 @@
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "AccessTokenForm";
             this.Text = "Access Token";
-            this.Load += new System.EventHandler(this.AccessTokenForm_Load);
             this.Shown += new System.EventHandler(this.AccessTokenForm_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();

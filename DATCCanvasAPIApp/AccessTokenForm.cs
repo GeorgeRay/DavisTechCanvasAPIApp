@@ -14,10 +14,7 @@ namespace CanvasAPIApp
             InitializeComponent();
         }
 
-        private void AccessTokenForm_Load(object sender, EventArgs e)
-        {
-
-        }//End Load
+        
 
         //Saving token
         private void saveAccessToken_Click(object sender, EventArgs e)
