@@ -232,7 +232,7 @@ namespace CanvasAPIApp
                                     var grades_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/grades/{user_id}";
                                     var reserved = false;
                                     //assigning priority for sorting
-                                    priority = assignPriority(assignment_name);
+                                    priority = assignPriority($"{assignment_name} {course.CourseID}");
                                     //see if assignment is reserved                                
                                     var results = gradingReservedList.Where(reservedAssignment => reservedAssignment._id == speed_grader_url);
                                     if (results.Count() > 0)

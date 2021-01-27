@@ -24,7 +24,7 @@ namespace CanvasAPIApp
         {
             
             
-            menuItemDefaultPriority.Text = Properties.Settings.Default.DefaultPriority.ToString();
+            nmbPriority.Value = Properties.Settings.Default.DefaultPriority;
 
             List<KeyValuePair<int, string>> flags = GradingQueue.prioritySettings.priorityFlags;
             
@@ -101,6 +101,7 @@ namespace CanvasAPIApp
                 control.DroppedDown = true;
         }
         
+        /*
         //menu item: Options>Default priority
         private void menuItemDefaultPriority_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -109,12 +110,21 @@ namespace CanvasAPIApp
             Properties.Settings.Default.DefaultPriority = GradingQueue.defaultPriority;
 
         }
+        */
 
         //on new row
         private void dgvPriority_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             //helps set default on the added row
             dgvPriority.Rows[dgvPriority.Rows.Count - 1].Cells[1].Value = GradingQueue.defaultPriority.ToString();
+        }
+
+        private void nmbPriority_ValueChanged(object sender, EventArgs e)
+        {
+            GradingQueue.defaultPriority = (int)nmbPriority.Value;
+
+            Properties.Settings.Default.DefaultPriority = GradingQueue.defaultPriority;
+            Properties.Settings.Default.Save();
         }
     }
 }
