@@ -45,6 +45,7 @@
             this.lblMessageBox = new System.Windows.Forms.Label();
             this.courseFilterTxt = new System.Windows.Forms.TextBox();
             this.courseFilterLbl = new System.Windows.Forms.Label();
+            this.btnPrioritySettings = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gradingDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSeconds)).BeginInit();
             this.SuspendLayout();
@@ -223,11 +224,25 @@
             this.courseFilterLbl.TabIndex = 6;
             this.courseFilterLbl.Text = "Filter Course";
             // 
+            // btnPrioritySettings
+            // 
+            this.btnPrioritySettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrioritySettings.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnPrioritySettings.Location = new System.Drawing.Point(681, 24);
+            this.btnPrioritySettings.Margin = new System.Windows.Forms.Padding(2);
+            this.btnPrioritySettings.Name = "btnPrioritySettings";
+            this.btnPrioritySettings.Size = new System.Drawing.Size(152, 23);
+            this.btnPrioritySettings.TabIndex = 7;
+            this.btnPrioritySettings.Text = "Priority settings";
+            this.btnPrioritySettings.UseVisualStyleBackColor = false;
+            this.btnPrioritySettings.Click += new System.EventHandler(this.btnPrioritySettings_Click);
+            // 
             // GradingQueue
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(844, 526);
+            this.Controls.Add(this.btnPrioritySettings);
             this.Controls.Add(this.courseFilterLbl);
             this.Controls.Add(this.courseFilterTxt);
             this.Controls.Add(this.lblMessageBox);
@@ -264,5 +279,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Workflow_state;
         private System.Windows.Forms.DataGridViewLinkColumn Speedgrader_url;
         private System.Windows.Forms.DataGridViewTextBoxColumn grades_url;
+        private System.Windows.Forms.Button btnPrioritySettings;
     }
 }
