@@ -101,17 +101,7 @@ namespace CanvasAPIApp
                 control.DroppedDown = true;
         }
         
-        /*
-        //menu item: Options>Default priority
-        private void menuItemDefaultPriority_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            GradingQueue.defaultPriority = int.Parse( menuItemDefaultPriority.Text.ToString());
-
-            Properties.Settings.Default.DefaultPriority = GradingQueue.defaultPriority;
-
-        }
-        */
-
+       
         //on new row
         private void dgvPriority_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
