@@ -28,7 +28,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>Canvas API Application</ProductName>
     <PublisherName>Davis Technical College</PublisherName>
-    <ApplicationRevision>23</ApplicationRevision>
+    <ApplicationRevision>25</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -158,6 +158,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EncryptAccessToken.cs" />
+    <Compile Include="GradingQueuePriorityForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GradingQueuePriorityForm.Designer.cs">
+      <DependentUpon>GradingQueuePriorityForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MongoDBForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -236,6 +242,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CoursesForm.resx">
       <DependentUpon>CoursesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GradingQueuePriorityForm.resx">
+      <DependentUpon>GradingQueuePriorityForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MongoDBForm.resx">
       <DependentUpon>MongoDBForm.cs</DependentUpon>

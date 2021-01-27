@@ -20,21 +20,10 @@ namespace CanvasAPIApp
         MongoClient mongoClient;
         IMongoDatabase mongoDatabase;
 
-        // priority flags
-        List<string> priority1Flags = new List<string>()
-        {
-            "instructor meeting",
-            "completion",
-            "cisco networking academy account setup",
-        };
-        List<string> priority2Flags = new List<string>()
-        {
-            "pacific trails",
-        };
-        List<string> priority3Flags = new List<string>()
-        {
-            "final",
-        };
+
+        public static PrioritySettings prioritySettings = new PrioritySettings();
+        public static int defaultPriority { get; set; }
+
 
         private bool mongoWarningshown = false;
 
@@ -47,7 +36,6 @@ namespace CanvasAPIApp
                 ConnectToMongoDB();
             }
             RefreshQueue();
-
         }
 
         public void ConnectToMongoDB()
@@ -75,6 +63,8 @@ namespace CanvasAPIApp
 
         private void GradingQueue_Load(object sender, EventArgs e)
         {
+            prioritySettings = new PrioritySettings();
+            defaultPriority = Properties.Settings.Default.DefaultPriority;
 
         }
 
@@ -174,14 +164,21 @@ namespace CanvasAPIApp
         private int assignPriority(string assignmentName)
         {
             // check if name contains any flag and return priority
-            if (priority1Flags.Any(flag => assignmentName.ToLower().Contains(flag.ToLower())))
-                return 1;
-            else if (priority2Flags.Any(flag => assignmentName.ToLower().Contains(flag.ToLower())))
-                return 2;
-            else if (priority3Flags.Any(flag => assignmentName.ToLower().Contains(flag.ToLower())))
-                return 3;
-            else
-                return 4;
+            for (int i=0; i<prioritySettings.priorityFlags.Count; i++)
+            {
+                
+                KeyValuePair<int, string> flag = GradingQueue.prioritySettings.priorityFlags[i];
+                
+                if(assignmentName.ToLower().Contains(flag.Value.ToLower()))
+                {
+                    
+                    return flag.Key;
+                }
+
+            }
+
+            //otherwise return the set default 
+            return defaultPriority;
         }
 
         private Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
@@ -235,7 +232,7 @@ namespace CanvasAPIApp
                                     var grades_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/grades/{user_id}";
                                     var reserved = false;
                                     //assigning priority for sorting
-                                    priority = assignPriority(assignment_name);
+                                    priority = assignPriority($"{assignment_name} {course.CourseID}");
                                     //see if assignment is reserved                                
                                     var results = gradingReservedList.Where(reservedAssignment => reservedAssignment._id == speed_grader_url);
                                     if (results.Count() > 0)
@@ -253,7 +250,6 @@ namespace CanvasAPIApp
                         }
 
                     }
-
 
 
                 }
@@ -322,7 +318,6 @@ namespace CanvasAPIApp
         {
             await RefreshQueue();
         }
-
 
         private void gradingDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -422,7 +417,6 @@ namespace CanvasAPIApp
                 }
             }
 
-
         }
 
         // filters ungradedAssignmentList by courseName property
@@ -468,7 +462,6 @@ namespace CanvasAPIApp
 
         private class ReservedAssignment
         {
-
             public ReservedAssignment(string url, string grader, string reserved_at)
             {
                 this._id = url;
@@ -480,5 +473,72 @@ namespace CanvasAPIApp
             public string grader { get; set; }
             public string reserved_at { get; set; }
         }
+
+        private async void btnPrioritySettings_Click(object sender, EventArgs e)
+        {
+            GradingQueuePriorityForm gradingQueuePriorityForm = new GradingQueuePriorityForm();
+            gradingQueuePriorityForm.StartPosition = FormStartPosition.CenterScreen;
+            gradingQueuePriorityForm.ShowDialog();
+
+
+            await RefreshQueue();
+        }
+
+
+        public class PrioritySettings
+        {
+
+            public List<KeyValuePair<int, string>> priorityFlags { get; set; }
+
+            //constructor, initialized flag list / loads settings
+            public PrioritySettings()
+            {
+                priorityFlags = new List<KeyValuePair<int, string>>();
+                LoadSettings();
+            }
+
+            //clears lists
+            public void ClearPriorityList()
+            {
+                priorityFlags.Clear();
+            }
+
+            //sets priority list with a string, separated by commas
+            public void SetPrioritiesJson(string json)
+            {
+                ClearPriorityList();
+
+                priorityFlags = JsonConvert.DeserializeObject<List<KeyValuePair<int,string>>>(json);
+
+                SortPriorities();
+            }
+
+            //sorts by priority
+            public void SortPriorities()
+            {
+                priorityFlags = priorityFlags.OrderBy(sort => sort.Key).ToList<KeyValuePair<int, string>>();
+
+            }
+
+            //loads settings from properties
+            public void LoadSettings()
+            {
+                string json = Properties.Settings.Default.PriorityFlags;
+
+                if(!String.IsNullOrEmpty(json))
+                    SetPrioritiesJson(json);
+            }
+
+            //saves settings to properties
+            public void SaveSettings()
+            {
+                string json = JsonConvert.SerializeObject(priorityFlags);
+
+                Properties.Settings.Default.PriorityFlags = json;
+
+                Properties.Settings.Default.Save();
+            }
+        }
+
     }
 }
