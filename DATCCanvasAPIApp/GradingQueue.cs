@@ -146,6 +146,7 @@ namespace CanvasAPIApp
             {
                 foreach (Assignment assignment in assignmentList)
                 {
+                    // here is the bug 
                     if (assignment.priority < 4 && sortByPriority == false)
                         sortByPriority = true;
 
