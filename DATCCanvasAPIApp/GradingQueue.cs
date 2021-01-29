@@ -20,6 +20,7 @@ namespace CanvasAPIApp
         MongoClient mongoClient;
         IMongoDatabase mongoDatabase;
 
+        public static List<Course> CourseList { get; set; } = new List<Course>();
 
         public static PrioritySettings prioritySettings = new PrioritySettings();
         public static int defaultPriority { get; set; }
@@ -66,6 +67,15 @@ namespace CanvasAPIApp
             prioritySettings = new PrioritySettings();
             defaultPriority = Properties.Settings.Default.DefaultPriority;
 
+             
+        }
+
+        private async void btnLoadCourses_Click(object sender, EventArgs e)
+        {
+            //forces a reload of courses then continues to load assignments
+            lblMessageBox.Text = "Getting Courses";
+            CourseList = await populateListOfCourses();
+            await RefreshQueue();
         }
 
         private async Task RefreshQueue()
@@ -73,17 +83,23 @@ namespace CanvasAPIApp
             //reload the data
             btnRefreshQueue.Enabled = false;
             lblMessageBox.Text = "Getting Courses";
-            var courseList = await populateListOfCourses();
+
+            //gets courses if they aren't already set
+            if (CourseList.Count == 0)
+            {
+                CourseList = await populateListOfCourses();
+            }
+
             lblMessageBox.Text = "Getting Reserved Assignments";
             List<ReservedAssignment> gradingReservedList = new List<ReservedAssignment>();
             if (connectedToMongoDB == true)
             {
                 gradingReservedList = await PopulateListOfReservedAssignments();
             }
-            if (courseList.Count > 0)
+            if (CourseList.Count > 0)
             {
                 lblMessageBox.Text = "Loading Assignments";
-                ungradedAssignmentList = await populateGradingEventHistory(courseList, gradingReservedList);
+                ungradedAssignmentList = await populateGradingEventHistory(CourseList, gradingReservedList);
                 LoadDataGridView(courseFilter(ungradedAssignmentList, courseFilterTxt.Text));
             }
             else
@@ -102,6 +118,9 @@ namespace CanvasAPIApp
                     mongoCollection.DeleteOne(filter);
                 }
             }
+
+            // using this method as hook to enable courseFilterTxt
+            enableCourseFilter();
 
         }
 
@@ -127,6 +146,7 @@ namespace CanvasAPIApp
             {
                 foreach (Assignment assignment in assignmentList)
                 {
+                    // here is the bug 
                     if (assignment.priority < 4 && sortByPriority == false)
                         sortByPriority = true;
 
@@ -156,8 +176,7 @@ namespace CanvasAPIApp
         {
             await RefreshQueue();
 
-            // using this method as hook to enable courseFilterTxt
-            enableCourseFilter();
+            
         }
 
         // return priority based on assignment name
@@ -540,5 +559,6 @@ namespace CanvasAPIApp
             }
         }
 
+        
     }
 }

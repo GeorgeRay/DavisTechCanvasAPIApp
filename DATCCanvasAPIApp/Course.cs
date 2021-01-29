@@ -2,7 +2,7 @@
 {
     public partial class GradingQueue
     {
-        class Course
+        public class Course
         {
             public string CourseID { get; set; }
             public string CourseName { get; set; }
