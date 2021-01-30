@@ -238,7 +238,10 @@ namespace CanvasAPIApp
                 foreach (DataGridViewRow row in courseStudentsGrid.Rows)
                 {
                     //mash name, ID and state together to search via substring
-                    string search = row.Cells["studentName"].Value.ToString() + row.Cells["studentID"].Value.ToString();
+                    string search = row.Cells["studentName"].Value.ToString();
+                    
+                    if(row.Cells["studentID"].Value != null)
+                        search += row.Cells["studentID"].Value.ToString();
 
                     if (!search.ToLower().Contains(enrolledStudentsSearch.Text.ToLower()))
                     {
