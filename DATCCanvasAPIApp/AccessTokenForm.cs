@@ -89,7 +89,8 @@ namespace CanvasAPIApp
         //Saving Website
         private void btnSaveWebsite_Click(object sender, EventArgs e)
         {
-
+            //wait cursor
+            Cursor.Current = Cursors.WaitCursor;
 
             try
             {
@@ -119,6 +120,8 @@ namespace CanvasAPIApp
 
             btnCancel.Text = "Close";
 
+            Cursor.Current = Cursors.Default;
+
         }//End Saving website
 
         private void PopulateSavedSettings()
@@ -147,6 +150,7 @@ namespace CanvasAPIApp
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close(); //closes this form, but continues in CanvasAPIMainForm
+            this.Dispose();
 
         }//End Closing Form
 
