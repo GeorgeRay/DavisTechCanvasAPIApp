@@ -44,9 +44,9 @@
             // 
             // saveAccessToken
             // 
-            this.saveAccessToken.Location = new System.Drawing.Point(18, 242);
+            this.saveAccessToken.Location = new System.Drawing.Point(22, 241);
             this.saveAccessToken.Name = "saveAccessToken";
-            this.saveAccessToken.Size = new System.Drawing.Size(136, 32);
+            this.saveAccessToken.Size = new System.Drawing.Size(136, 34);
             this.saveAccessToken.TabIndex = 1;
             this.saveAccessToken.Text = "Save Access Token";
             this.saveAccessToken.UseVisualStyleBackColor = true;
@@ -63,7 +63,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(15, 182);
+            this.label2.Location = new System.Drawing.Point(18, 175);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(109, 20);
             this.label2.TabIndex = 4;
@@ -140,7 +140,7 @@
             // 
             this.lnkGetAccessTokenLink.AutoSize = true;
             this.lnkGetAccessTokenLink.Enabled = false;
-            this.lnkGetAccessTokenLink.Location = new System.Drawing.Point(127, 187);
+            this.lnkGetAccessTokenLink.Location = new System.Drawing.Point(23, 195);
             this.lnkGetAccessTokenLink.Name = "lnkGetAccessTokenLink";
             this.lnkGetAccessTokenLink.Size = new System.Drawing.Size(0, 13);
             this.lnkGetAccessTokenLink.TabIndex = 12;
@@ -150,7 +150,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(617, 295);
+            this.ClientSize = new System.Drawing.Size(600, 295);
             this.Controls.Add(this.lnkGetAccessTokenLink);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lbxCurrentUser);

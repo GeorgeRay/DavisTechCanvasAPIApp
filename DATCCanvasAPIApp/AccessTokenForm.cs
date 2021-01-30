@@ -104,7 +104,7 @@ namespace CanvasAPIApp
                 Properties.Settings.Default.Save();
 
                 lnkGetAccessTokenLink.Enabled = true;
-                lnkGetAccessTokenLink.Text = $"Generate access token";
+                lnkGetAccessTokenLink.Text = $"(Generate access token)";
 
             }
             //if HttpWebResponse response = (HttpWebResponse)request.GetResponse(); fails then throw an error
@@ -129,7 +129,7 @@ namespace CanvasAPIApp
             if (Properties.Settings.Default.InstructureSite != "" && Properties.Settings.Default.InstructureSite != "No URL saved")
             {
                 lnkGetAccessTokenLink.Enabled = true;
-                lnkGetAccessTokenLink.Text = $"Generate access token";
+                lnkGetAccessTokenLink.Text = $"(Generate access token)";
             }
 
             string currentAccessToken = Properties.Settings.Default.CurrentAccessToken;
