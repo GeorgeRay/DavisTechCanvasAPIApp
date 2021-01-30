@@ -139,30 +139,23 @@ namespace CanvasAPIApp
 
         private void LoadDataGridView(List<Assignment> assignmentList)
         {
-            bool sortByPriority = false;
+            //bool sortByPriority = false;
             clearDataGridView();
 
             if (assignmentList.Count > 0)
             {
                 foreach (Assignment assignment in assignmentList)
                 {
-                    // here is the bug 
-                    if (assignment.priority < 4 && sortByPriority == false)
-                        sortByPriority = true;
 
                     gradingDataGrid.Rows.Add(assignment.graded, assignment.priority, assignment.courseName,
                         assignment.assignment_name, assignment.submitted_at, assignment.workflow_state,
                         assignment.speed_grader_url, assignment.grades_url);
                 }
-                //default sorting on priority column 
-                if (sortByPriority == true)
-                {
-                    gradingDataGrid.Sort(gradingDataGrid.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
-                }
-                else
-                {
-                    gradingDataGrid.Sort(gradingDataGrid.Columns[4], System.ComponentModel.ListSortDirection.Ascending);
-                }
+                //default sorting on priority column
+
+                //sort by priority
+                gradingDataGrid.Sort(gradingDataGrid.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
+
             }
         }
 
