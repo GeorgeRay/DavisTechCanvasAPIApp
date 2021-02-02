@@ -67,7 +67,7 @@ namespace CanvasAPIApp
             prioritySettings = new PrioritySettings();
             defaultPriority = Properties.Settings.Default.DefaultPriority;
 
-             
+
         }
 
         private async void btnLoadCourses_Click(object sender, EventArgs e)
@@ -176,21 +176,21 @@ namespace CanvasAPIApp
         {
             await RefreshQueue();
 
-            
+
         }
 
         // return priority based on assignment name
         private int assignPriority(string assignmentName)
         {
             // check if name contains any flag and return priority
-            for (int i=0; i<prioritySettings.priorityFlags.Count; i++)
+            for (int i = 0; i < prioritySettings.priorityFlags.Count; i++)
             {
-                
+
                 KeyValuePair<int, string> flag = GradingQueue.prioritySettings.priorityFlags[i];
-                
-                if(assignmentName.ToLower().Contains(flag.Value.ToLower()))
+
+                if (assignmentName.ToLower().Contains(flag.Value.ToLower()))
                 {
-                    
+
                     return flag.Key;
                 }
 
@@ -296,18 +296,8 @@ namespace CanvasAPIApp
 
                     foreach (var course in jsonObj)
                     {
-                        var enrollments = course.enrollments;
-                        foreach (var enrollment in enrollments)
-                        {
 
-                            var needs_grading_count = Convert.ToInt32(course.needs_grading_count);
-                            if (needs_grading_count > 0)
-                            {
-                                tempCourseList.Add(new Course(Convert.ToString(course.id), Convert.ToString(course.name)));
-                            }
-
-                        }
-
+                        tempCourseList.Add(new Course(Convert.ToString(course.id), Convert.ToString(course.name)));
                     }
                 }
                 return tempCourseList;
@@ -527,7 +517,7 @@ namespace CanvasAPIApp
             {
                 ClearPriorityList();
 
-                priorityFlags = JsonConvert.DeserializeObject<List<KeyValuePair<int,string>>>(json);
+                priorityFlags = JsonConvert.DeserializeObject<List<KeyValuePair<int, string>>>(json);
 
                 SortPriorities();
             }
@@ -544,7 +534,7 @@ namespace CanvasAPIApp
             {
                 string json = Properties.Settings.Default.PriorityFlags;
 
-                if(!String.IsNullOrEmpty(json))
+                if (!String.IsNullOrEmpty(json))
                     SetPrioritiesJson(json);
             }
 
@@ -559,6 +549,6 @@ namespace CanvasAPIApp
             }
         }
 
-        
+
     }
 }
