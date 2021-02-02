@@ -150,7 +150,6 @@ namespace CanvasAPIApp
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close(); //closes this form, but continues in CanvasAPIMainForm
-            this.Dispose();
 
         }//End Closing Form
 
