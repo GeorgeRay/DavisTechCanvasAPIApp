@@ -394,6 +394,9 @@ namespace CanvasAPIApp
                                         var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
                                         var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
                                         var grader = conflictDocument.GetElement("grader");
+                                        
+                                        this.Activate(); //pulls the form into focus
+
                                         MessageBox.Show($"This assignment was reserved by {grader.Value}");
                                     }
                                     else
@@ -542,6 +545,6 @@ namespace CanvasAPIApp
             }
         }
 
-
+        
     }
 }
