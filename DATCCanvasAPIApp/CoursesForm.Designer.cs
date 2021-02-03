@@ -277,7 +277,7 @@
             // courseRole
             // 
             this.courseRole.AutoSize = true;
-            this.courseRole.Location = new System.Drawing.Point(336, 20);
+            this.courseRole.Location = new System.Drawing.Point(303, 20);
             this.courseRole.Name = "courseRole";
             this.courseRole.Size = new System.Drawing.Size(35, 13);
             this.courseRole.TabIndex = 20;

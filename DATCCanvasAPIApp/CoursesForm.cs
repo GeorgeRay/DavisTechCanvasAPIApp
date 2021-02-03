@@ -172,37 +172,36 @@ namespace CanvasAPIApp
             //Clear columns
             courseStudentsGrid.Columns.Clear();
 
-            //local function returns if current user is a teacher for specified class
-            bool amITeacher(string courseId)
+            //local function gets all the roles for a course
+            string getRoles(string courseId)
             {
+                string returnString = "";
+
                 string roleEndPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + courseId + "/?";//Get endpoint for role
                 var roleClient = new RestClient(roleEndPoint);
                 var roleJson = roleClient.MakeRequest(coursesAccessToken);
                 dynamic roleJsonObj = JsonConvert.DeserializeObject(roleJson);
 
+                //gets each role for a class
                 foreach (var v in roleJsonObj.enrollments)
                 {
-                    if (v.type == "teacher")
-                        return true;
+                    returnString += $"{v.type}, ";
                 }
 
-                //else return false
-                return false;
+                //remove trailing commas
+                returnString = returnString.Trim().Trim(',');
+                
+                return returnString;
             }
 
             
             try
             {
                 //gets role for course selected:
-                bool isTeacher = amITeacher(CanvasAPIMainForm.GlobalCourseID.ToString());
+                string roles = getRoles(CanvasAPIMainForm.GlobalCourseID.ToString());
 
-                if (isTeacher)
-                    courseRole.Text = "Role: Teacher";
-                else
-                    courseRole.Text = "Role: Student";
+                courseRole.Text = $"Roles: {roles}";
                 //
-
-
 
                 //Get list of students for course selected:
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/users?per_page=1000&";//Get endpoint
