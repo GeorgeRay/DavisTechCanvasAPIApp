@@ -65,7 +65,6 @@ namespace CanvasAPIApp
         public string MakeRequest(string parameters)
         {
 
-
             var request = (HttpWebRequest)WebRequest.Create(EndPoint + parameters);
             request.Method = Method.ToString();
             request.ContentLength = 0;
