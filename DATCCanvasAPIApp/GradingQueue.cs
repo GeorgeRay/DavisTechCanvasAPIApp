@@ -25,7 +25,6 @@ namespace CanvasAPIApp
         public static PrioritySettings prioritySettings = new PrioritySettings();
         public static int defaultPriority { get; set; }
 
-
         private bool mongoWarningshown = false;
 
         public GradingQueue()
@@ -66,7 +65,6 @@ namespace CanvasAPIApp
         {
             prioritySettings = new PrioritySettings();
             defaultPriority = Properties.Settings.Default.DefaultPriority;
-
 
         }
 
@@ -385,18 +383,18 @@ namespace CanvasAPIApp
                                 BsonDocument documentToWrite = new BsonDocument { { "_id", url }, { "grader", Properties.Settings.Default.AppUserName }, { "reserved_at", DateTime.Now.ToString() } };
                                 try
                                 {
-                                    mongoCollection.InsertOne(documentToWrite);
+                                    mongoCollection.InsertOne(documentToWrite); //try to write to database
                                 }
                                 catch (MongoDB.Driver.MongoWriteException writeException)
                                 {
                                     //Make call for URL
-                                    if (writeException.WriteError.Category == ServerErrorCategory.DuplicateKey) // if entry has already been made
+                                    if (writeException.WriteError.Category == ServerErrorCategory.DuplicateKey) // if this entry has already been made (assignment already reserved)
                                     {
                                         var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
                                         var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
                                         var grader = conflictDocument.GetElement("grader");
 
-                                        browserTab.Kill(); //closes grading tab
+                                        browserTab.Kill(); //closes the grading tab
 
                                         this.Activate(); //pulls the form into focus to display message
                                         MessageBox.Show($"This assignment was reserved by {grader.Value}");

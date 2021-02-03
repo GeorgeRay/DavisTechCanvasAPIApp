@@ -47,7 +47,6 @@
             this.courseFilterLbl = new System.Windows.Forms.Label();
             this.btnPrioritySettings = new System.Windows.Forms.Button();
             this.btnLoadCourses = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gradingDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSeconds)).BeginInit();
             this.SuspendLayout();
@@ -250,14 +249,12 @@
             this.btnLoadCourses.Text = "Refresh courses";
             this.btnLoadCourses.UseVisualStyleBackColor = false;
             this.btnLoadCourses.Click += new System.EventHandler(this.btnLoadCourses_Click);
-            
             // 
             // GradingQueue
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(844, 526);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnLoadCourses);
             this.Controls.Add(this.btnPrioritySettings);
             this.Controls.Add(this.courseFilterTxt);
@@ -298,6 +295,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn grades_url;
         private System.Windows.Forms.Button btnPrioritySettings;
         private System.Windows.Forms.Button btnLoadCourses;
-        private System.Windows.Forms.Button button1;
     }
 }
