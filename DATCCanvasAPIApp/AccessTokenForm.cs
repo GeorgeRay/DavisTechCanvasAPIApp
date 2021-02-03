@@ -14,7 +14,7 @@ namespace CanvasAPIApp
             InitializeComponent();
         }
 
-        
+
 
         //Saving token
         private void saveAccessToken_Click(object sender, EventArgs e)
@@ -89,36 +89,60 @@ namespace CanvasAPIApp
         //Saving Website
         private void btnSaveWebsite_Click(object sender, EventArgs e)
         {
+            //wait cursor
+            Cursor.Current = Cursors.WaitCursor;
 
-            WebRequest webRequest = WebRequest.Create(txbWebsite.Text.ToString());
-            WebResponse webResponse;
             try
             {
+                WebRequest webRequest = WebRequest.Create(txbWebsite.Text.ToString());
+                WebResponse webResponse;
+
                 webResponse = webRequest.GetResponse();
                 MessageBox.Show("The site has been saved.", "Success", MessageBoxButtons.OK);
+
+                //Saving Website to settings
+                Properties.Settings.Default.InstructureSite = txbWebsite.Text.ToString();
+                Properties.Settings.Default.Save();
+
+                lnkGetAccessTokenLink.Enabled = true;
+                lnkGetAccessTokenLink.Text = $"(Generate access token)";
+
             }
             //if HttpWebResponse response = (HttpWebResponse)request.GetResponse(); fails then throw an error
             catch (WebException)
             {
                 MessageBox.Show("Failed to reach site.", "Failed", MessageBoxButtons.OK);
             }
-            //Saving Website to settings
-            Properties.Settings.Default.InstructureSite = txbWebsite.Text.ToString();
-            Properties.Settings.Default.Save();
+            catch (Exception generalException)
+            {
+                MessageBox.Show($"Error - {generalException.Message}");
+            }
+
             btnCancel.Text = "Close";
-            
+
+            Cursor.Current = Cursors.Default;
+
         }//End Saving website
 
         private void PopulateSavedSettings()
         {
             //Displaying current settings
             txbWebsite.Text = Properties.Settings.Default.InstructureSite.ToString();
+
+            if (Properties.Settings.Default.InstructureSite != "" && Properties.Settings.Default.InstructureSite != "No URL saved")
+            {
+                lnkGetAccessTokenLink.Enabled = true;
+                lnkGetAccessTokenLink.Text = $"(Generate access token)";
+            }
+
             string currentAccessToken = Properties.Settings.Default.CurrentAccessToken;
             //Display new access Token with mask make sure the sting is long enough
             if (currentAccessToken.Length > 7)
             {
                 txbCurrentAccessToken.Text = (string.Concat(currentAccessToken.Substring(0, 7), "".PadRight(currentAccessToken.Length - 7, '*')));
             }
+
+
 
         }
 
@@ -152,6 +176,18 @@ namespace CanvasAPIApp
 
             }
             PopulateSavedSettings();
+        }
+
+        private void lnkGetAccessTokenLink_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start($"{Properties.Settings.Default.InstructureSite}/profile");
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show($"Error - {exc.Message}");
+            }
         }
     }
 }
