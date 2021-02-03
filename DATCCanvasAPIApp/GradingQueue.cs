@@ -356,15 +356,20 @@ namespace CanvasAPIApp
                         //Reserved is checked
                         if (Convert.ToBoolean(gradingDataGrid.CurrentCell.Value) == true)
                         {
-                            gradingDataGrid.CurrentCell.Value = false;
-                            //Remove the data from the database
-                            if (connectedToMongoDB == true)
+                            DialogResult dialogResult = MessageBox.Show("This assignment is currently reserved. Do you want to unassign it?", "Unreserve?", MessageBoxButtons.YesNo);
+
+                            if (dialogResult == DialogResult.Yes)
                             {
-                                var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
-                                string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
-                                //Make call for URL
-                                var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
-                                mongoCollection.DeleteOne(filter);
+                                gradingDataGrid.CurrentCell.Value = false;
+                                //Remove the data from the database
+                                if (connectedToMongoDB == true)
+                                {
+                                    var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
+                                    string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
+                                    //Make call for URL
+                                    var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
+                                    mongoCollection.DeleteOne(filter);
+                                }
                             }
                         }
                         else //Reserved is not checked
