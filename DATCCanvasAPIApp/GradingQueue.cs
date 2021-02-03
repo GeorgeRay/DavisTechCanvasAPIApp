@@ -353,7 +353,7 @@ namespace CanvasAPIApp
                                 break;
                         }
                     }
-                    else
+                    else //database
                     {
                         //Reserved is checked
                         if (Convert.ToBoolean(gradingDataGrid.CurrentCell.Value) == true)
@@ -369,12 +369,13 @@ namespace CanvasAPIApp
                                 mongoCollection.DeleteOne(filter);
                             }
                         }
-                        else
+                        else //Reserved is not checked
                         {
                             gradingDataGrid.CurrentCell.Value = true;
 
                             string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
-                            Process.Start(url);
+
+                            Process browserTab = Process.Start(url); //grading url in new tab
 
                             //Add the data to the database
                             if (connectedToMongoDB == true)
@@ -389,15 +390,19 @@ namespace CanvasAPIApp
                                 catch (MongoDB.Driver.MongoWriteException writeException)
                                 {
                                     //Make call for URL
-                                    if (writeException.WriteError.Category == ServerErrorCategory.DuplicateKey)
+                                    if (writeException.WriteError.Category == ServerErrorCategory.DuplicateKey) // if entry has already been made
                                     {
                                         var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
                                         var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
                                         var grader = conflictDocument.GetElement("grader");
-                                        
-                                        this.Activate(); //pulls the form into focus
 
+                                        browserTab.Kill(); //closes grading tab
+
+                                        this.Activate(); //pulls the form into focus to display message
                                         MessageBox.Show($"This assignment was reserved by {grader.Value}");
+
+                                        RefreshQueue(); //refresh queue to update reserved checkbox
+
                                     }
                                     else
                                     {
