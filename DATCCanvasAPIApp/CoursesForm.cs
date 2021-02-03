@@ -177,7 +177,6 @@ namespace CanvasAPIApp
             {
                 string roleEndPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + courseId + "/?";//Get endpoint for role
                 var roleClient = new RestClient(roleEndPoint);
-                Console.Out.WriteLine(roleEndPoint);
                 var roleJson = roleClient.MakeRequest(coursesAccessToken);
                 dynamic roleJsonObj = JsonConvert.DeserializeObject(roleJson);
 
@@ -234,19 +233,28 @@ namespace CanvasAPIApp
 
         private void enrolledStudentsSearch_TextChanged(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in courseStudentsGrid.Rows)
+            try
             {
-                //mash name, ID and state together to search via substring
-                string search = row.Cells["studentName"].Value.ToString() + row.Cells["studentID"].Value.ToString();
+                foreach (DataGridViewRow row in courseStudentsGrid.Rows)
+                {
+                    //mash name, ID and state together to search via substring
+                    string search = row.Cells["studentName"].Value.ToString();
+                    
+                    if(row.Cells["studentID"].Value != null)
+                        search += row.Cells["studentID"].Value.ToString();
 
-                if (!search.ToLower().Contains(enrolledStudentsSearch.Text.ToLower()))
-                {
-                    row.Visible = false;
+                    if (!search.ToLower().Contains(enrolledStudentsSearch.Text.ToLower()))
+                    {
+                        row.Visible = false;
+                    }
+                    else if ((search.ToLower().Contains(enrolledStudentsSearch.Text.ToLower())))
+                    {
+                        row.Visible = true;
+                    }
                 }
-                else if ((search.ToLower().Contains(enrolledStudentsSearch.Text.ToLower())))
-                {
-                    row.Visible = true;
-                }
+            }catch(Exception exc)
+            {
+                MessageBox.Show("Error - " + exc.Message);
             }
         }
 
