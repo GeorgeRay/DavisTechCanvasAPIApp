@@ -90,7 +90,7 @@ namespace CanvasAPIApp
                         courseDataGridView.Columns.Clear();
 
                         // get jsonObj file
-                        string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?per_page=1000&";//Get endpoint
+                        string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?per_page=1000&include[]=total_students&";//Get endpoint
                         var client = new RestClient(endPoint);
                         var json = client.MakeRequest(coursesAccessToken);
                         dynamic jsonObj = JsonConvert.DeserializeObject(json);
@@ -100,9 +100,10 @@ namespace CanvasAPIApp
                         courseDataGridView.Columns.Add("courseID", "Course ID");
                         courseDataGridView.Columns.Add("courseState", "Workflow State");
                         courseDataGridView.Columns.Add("courseStudents", "Student Count");
-                        courseDataGridView.Columns[0].Width = 350;
-                        courseDataGridView.Columns[2].Width = 130;
-                        courseDataGridView.Columns[3].Width = 100;
+                        courseDataGridView.Columns.Add("courseRoles", "Roles");
+                        courseDataGridView.Columns[0].Width = 290;
+                        courseDataGridView.Columns[2].Width = 90;
+                        courseDataGridView.Columns[3].Width = 50;
 
                         //create student grid columns
                         allStudentsGrid.Columns.Add("studentName", "Name");
@@ -110,10 +111,19 @@ namespace CanvasAPIApp
 
                         string studentsAdded = "";
 
-                        foreach (var course in jsonObj)
+                    foreach (var course in jsonObj)
+                    {
+
+                        //get and format course roles
+                        string rolesString = "";
+                        foreach (dynamic v in course.enrollments)
                         {
+                            rolesString += v.type + ", ";
+                        }
+                        rolesString = rolesString.Trim().Trim(',');
+
                             //populate course list
-                            courseDataGridView.Rows.Add(String.Format(Convert.ToString(course.name)), (Convert.ToString(course.id)), (Convert.ToString(course.workflow_state)), (Convert.ToString(course.total_students)));
+                            courseDataGridView.Rows.Add(String.Format(Convert.ToString(course.name)), (Convert.ToString(course.id)), (Convert.ToString(course.workflow_state)), (Convert.ToString(course.total_students)), Convert.ToString(rolesString));
 
                             //Get list of students from each course
                             try
@@ -172,37 +182,11 @@ namespace CanvasAPIApp
             //Clear columns
             courseStudentsGrid.Columns.Clear();
 
-            //local function returns if current user is a teacher for specified class
-            bool amITeacher(string courseId)
-            {
-                string roleEndPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + courseId + "/?";//Get endpoint for role
-                var roleClient = new RestClient(roleEndPoint);
-                var roleJson = roleClient.MakeRequest(coursesAccessToken);
-                dynamic roleJsonObj = JsonConvert.DeserializeObject(roleJson);
-
-                foreach (var v in roleJsonObj.enrollments)
-                {
-                    if (v.type == "teacher")
-                        return true;
-                }
-
-                //else return false
-                return false;
-            }
-
+           
             
             try
             {
-                //gets role for course selected:
-                bool isTeacher = amITeacher(CanvasAPIMainForm.GlobalCourseID.ToString());
-
-                if (isTeacher)
-                    courseRole.Text = "Role: Teacher";
-                else
-                    courseRole.Text = "Role: Student";
-                //
-
-
+                
 
                 //Get list of students for course selected:
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/users?per_page=1000&";//Get endpoint
