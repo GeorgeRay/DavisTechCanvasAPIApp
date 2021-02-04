@@ -374,11 +374,8 @@ namespace CanvasAPIApp
                         }
                         else //Reserved is not checked
                         {
-                            gradingDataGrid.CurrentCell.Value = true;
-
+                            
                             string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
-
-                            Process browserTab = Process.Start(url); //grading url in new tab
 
                             //Add the data to the database
                             if (connectedToMongoDB == true)
@@ -389,6 +386,13 @@ namespace CanvasAPIApp
                                 try
                                 {
                                     mongoCollection.InsertOne(documentToWrite); //try to write to database
+
+                                    //continue if successful:
+                                    gradingDataGrid.CurrentCell.Value = true;
+
+                                    Process browserTab = Process.Start(url); //grading url in new tab
+
+
                                 }
                                 catch (MongoDB.Driver.MongoWriteException writeException)
                                 {
@@ -398,8 +402,6 @@ namespace CanvasAPIApp
                                         var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
                                         var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
                                         var grader = conflictDocument.GetElement("grader");
-
-                                        browserTab.Kill(); //closes the grading tab
 
                                         this.Activate(); //pulls the form into focus to display message
                                         MessageBox.Show($"This assignment was reserved by {grader.Value}");
@@ -412,7 +414,7 @@ namespace CanvasAPIApp
                                         MessageBox.Show($"There was a MongoDB write error {writeException.Message}");
                                     }
                                 }
-                            }
+                            }//end if(connectedToMongo)
                         }
                     }
 
