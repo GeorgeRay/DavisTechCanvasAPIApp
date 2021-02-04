@@ -82,6 +82,15 @@ namespace CanvasAPIApp
             btnRefreshQueue.Enabled = false;
             lblMessageBox.Text = "Getting Courses";
 
+            //saves sorting for after refresh
+            var sortColumn = gradingDataGrid.SortedColumn;
+
+            System.ComponentModel.ListSortDirection sortDirection = new System.ComponentModel.ListSortDirection();
+            if (gradingDataGrid.SortOrder == SortOrder.Ascending)
+                sortDirection = System.ComponentModel.ListSortDirection.Ascending;
+            else if(gradingDataGrid.SortOrder == SortOrder.Descending)
+                sortDirection = System.ComponentModel.ListSortDirection.Descending;
+
             //gets courses if they aren't already set
             if (CourseList.Count == 0)
             {
@@ -116,6 +125,9 @@ namespace CanvasAPIApp
                     mongoCollection.DeleteOne(filter);
                 }
             }
+
+            //resets sort direction
+            gradingDataGrid.Sort(sortColumn, sortDirection);
 
             // using this method as hook to enable courseFilterTxt
             enableCourseFilter();
