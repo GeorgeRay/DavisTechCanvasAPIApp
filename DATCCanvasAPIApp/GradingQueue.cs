@@ -25,7 +25,6 @@ namespace CanvasAPIApp
         public static PrioritySettings prioritySettings = new PrioritySettings();
         public static int defaultPriority { get; set; }
 
-
         private bool mongoWarningshown = false;
 
         public GradingQueue()
@@ -67,7 +66,6 @@ namespace CanvasAPIApp
             prioritySettings = new PrioritySettings();
             defaultPriority = Properties.Settings.Default.DefaultPriority;
 
-
         }
 
         private async void btnLoadCourses_Click(object sender, EventArgs e)
@@ -83,6 +81,15 @@ namespace CanvasAPIApp
             //reload the data
             btnRefreshQueue.Enabled = false;
             lblMessageBox.Text = "Getting Courses";
+
+            //saves sorting for after refresh
+            var sortColumn = gradingDataGrid.SortedColumn;
+
+            System.ComponentModel.ListSortDirection sortDirection = new System.ComponentModel.ListSortDirection();
+            if (gradingDataGrid.SortOrder == SortOrder.Ascending)
+                sortDirection = System.ComponentModel.ListSortDirection.Ascending;
+            else if(gradingDataGrid.SortOrder == SortOrder.Descending)
+                sortDirection = System.ComponentModel.ListSortDirection.Descending;
 
             //gets courses if they aren't already set
             if (CourseList.Count == 0)
@@ -118,6 +125,9 @@ namespace CanvasAPIApp
                     mongoCollection.DeleteOne(filter);
                 }
             }
+
+            //resets sort direction
+            gradingDataGrid.Sort(sortColumn, sortDirection);
 
             // using this method as hook to enable courseFilterTxt
             enableCourseFilter();
@@ -353,28 +363,31 @@ namespace CanvasAPIApp
                                 break;
                         }
                     }
-                    else
+                    else //database
                     {
                         //Reserved is checked
                         if (Convert.ToBoolean(gradingDataGrid.CurrentCell.Value) == true)
                         {
-                            gradingDataGrid.CurrentCell.Value = false;
-                            //Remove the data from the database
-                            if (connectedToMongoDB == true)
+                            DialogResult dialogResult = MessageBox.Show("This assignment is currently reserved. Do you want to unassign it?", "Unreserve?", MessageBoxButtons.YesNo);
+
+                            if (dialogResult == DialogResult.Yes)
                             {
-                                var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
-                                string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
-                                //Make call for URL
-                                var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
-                                mongoCollection.DeleteOne(filter);
+                                gradingDataGrid.CurrentCell.Value = false;
+                                //Remove the data from the database
+                                if (connectedToMongoDB == true)
+                                {
+                                    var mongoCollection = mongoDatabase.GetCollection<BsonDocument>(Properties.Settings.Default.MongoDBGradingCollection);
+                                    string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
+                                    //Make call for URL
+                                    var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
+                                    mongoCollection.DeleteOne(filter);
+                                }
                             }
                         }
-                        else
+                        else //Reserved is not checked
                         {
-                            gradingDataGrid.CurrentCell.Value = true;
-
+                            
                             string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
-                            Process.Start(url);
 
                             //Add the data to the database
                             if (connectedToMongoDB == true)
@@ -384,24 +397,36 @@ namespace CanvasAPIApp
                                 BsonDocument documentToWrite = new BsonDocument { { "_id", url }, { "grader", Properties.Settings.Default.AppUserName }, { "reserved_at", DateTime.Now.ToString() } };
                                 try
                                 {
-                                    mongoCollection.InsertOne(documentToWrite);
+                                    mongoCollection.InsertOne(documentToWrite); //try to write to database
+
+                                    //continue if successful:
+                                    gradingDataGrid.CurrentCell.Value = true;
+
+                                    Process browserTab = Process.Start(url); //grading url in new tab
+
+
                                 }
                                 catch (MongoDB.Driver.MongoWriteException writeException)
                                 {
                                     //Make call for URL
-                                    if (writeException.WriteError.Category == ServerErrorCategory.DuplicateKey)
+                                    if (writeException.WriteError.Category == ServerErrorCategory.DuplicateKey) // if this entry has already been made (assignment already reserved)
                                     {
                                         var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
                                         var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
                                         var grader = conflictDocument.GetElement("grader");
+
+                                        this.Activate(); //pulls the form into focus to display message
                                         MessageBox.Show($"This assignment was reserved by {grader.Value}");
+
+                                        RefreshQueue(); //refresh queue to update reserved checkbox
+
                                     }
                                     else
                                     {
                                         MessageBox.Show($"There was a MongoDB write error {writeException.Message}");
                                     }
                                 }
-                            }
+                            }//end if(connectedToMongo)
                         }
                     }
 
@@ -542,6 +567,6 @@ namespace CanvasAPIApp
             }
         }
 
-
+        
     }
 }
