@@ -396,15 +396,11 @@ namespace CanvasAPIApp
 
                                 BsonDocument documentToWrite = new BsonDocument { { "_id", url }, { "grader", Properties.Settings.Default.AppUserName }, { "reserved_at", DateTime.Now.ToString() } };
                                 try
-                                {
+                                { 
+                                    Process browserTab = Process.Start(url); //grading url in new tab
                                     mongoCollection.InsertOne(documentToWrite); //try to write to database
-
                                     //continue if successful:
                                     gradingDataGrid.CurrentCell.Value = true;
-
-                                    Process browserTab = Process.Start(url); //grading url in new tab
-
-
                                 }
                                 catch (MongoDB.Driver.MongoWriteException writeException)
                                 {
@@ -415,7 +411,9 @@ namespace CanvasAPIApp
                                         var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
                                         var grader = conflictDocument.GetElement("grader");
 
+                                        gradingDataGrid.CurrentCell.Value = true;
                                         this.Activate(); //pulls the form into focus to display message
+                                       
                                         MessageBox.Show($"This assignment was reserved by {grader.Value}");
 
                                         RefreshQueue(); //refresh queue to update reserved checkbox
