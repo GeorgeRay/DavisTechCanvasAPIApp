@@ -78,6 +78,7 @@ namespace CanvasAPIApp
 
         private async Task RefreshQueue()
         {
+
             //reload the data
             btnRefreshQueue.Enabled = false;
             lblMessageBox.Text = "Getting Courses";
