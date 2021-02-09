@@ -13,7 +13,7 @@ namespace CanvasAPIApp
     public partial class CoursesForm : Form
     {
         //Set access token
-        string coursesAccessToken = "access_token=" + Properties.Settings.Default.CurrentAccessToken;
+        string coursesAccessToken = Properties.Settings.Default.CurrentAccessToken;
         //Give Class access to Get Call
         GeneralAPIGets getProfile = new GeneralAPIGets();
 
@@ -58,10 +58,10 @@ namespace CanvasAPIApp
                 }
             }
         }
-        public void loadCourseLists()
+        public async void loadCourseLists()
         {
             addToCourse.Enabled = false;
-            coursesAccessToken = "access_token=" + Properties.Settings.Default.CurrentAccessToken;
+            coursesAccessToken = Properties.Settings.Default.CurrentAccessToken;
             CanvasAPIMainForm.GlobalCourseID = 1;
             try
             {  
@@ -72,7 +72,7 @@ namespace CanvasAPIApp
                     if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
                     {
                         string profileObject = "name";
-                        string userName = getProfile.GetProfile(profileObject);
+                        string userName = await getProfile.GetProfile(profileObject);
 
                         //Print message
                         labelLoggedIn.Text = "Showing courses for " + userName;
@@ -91,8 +91,8 @@ namespace CanvasAPIApp
 
                         // get jsonObj file
                         string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?per_page=1000&include[]=total_students&";//Get endpoint
-                        var client = new RestClient(endPoint);
-                        var json = client.MakeRequest(coursesAccessToken);
+                        Requester requester = new Requester();
+                        var json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
                         dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
                         //create columns and set width
@@ -130,8 +130,8 @@ namespace CanvasAPIApp
                             {
                                 {
                                     endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + course.id + "/users?per_page=1000&"; //Get endpoint
-                                    client = new RestClient(endPoint);
-                                    json = client.MakeRequest(coursesAccessToken);
+                                requester = new Requester();
+                                    json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
                                     jsonObj = JsonConvert.DeserializeObject(json);
 
                                     //list to add student id's to after they have been added to the all students list
@@ -177,7 +177,7 @@ namespace CanvasAPIApp
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void populateCourseStudents()
+        private async Task populateCourseStudents()
         {
             //Clear columns
             courseStudentsGrid.Columns.Clear();
@@ -190,8 +190,8 @@ namespace CanvasAPIApp
 
                 //Get list of students for course selected:
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/users?per_page=1000&";//Get endpoint
-                var client = new RestClient(endPoint);
-                var json = client.MakeRequest(coursesAccessToken);
+                Requester requester = new Requester();
+                var json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
                 dynamic jsonObj = JsonConvert.DeserializeObject(json);
                 courseStudentsGrid.Columns.Add("studentName", "Name");
                 courseStudentsGrid.Columns.Add("studentID", "ID");
@@ -262,7 +262,7 @@ namespace CanvasAPIApp
             }
         }
 
-        private void removeFromCourse_Click(object sender, EventArgs e)
+        private async void removeFromCourse_Click(object sender, EventArgs e)
         {
             try
             {
@@ -280,8 +280,8 @@ namespace CanvasAPIApp
                     Int64 studentID = Int64.Parse(allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString());
                     MessageBox.Show(studentID.ToString());
                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?";
-                    var client = new RestClient(endPoint);
-                    var json = client.MakeRequest(tokenParameter + "&sis_user_id=" + studentID);
+                    Requester requester = new Requester();
+                    var json = await requester.MakeRequestAsync(endPoint, tokenParameter, "&sis_user_id=" + studentID);
                     dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
 
@@ -295,15 +295,14 @@ namespace CanvasAPIApp
                             int enrollmentID = obj.id;
 
                             endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments/" + enrollmentID + "?";//Get base endpoint from setting
-                            client = new RestClient(endPoint);
-                            client.Method = HttpVerb.DELETE;//setting call to delete
+                            requester = new Requester();
                             string task = "&task=conclude";
 
 
                             //Make api call
                             try
                             {
-                                restResult = client.MakeRequest(coursesAccessToken + task);
+                                restResult = await requester.MakeRequestAsync(endPoint, coursesAccessToken, task);
                                 MessageBox.Show(courseName + " has been concluded for " + (courseStudentsGrid.Rows[courseStudentsGrid.CurrentCell.RowIndex].Cells["studentName"].Value.ToString()));
                                 populateCourseStudents();
                             }
@@ -324,7 +323,7 @@ namespace CanvasAPIApp
             }
         }
 
-    private void addToCourse_Click(object sender, EventArgs e)
+    private async void addToCourse_Click(object sender, EventArgs e)
         {
             try
             {
@@ -341,15 +340,14 @@ namespace CanvasAPIApp
                     Int64 studentID = Int64.Parse(allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString());
 
                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?";//Get base endpoint from setting
-                    var client = new RestClient(endPoint);
-                    client.Method = HttpVerb.POST;//setting call to post
+                    Requester requester = new Requester();
                     string parameters = "&enrollment[sis_user_id]=" + studentID + "&enrollment[type]=StudentEnrollment" + "&enrollment[enrollment_state] = active";
 
                     //Make api call
                     try
                     {
                         //add student and repopulate list
-                        restResult = client.MakeRequest(tokenParameter + parameters);
+                        restResult = await requester.MakeRequestAsync(endPoint, tokenParameter, parameters);
                         MessageBox.Show((courseStudentsGrid.Rows[courseStudentsGrid.CurrentCell.RowIndex].Cells["studentName"].Value.ToString()) + " has been invited to " + courseName);
                         populateCourseStudents();
                     }

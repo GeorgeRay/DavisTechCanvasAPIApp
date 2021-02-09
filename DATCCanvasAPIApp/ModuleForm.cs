@@ -22,7 +22,7 @@ namespace CanvasAPIApp
         }
 
         //Load course and user
-        private void btnLoadCourse_Click(object sender, EventArgs e)
+        private async void btnLoadCourse_Click(object sender, EventArgs e)
         {
             try
             {  //Ensure if there is active token
@@ -44,7 +44,7 @@ namespace CanvasAPIApp
                         if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
                         {
                             string profileObject = "name";
-                            string userName = getProfile.GetProfile(profileObject);
+                            string userName = await getProfile.GetProfile(profileObject);
 
                             //Print message
                             labelLoggedIn.Text = "Logged in as " + userName;
@@ -58,9 +58,8 @@ namespace CanvasAPIApp
                         {
                             //Get Course Name
                             string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "?";
-                            var courseClient = new RestClient(endPoint);
-                            courseClient.Method = HttpVerb.PUT;
-                            var json = courseClient.MakeRequest(parameters.AccessToken());
+                            Requester courseRequester = new Requester();
+                            var json = await courseRequester.MakeRequestAsync(endPoint, parameters.AccessToken());
                             //deserialize the JSON object
                             dynamic jsonObj = JsonConvert.DeserializeObject(json);
                             //parse the JSON object
@@ -80,8 +79,8 @@ namespace CanvasAPIApp
                             courseModulesGrid.Columns.Clear();
                             courseModulesGrid.Refresh();
                             string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "/modules?";//Get endpoint
-                            var client = new RestClient(endPoint);
-                            var json = client.MakeRequest(parameters.AccessToken());
+                            Requester requester = new Requester();
+                            var json = await requester.MakeRequestAsync(endPoint, parameters.AccessToken());
                             dynamic jsonObj = JsonConvert.DeserializeObject(json);
                             courseModulesGrid.Columns.Add("moduleName", "Module Name");
                             courseModulesGrid.Columns.Add("modulePos", "Position");
@@ -141,7 +140,7 @@ namespace CanvasAPIApp
             this.InitializeComponent();
         }
 
-        private void btnSubmitModule_Click(object sender, EventArgs e)
+        private async void btnSubmitModule_Click(object sender, EventArgs e)
         {
             try
             {
@@ -149,8 +148,7 @@ namespace CanvasAPIApp
                 string restResult = "No Call Made";//this will be over written by results from web call
                 var tokenParameter = parameters.AccessToken();//Create 
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "/modules?";//Get endpoint
-                var client = new RestClient(endPoint);
-                client.Method = HttpVerb.POST;//setting call to post
+                Requester requester = new Requester();
                 int moduleToMake = Convert.ToInt32(nudNumberOfModule.Value);
                 int moduleNumber = 0;
 
@@ -191,7 +189,7 @@ namespace CanvasAPIApp
                                     var htmlSafeIncrementedModuleName = Uri.EscapeDataString(incrementedModuleName);
                                     var moduleTitleParameter = "&module[name]=" + htmlSafeIncrementedModuleName;
 
-                                    restResult = client.MakeRequest(tokenParameter + moduleTitleParameter + allParameters);
+                                    restResult = await requester.MakeRequestAsync(endPoint, tokenParameter, moduleTitleParameter + allParameters);
 
                                     //Write Results to Text box
                                     rtbResults.AppendText(String.Format("{0,-50} {1,-10}\n", incrementedModuleName, "Created"));
@@ -220,7 +218,7 @@ namespace CanvasAPIApp
                         //Creating Module Name and making it HTML safe
                         var moduleNameParameter = "&module[name]=" + Uri.EscapeDataString(txbModuleName.Text);
                         MessageBox.Show(tokenParameter + moduleNameParameter + allParameters);
-                        restResult = client.MakeRequest(tokenParameter + moduleNameParameter + allParameters);
+                        restResult = await requester.MakeRequestAsync(endPoint, tokenParameter, moduleNameParameter + allParameters);
                         //Reset form for next submit
                         nudCourseID.TabStop = false;
                         txbBaseName.TabStop = false;

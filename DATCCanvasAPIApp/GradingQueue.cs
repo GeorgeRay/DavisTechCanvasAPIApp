@@ -81,15 +81,18 @@ namespace CanvasAPIApp
             //reload the data
             btnRefreshQueue.Enabled = false;
             lblMessageBox.Text = "Getting Courses";
-
+            
             //saves sorting for after refresh
             var sortColumn = gradingDataGrid.SortedColumn;
-
             System.ComponentModel.ListSortDirection sortDirection = new System.ComponentModel.ListSortDirection();
-            if (gradingDataGrid.SortOrder == SortOrder.Ascending)
-                sortDirection = System.ComponentModel.ListSortDirection.Ascending;
-            else if(gradingDataGrid.SortOrder == SortOrder.Descending)
-                sortDirection = System.ComponentModel.ListSortDirection.Descending;
+            if (sortColumn != null)
+            {
+                
+                if (gradingDataGrid.SortOrder == SortOrder.Ascending)
+                    sortDirection = System.ComponentModel.ListSortDirection.Ascending;
+                else if (gradingDataGrid.SortOrder == SortOrder.Descending)
+                    sortDirection = System.ComponentModel.ListSortDirection.Descending;
+            }
 
             //gets courses if they aren't already set
             if (CourseList.Count == 0)
@@ -126,8 +129,8 @@ namespace CanvasAPIApp
                 }
             }
 
-            //resets sort direction
-            gradingDataGrid.Sort(sortColumn, sortDirection);
+            if(sortColumn != null && (sortDirection == System.ComponentModel.ListSortDirection.Ascending  ||  sortDirection == System.ComponentModel.ListSortDirection.Descending))
+                gradingDataGrid.Sort(sortColumn, sortDirection);
 
             // using this method as hook to enable courseFilterTxt
             enableCourseFilter();
@@ -203,10 +206,11 @@ namespace CanvasAPIApp
             return defaultPriority;
         }
 
-        private Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
+        private async Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
         {
-            return Task.Run(() =>
-            {
+            Requester requester = new Requester();
+
+            
                 List<Assignment> ungradedAssignmentList = new List<Assignment>();
                 string urlParameters;
                 urlParameters = "student_ids[]=all";
@@ -215,12 +219,14 @@ namespace CanvasAPIApp
                 urlParameters += "&workflow_state[]=pending_review";
                 urlParameters += "&enrollment_state=active";
 
+                
+
                 // get grading history
                 foreach (Course course in courseList)
                 {
                     string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
-                    var client = new RestClient(endPoint);
-                    var json = client.MakeRequest("access_token=" + Properties.Settings.Default.CurrentAccessToken);
+                    
+                    string json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                     if (json != "")
                     {
                         dynamic jsonObj = JsonConvert.DeserializeObject(json);
@@ -276,22 +282,22 @@ namespace CanvasAPIApp
 
                 }
                 return ungradedAssignmentList;
-            });
+            
         }
 
 
         private Task<List<Course>> populateListOfCourses()
         {
 
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
 
                 List<Course> tempCourseList = new List<Course>();
 
                 // get jsonObj file
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?enrollment_type=teacher&per_page=1000&include[]=needs_grading_count&";//Get endpoint
-                var client = new RestClient(endPoint);
-                var json = client.MakeRequest("access_token=" + Properties.Settings.Default.CurrentAccessToken);
+                Requester requester = new Requester();
+                var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                 //if request fails a empty string will be returned, resulting in a null object
                 if (json != "")
                 {

@@ -165,6 +165,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AccessTokenForm";
             this.Text = "Access Token";
+            this.Load += new System.EventHandler(this.AccessTokenForm_Load);
             this.Shown += new System.EventHandler(this.AccessTokenForm_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();

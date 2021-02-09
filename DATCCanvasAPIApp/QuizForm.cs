@@ -186,15 +186,14 @@ namespace CanvasAPIApp
         }//End Control items in response combo box
 
         //submit Button
-        private void btnSubmitQuiz_Click(object sender, EventArgs e)
+        private async void btnSubmitQuiz_Click(object sender, EventArgs e)
         {
             //create variables
 
             string restResult = "No Call Made";//this will be over written by results from web call
             var tokenParameter = methods.AccessToken();//Create 
             string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/quizzes?";//Get base endpoint from setting
-            var client = new RestClient(endPoint);
-            client.Method = HttpVerb.POST;//setting call to post
+            Requester requester = new Requester();
             int quizesToMake = Convert.ToInt32(nudNumberOfQuiz.Value);
             int quizNumber = 0;
             //Setting methods
@@ -263,7 +262,7 @@ namespace CanvasAPIApp
                                 var htmlSafeIncrementedQuizInstruction = Uri.EscapeDataString(incrementedQuizInstruction);
                                 var quizDescriptionParameter = methods.QuizDescription(htmlSafeIncrementedQuizInstruction);
                                 //REST Call
-                                restResult = client.MakeRequest(tokenParameter + quizTitleParameter + allParameters + quizDescriptionParameter);
+                                restResult = await requester.MakeRequestAsync(endPoint, tokenParameter, quizTitleParameter + allParameters + quizDescriptionParameter);
                                 //Write Results to Text box
                                 rtbResults.AppendText(String.Format("{0,-50} {1,-10}\n", incrementedQuizName, "Created"));
                                 quizNumber++;
@@ -295,7 +294,7 @@ namespace CanvasAPIApp
                     var htmlSafeIncrementedQuizInstruction = Uri.EscapeDataString(incrementedQuizInstruction);
                     //Setting quiz description parameter
                     var quizDescriptionParameter = methods.QuizDescription(htmlSafeIncrementedQuizInstruction);
-                    restResult = client.MakeRequest(tokenParameter + quizTitleParameter + allParameters + quizDescriptionParameter);
+                    restResult = await requester.MakeRequestAsync(endPoint, tokenParameter, quizTitleParameter + allParameters + quizDescriptionParameter);
                     //Reset form for next submit
                     nudCourseID.TabStop = false;
                     txbBaseName.TabStop = false;
@@ -407,7 +406,7 @@ namespace CanvasAPIApp
             }
         }//End Quiz Type selected change
 
-        private void btnLoadCourse_Click(object sender, EventArgs e)
+        private async void btnLoadCourse_Click(object sender, EventArgs e)
         {
             try
             {
@@ -432,7 +431,7 @@ namespace CanvasAPIApp
                   if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
                   {
                      string profileObject = "name";
-                     userName = getProfile.GetProfile(profileObject);
+                     userName = await getProfile.GetProfile(profileObject);
 
                      //Print message
                      labelLoggedIn.Text = "Logged in as " + userName;
@@ -446,8 +445,8 @@ namespace CanvasAPIApp
                   try
                   {
                      string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/assignment_groups?";//Get base endpoint from setting
-                     var client = new RestClient(endPoint);
-                     var json = client.MakeRequest(methods.AccessToken());
+                     Requester requester = new Requester();
+                     var json = await requester.MakeRequestAsync(endPoint, methods.AccessToken());
                      dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
                      foreach (var obj in jsonObj)
@@ -457,9 +456,8 @@ namespace CanvasAPIApp
                      }
                      //Get Course Name
                      endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "?";
-                     var courseClient = new RestClient(endPoint);
-                     courseClient.Method = HttpVerb.PUT;
-                     json = courseClient.MakeRequest(methods.AccessToken());
+                     Requester courseRequester = new Requester();
+                     json = await courseRequester.MakeRequestAsync(endPoint, methods.AccessToken());
                      //deserialize the JSON object
                      jsonObj = JsonConvert.DeserializeObject(json);
                      //parse the JSON object

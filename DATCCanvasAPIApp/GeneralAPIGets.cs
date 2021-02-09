@@ -1,22 +1,22 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
+using System.Threading.Tasks;
 
 namespace CanvasAPIApp
 {
     class GeneralAPIGets
     {
         //Getting name from Profile
-        public dynamic GetProfile(string name)
+        public async Task<dynamic> GetProfile(string name)
         {
             //Make Call to get user name
             string accessToken = Properties.Settings.Default.CurrentAccessToken;
-            var token = "&access_token=" + accessToken;
+            var token = accessToken;
             //Get Profile
             string endPoint = Properties.Settings.Default.InstructureSite;
-            var client = new RestClient(endPoint);
+            Requester requester = new Requester();
             //Get Profile
-            var json = client.MakeRequest("/api/v1/users/self/profile?" + token);
+            var json = await requester.MakeRequestAsync(endPoint + "/api/v1/users/self/profile?", token);
             //Deserialize json object onlif if data was returned
             if (json != "")
             {

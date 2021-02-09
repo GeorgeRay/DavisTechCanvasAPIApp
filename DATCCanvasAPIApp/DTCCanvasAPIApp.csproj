@@ -176,6 +176,7 @@
     <Compile Include="FireBaseAddForm.Designer.cs">
       <DependentUpon>FireBaseAddForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Requester.cs" />
     <Compile Include="SubmissionVersion.cs" />
     <Compile Include="CoursesForm.cs">
       <SubType>Form</SubType>
@@ -230,18 +231,23 @@
     <Compile Include="WebCall.cs" />
     <EmbeddedResource Include="AccessTokenForm.resx">
       <DependentUpon>AccessTokenForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AssignmentForm.resx">
       <DependentUpon>AssignmentForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CalendarForm.resx">
       <DependentUpon>CalendarForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CanvasAPIMainForm.resx">
       <DependentUpon>CanvasAPIMainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CoursesForm.resx">
       <DependentUpon>CoursesForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GradingQueuePriorityForm.resx">
       <DependentUpon>GradingQueuePriorityForm.cs</DependentUpon>
@@ -251,9 +257,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FireBaseAddForm.resx">
       <DependentUpon>FireBaseAddForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GradingQueue.resx">
       <DependentUpon>GradingQueue.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ModuleForm.resx">
       <DependentUpon>ModuleForm.cs</DependentUpon>
