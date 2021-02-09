@@ -321,7 +321,7 @@ namespace CanvasAPIApp
             await RefreshQueue();
         }
 
-        private void gradingDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void gradingDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (gradingDataGrid.CurrentCell != null)
             {
@@ -374,7 +374,8 @@ namespace CanvasAPIApp
                             gradingDataGrid.CurrentCell.Value = true;
 
                             string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
-                            Process.Start(url);
+                            
+                            Process browserTab = Process.Start(url); //browser tab process
 
                             //Add the data to the database
                             if (connectedToMongoDB == true)
@@ -394,7 +395,14 @@ namespace CanvasAPIApp
                                         var filter = Builders<BsonDocument>.Filter.Eq("_id", url);
                                         var conflictDocument = mongoCollection.Find(filter).FirstOrDefault();
                                         var grader = conflictDocument.GetElement("grader");
+
+                                        this.Activate(); //brings form into focus
+
+                                        browserTab.Kill(); //closes browser tab
+
                                         MessageBox.Show($"This assignment was reserved by {grader.Value}");
+
+                                        await RefreshQueue(); //to update checkbox
                                     }
                                     else
                                     {
