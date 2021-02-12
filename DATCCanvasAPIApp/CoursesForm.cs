@@ -191,7 +191,10 @@ namespace CanvasAPIApp
 
                 foreach (var student in jsonObj)
                 {
-                    courseStudentsGrid.Rows.Add(String.Format(Convert.ToString(student.user.name)), (Convert.ToString(student.type)), Convert.ToString(student.id));
+                    String enrollemntTypeString = Convert.ToString(student.type);
+                    enrollemntTypeString = enrollemntTypeString.Substring(0, enrollemntTypeString.Length - 10);
+                    var displayName = $"{Convert.ToString(student.user.name)} ({enrollemntTypeString})";
+                    courseStudentsGrid.Rows.Add(displayName, (Convert.ToString(student.user.sis_user_id)), Convert.ToString(student.id));
                 }
                 courseStudentsGrid.Sort(courseStudentsGrid.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
             } //end try
