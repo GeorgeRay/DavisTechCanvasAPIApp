@@ -136,7 +136,7 @@ namespace CanvasAPIApp
 
                 //Get list of students from each course
 
-
+                
 
                 //set up each call in a task list
                 tasks.Add(Task.Run( async () =>
@@ -170,7 +170,7 @@ namespace CanvasAPIApp
             }
             
             //lets tasks complete
-            Task.WaitAll(tasks.ToArray());
+            await Task.WhenAll(tasks.ToArray());
 
             //when tasks are complete, fill out UI
             for(int i=0; i<studentList.Count; i++)
