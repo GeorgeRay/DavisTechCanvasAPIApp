@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace CanvasAPIApp
         string coursesAccessToken = Properties.Settings.Default.CurrentAccessToken;
         //Give Class access to Get Call
         GeneralAPIGets getProfile = new GeneralAPIGets();
+
+        Requester requester;
 
         public CoursesForm()
         {
@@ -60,6 +63,9 @@ namespace CanvasAPIApp
         }
         public async void loadCourseLists()
         {
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+
             addToCourse.Enabled = false;
             coursesAccessToken = Properties.Settings.Default.CurrentAccessToken;
             CanvasAPIMainForm.GlobalCourseID = 1;
@@ -91,7 +97,7 @@ namespace CanvasAPIApp
 
                         // get jsonObj file
                         string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?per_page=1000&include[]=total_students&";//Get endpoint
-                        Requester requester = new Requester();
+                        
                         var json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
                         dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
@@ -130,7 +136,7 @@ namespace CanvasAPIApp
                             {
                                 {
                                     endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + course.id + "/users?per_page=1000&"; //Get endpoint
-                                requester = new Requester();
+                                
                                     json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
                                     jsonObj = JsonConvert.DeserializeObject(json);
 
@@ -176,6 +182,9 @@ namespace CanvasAPIApp
                 MessageBox.Show("Token not authorized.  Input valid token.\n" + apiException.Message, "Authentication error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            timer.Stop();
+            Console.WriteLine($"V1 time: {timer.Elapsed}");
         }
         private async Task populateCourseStudents()
         {
@@ -190,7 +199,7 @@ namespace CanvasAPIApp
 
                 //Get list of students for course selected:
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/users?per_page=1000&";//Get endpoint
-                Requester requester = new Requester();
+                
                 var json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
                 dynamic jsonObj = JsonConvert.DeserializeObject(json);
                 courseStudentsGrid.Columns.Add("studentName", "Name");
@@ -212,6 +221,7 @@ namespace CanvasAPIApp
 
         private void CoursesForm_Load(object sender, EventArgs e)
         {
+            requester = new Requester();
             //loadCourseLists();
         }
 
@@ -280,7 +290,7 @@ namespace CanvasAPIApp
                     Int64 studentID = Int64.Parse(allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString());
                     MessageBox.Show(studentID.ToString());
                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?";
-                    Requester requester = new Requester();
+                    
                     var json = await requester.MakeRequestAsync(endPoint, tokenParameter, "&sis_user_id=" + studentID);
                     dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
@@ -295,7 +305,7 @@ namespace CanvasAPIApp
                             int enrollmentID = obj.id;
 
                             endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments/" + enrollmentID + "?";//Get base endpoint from setting
-                            requester = new Requester();
+                            
                             string task = "&task=conclude";
 
 
@@ -340,7 +350,7 @@ namespace CanvasAPIApp
                     Int64 studentID = Int64.Parse(allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString());
 
                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?";//Get base endpoint from setting
-                    Requester requester = new Requester();
+                    
                     string parameters = "&enrollment[sis_user_id]=" + studentID + "&enrollment[type]=StudentEnrollment" + "&enrollment[enrollment_state] = active";
 
                     //Make api call
