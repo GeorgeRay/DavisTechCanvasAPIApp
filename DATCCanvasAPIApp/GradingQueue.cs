@@ -220,68 +220,78 @@ namespace CanvasAPIApp
             urlParameters += "&workflow_state[]=pending_review";
             urlParameters += "&enrollment_state=active";
 
+            //async webcalls vars
+            List<Tuple<string, string>> studentList = new List<Tuple<string, string>>();
+            List<Task> tasks = new List<Task>();
 
-
-            // get grading history
+            // gets grading event history
+            // adds each call to task
             foreach (Course course in courseList)
             {
-                string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
 
-                string json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
-                if (json != "")
+                tasks.Add(Task.Run( async () =>
                 {
-                    dynamic jsonObj = JsonConvert.DeserializeObject(json);
-                    if (jsonObj.Count > 0)
+                    string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
+
+                    string json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                    if (json != "")
                     {
-                        foreach (var submission in jsonObj)
+                        dynamic jsonObj = JsonConvert.DeserializeObject(json);
+                        if (jsonObj.Count > 0)
                         {
-                            var temp_submitted_at = Convert.ToString(submission.submitted_at);
-
-                            var assignment = submission.assignment;
-                            //There is data that came back without a submission date and crashed the program.
-                            if (DateTime.TryParse(temp_submitted_at, out DateTime submitted_at))
+                            foreach (var submission in jsonObj)
                             {
-                                submitted_at = submitted_at.ToLocalTime();
+                                var temp_submitted_at = Convert.ToString(submission.submitted_at);
 
-                                //var url = Convert.ToString(submission.url);
-                                //var submitted_at = Convert.ToDateTime(submission.submitted_at).ToLocalTime();
-                                //var submitted_at = Convert.ToString(submission.submitted_at);
-                                var workflow_state = Convert.ToString(submission.workflow_state);
-                                var assignment_id = Convert.ToString(submission.assignment_id);
-                                var user_id = Convert.ToString(submission.user_id);
-                                var priority = -1;
-                                var graded_at = Convert.ToString(submission.graded_at);
-                                var posted_at = Convert.ToString(submission.posted_at);
-                                var preview_url = Convert.ToString(submission.preview_url);
-                                var grader = Convert.ToString(submission.grader);
-                                var assignment_name = Convert.ToString(assignment.name);
-                                var current_graded_at = Convert.ToString(submission.current_graded_at);
-                                var current_grader = Convert.ToString(submission.current_grader);
-                                var speed_grader_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/gradebook/speed_grader?assignment_id={assignment_id}&student_id={user_id}";
-                                var grades_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/grades/{user_id}";
-                                var reserved = false;
-                                //assigning priority for sorting
-                                priority = assignPriority($"{assignment_name} {course.CourseName}");
-                                //see if assignment is reserved                                
-                                var results = gradingReservedList.Where(reservedAssignment => reservedAssignment._id == speed_grader_url);
-                                if (results.Count() > 0)
+                                var assignment = submission.assignment;
+                                //There is data that came back without a submission date and crashed the program.
+                                if (DateTime.TryParse(temp_submitted_at, out DateTime submitted_at))
                                 {
-                                    var theReservation = results.ElementAt(0);
-                                    reserved = true;
-                                    workflow_state = $"Reserved by {theReservation.grader} at {theReservation.reserved_at}";
-                                    //remove the item from the grading reserve list, the list will be used to trim up the grading database
-                                    gradingReservedList.Remove(theReservation);
-                                }
+                                    submitted_at = submitted_at.ToLocalTime();
 
-                                ungradedAssignmentList.Add(new Assignment(reserved, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url, grades_url));
+                                    //var url = Convert.ToString(submission.url);
+                                    //var submitted_at = Convert.ToDateTime(submission.submitted_at).ToLocalTime();
+                                    //var submitted_at = Convert.ToString(submission.submitted_at);
+                                    var workflow_state = Convert.ToString(submission.workflow_state);
+                                    var assignment_id = Convert.ToString(submission.assignment_id);
+                                    var user_id = Convert.ToString(submission.user_id);
+                                    var priority = -1;
+                                    var graded_at = Convert.ToString(submission.graded_at);
+                                    var posted_at = Convert.ToString(submission.posted_at);
+                                    var preview_url = Convert.ToString(submission.preview_url);
+                                    var grader = Convert.ToString(submission.grader);
+                                    var assignment_name = Convert.ToString(assignment.name);
+                                    var current_graded_at = Convert.ToString(submission.current_graded_at);
+                                    var current_grader = Convert.ToString(submission.current_grader);
+                                    var speed_grader_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/gradebook/speed_grader?assignment_id={assignment_id}&student_id={user_id}";
+                                    var grades_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/grades/{user_id}";
+                                    var reserved = false;
+                                    //assigning priority for sorting
+                                    priority = assignPriority($"{assignment_name} {course.CourseName}");
+                                    //see if assignment is reserved                                
+                                    var results = gradingReservedList.Where(reservedAssignment => reservedAssignment._id == speed_grader_url);
+                                    if (results.Count() > 0)
+                                    {
+                                        var theReservation = results.ElementAt(0);
+                                        reserved = true;
+                                        workflow_state = $"Reserved by {theReservation.grader} at {theReservation.reserved_at}";
+                                        //remove the item from the grading reserve list, the list will be used to trim up the grading database
+                                        gradingReservedList.Remove(theReservation);
+                                    }
+
+                                    ungradedAssignmentList.Add(new Assignment(reserved, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url, grades_url));
+                                }
                             }
                         }
+
                     }
+                }));
 
-                }
+            }//end foreach
 
+            //waits for all tasks
+            await Task.WhenAll(tasks.ToArray());
 
-            }
             return ungradedAssignmentList;
 
         }

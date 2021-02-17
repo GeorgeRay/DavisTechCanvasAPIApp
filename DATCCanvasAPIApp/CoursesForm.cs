@@ -59,8 +59,8 @@ namespace CanvasAPIApp
         public async void loadCourseLists()
         {
             //performance timer
-            //Stopwatch timer = new Stopwatch();
-            //timer.Start();
+            /*Stopwatch timer = new Stopwatch();
+            timer.Start();*/
 
             addToCourse.Enabled = false;
             coursesAccessToken = Properties.Settings.Default.CurrentAccessToken;
@@ -188,8 +188,8 @@ namespace CanvasAPIApp
 
 
 
-            timer.Stop();
-            Console.WriteLine($"V2 time: {timer.Elapsed}");
+            /*timer.Stop();
+            Console.WriteLine($"V2 time: {timer.Elapsed}");*/
         }
         private async Task populateCourseStudents()
         {
