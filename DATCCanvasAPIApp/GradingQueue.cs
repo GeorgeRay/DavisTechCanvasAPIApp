@@ -6,8 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using MongoDB.Driver;
+using MongoDB.Bson;
+using MongoDB.Driver.Linq;
+using System.Globalization;
+
 
 namespace CanvasAPIApp
 {
@@ -80,7 +87,9 @@ namespace CanvasAPIApp
         {
 
             //reload the data
+            cbxAutoRefresh.Enabled = false;
             btnRefreshQueue.Enabled = false;
+            btnLoadCourses.Enabled = false;
             lblMessageBox.Text = "Getting Courses";
 
             //saves sorting for after refresh
@@ -109,16 +118,33 @@ namespace CanvasAPIApp
             }
             if (CourseList.Count > 0)
             {
-                lblMessageBox.Text = "Loading Assignments";
+                lblMessageBox.Text = "Getting Assignments";
                 ungradedAssignmentList = await populateGradingEventHistory(CourseList, gradingReservedList);
-                LoadDataGridView(courseFilter(ungradedAssignmentList, courseFilterTxt.Text));
+                if (ungradedAssignmentList.Count == 0)
+                {
+                    DateTime date = new DateTime();
+                    date = DateTime.Now;
+                    lblMessageBox.Text = $"Grading Queue is Empty. Last refresh: {date.ToString("t")}";
+                    clearDataGridView();
+                }
+                else
+                {
+                    lblMessageBox.Text = "Populating List";
+                    LoadDataGridView(courseFilter(ungradedAssignmentList, courseFilterTxt.Text));
+                    DateTime date = new DateTime();
+                    date = DateTime.Now;
+                    lblMessageBox.Text = $"Last refresh: {date.ToString("t")}";
+                }
             }
             else
             {
-                lblMessageBox.Text = "Grading Queue is empty";
+                lblMessageBox.Text = "No Courses";
                 clearDataGridView();
             }
+            //turn back on the buttons
             btnRefreshQueue.Enabled = true;
+            cbxAutoRefresh.Enabled = true;
+            btnLoadCourses.Enabled = true;
             //Clean up data remove anything in the database reserved by user that is no longer in the queue
             foreach (ReservedAssignment assignment in gradingReservedList)
             {
@@ -130,8 +156,10 @@ namespace CanvasAPIApp
                 }
             }
 
+
             if (sortColumn != null && (sortDirection == System.ComponentModel.ListSortDirection.Ascending || sortDirection == System.ComponentModel.ListSortDirection.Descending))
                 gradingDataGrid.Sort(sortColumn, sortDirection);
+
 
             // using this method as hook to enable courseFilterTxt
             enableCourseFilter();

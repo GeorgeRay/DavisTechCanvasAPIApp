@@ -66,6 +66,7 @@ namespace CanvasAPIApp
             coursesAccessToken = Properties.Settings.Default.CurrentAccessToken;
             CanvasAPIMainForm.GlobalCourseID = 1;
 
+
             //async webcalls vars
             List<Tuple<string, string>> studentList = new List<Tuple<string, string>>();
             List<Task> tasks = new List<Task>();
@@ -192,16 +193,11 @@ namespace CanvasAPIApp
             Console.WriteLine($"V2 time: {timer.Elapsed}");*/
         }
         private async Task populateCourseStudents()
-        {
-            //Clear columns
+      //Clear columns
             courseStudentsGrid.Columns.Clear();
-
-
 
             try
             {
-
-
                 //Get list of students for course selected:
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/users?per_page=1000&";//Get endpoint
 
@@ -209,10 +205,16 @@ namespace CanvasAPIApp
                 dynamic jsonObj = JsonConvert.DeserializeObject(json);
                 courseStudentsGrid.Columns.Add("studentName", "Name");
                 courseStudentsGrid.Columns.Add("studentID", "ID");
+                courseStudentsGrid.Columns.Add("EnrollmentID", "EnrollmentID");
+                courseStudentsGrid.Columns["EnrollmentID"].Visible = false; //We don't need to show the canvas ID but will use it to work with students.
+
 
                 foreach (var student in jsonObj)
                 {
-                    courseStudentsGrid.Rows.Add(String.Format(Convert.ToString(student.name)), (Convert.ToString(student.sis_user_id)));
+                    String enrollemntTypeString = Convert.ToString(student.type);
+                    enrollemntTypeString = enrollemntTypeString.Substring(0, enrollemntTypeString.Length - 10);
+                    var displayName = $"{Convert.ToString(student.user.name)} ({enrollemntTypeString})";
+                    courseStudentsGrid.Rows.Add(displayName, (Convert.ToString(student.user.sis_user_id)), Convert.ToString(student.id));
                 }
                 courseStudentsGrid.Sort(courseStudentsGrid.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
             } //end try
@@ -280,66 +282,49 @@ namespace CanvasAPIApp
 
         private async void removeFromCourse_Click(object sender, EventArgs e)
         {
-            try
-            {
 
-                //get course name from list
-                string courseName = (courseDataGridView.Rows[courseDataGridView.CurrentCell.RowIndex].Cells["courseName"].Value.ToString());
-                //verify that selected student is to be removed
-                DialogResult removeStudent = MessageBox.Show("Are you sure you want to conclude " + courseName + " for this student?", "Remove Student", MessageBoxButtons.YesNo);
-                if (removeStudent == DialogResult.Yes)
+            //get course name from list
+            string courseName = (courseDataGridView.Rows[courseDataGridView.CurrentCell.RowIndex].Cells["courseName"].Value.ToString());
+            //Get selected student
+            string studentName = courseStudentsGrid.Rows[courseStudentsGrid.CurrentCell.RowIndex].Cells["studentName"].Value.ToString();
+            string studentID = courseStudentsGrid.Rows[courseStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString();
+            string enrollmentID = courseStudentsGrid.Rows[courseStudentsGrid.CurrentCell.RowIndex].Cells["enrollmentID"].Value.ToString();
+
+
+            //verify that selected student is to be removed
+            DialogResult removeStudent = MessageBox.Show($"Are you sure you want to conclude {courseName} for {studentName}?", "Remove Student", MessageBoxButtons.YesNo);
+            if (removeStudent == DialogResult.Yes)
+            {
+                string restResult = "No Call Made";//this will be over written by results from web call
+                var tokenParameter = coursesAccessToken;//Create
+
+
+
+                string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments/" + enrollmentID + "?";
+                var client = new RestClient(endPoint);
+                client.Method = HttpVerb.DELETE;//setting call to delete
+                try
                 {
-                    string restResult = "No Call Made";//this will be over written by results from web call
-                    var tokenParameter = coursesAccessToken;//Create
-
-                    //get student id from list
-                    Int64 studentID = Int64.Parse(allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString());
-                    MessageBox.Show(studentID.ToString());
-                    string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?";
-
-                    var json = await requester.MakeRequestAsync(endPoint, tokenParameter, "&sis_user_id=" + studentID);
-                    dynamic jsonObj = JsonConvert.DeserializeObject(json);
+                    //Make api call
+                    restResult = client.MakeRequest(tokenParameter);
 
 
-                    //int objCount = 0;
+                    MessageBox.Show(courseName + " has been concluded for " + studentName);
+                    populateCourseStudents();
 
-                    //check for duplicates
-                    foreach (var obj in jsonObj)
-                    {
-                        if (obj.type != "TeacherEnrollment")
-                        {
-                            int enrollmentID = obj.id;
-
-                            endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments/" + enrollmentID + "?";//Get base endpoint from setting
-
-                            string task = "&task=conclude";
-
-
-                            //Make api call
-                            try
-                            {
-                                restResult = await requester.MakeRequestAsync(endPoint, coursesAccessToken, task);
-                                MessageBox.Show(courseName + " has been concluded for " + (courseStudentsGrid.Rows[courseStudentsGrid.CurrentCell.RowIndex].Cells["studentName"].Value.ToString()));
-                                populateCourseStudents();
-                            }
-                            catch (Exception apiException)
-                            {
-                                MessageBox.Show("Error during API call.\n" + apiException.Message);
-                            }
-                        }
-                        else
-                            MessageBox.Show(Convert.ToString(obj.sis_user_id) + " could not conclude the course.\nYou must conclude teachers from datc.canvas.com");
-                    }
                 }
-            } //end try
-            catch (Exception apiException)
-            {
-                MessageBox.Show("Error removing student.\n\n" + apiException.Message, "Authentication error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                catch (Exception apiException)
+                {
+                    MessageBox.Show("Error during API call.\n" + apiException.Message);
+                }
+
             }
+
         }
 
+
         private async void addToCourse_Click(object sender, EventArgs e)
+
         {
             try
             {
