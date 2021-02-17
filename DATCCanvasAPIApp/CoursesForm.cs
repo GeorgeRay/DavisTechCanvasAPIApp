@@ -1,12 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace CanvasAPIApp
 {
@@ -16,6 +12,8 @@ namespace CanvasAPIApp
         string coursesAccessToken = Properties.Settings.Default.CurrentAccessToken;
         //Give Class access to Get Call
         GeneralAPIGets getProfile = new GeneralAPIGets();
+
+        Requester requester;
 
         public CoursesForm()
         {
@@ -41,7 +39,7 @@ namespace CanvasAPIApp
         // search box on text change
         private void searchBox_TextChanged(object sender, EventArgs e)
         {
-            foreach(DataGridViewRow row in courseDataGridView.Rows)
+            foreach (DataGridViewRow row in courseDataGridView.Rows)
             {
                 // search by name or ID
 
@@ -60,137 +58,153 @@ namespace CanvasAPIApp
         }
         public async void loadCourseLists()
         {
+            //performance timer
+            /*Stopwatch timer = new Stopwatch();
+            timer.Start();*/
+
             addToCourse.Enabled = false;
             coursesAccessToken = Properties.Settings.Default.CurrentAccessToken;
             CanvasAPIMainForm.GlobalCourseID = 1;
-            try
-            {  
-                    //Setting wait cursor
-                    Cursor.Current = Cursors.WaitCursor;
 
-                    //Make Call to get user name
-                    if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
-                    {
-                        string profileObject = "name";
-                        string userName = await getProfile.GetProfile(profileObject);
+            //async webcalls vars
+            List<Tuple<string, string>> studentList = new List<Tuple<string, string>>();
+            List<Task> tasks = new List<Task>();
 
-                        //Print message
-                        labelLoggedIn.Text = "Showing courses for " + userName;
-                    }
-                    else
-                    {
-                        labelLoggedIn.Text = "Not logged in";
-                    }
-                    //Get list of courses
-                    try
-                    {
-                        //clear all datagridviews
-                        courseStudentsGrid.Columns.Clear();
-                        allStudentsGrid.Columns.Clear();
-                        courseDataGridView.Columns.Clear();
+            //Setting wait cursor
+            Cursor.Current = Cursors.WaitCursor;
 
-                        // get jsonObj file
-                        string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?per_page=1000&include[]=total_students&";//Get endpoint
-                        Requester requester = new Requester();
-                        var json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
-                        dynamic jsonObj = JsonConvert.DeserializeObject(json);
-
-                        //create columns and set width
-                        courseDataGridView.Columns.Add("courseName", "Course Name");
-                        courseDataGridView.Columns.Add("courseID", "Course ID");
-                        courseDataGridView.Columns.Add("courseState", "Workflow State");
-                        courseDataGridView.Columns.Add("courseStudents", "Student Count");
-                        courseDataGridView.Columns.Add("courseRoles", "Roles");
-                        courseDataGridView.Columns[0].Width = 290;
-                        courseDataGridView.Columns[2].Width = 90;
-                        courseDataGridView.Columns[3].Width = 50;
-
-                        //create student grid columns
-                        allStudentsGrid.Columns.Add("studentName", "Name");
-                        allStudentsGrid.Columns.Add("studentID", "ID");
-
-                        string studentsAdded = "";
-
-                    foreach (var course in jsonObj)
-                    {
-
-                        //get and format course roles
-                        string rolesString = "";
-                        foreach (dynamic v in course.enrollments)
-                        {
-                            rolesString += v.type + ", ";
-                        }
-                        rolesString = rolesString.Trim().Trim(',');
-
-                            //populate course list
-                            courseDataGridView.Rows.Add(String.Format(Convert.ToString(course.name)), (Convert.ToString(course.id)), (Convert.ToString(course.workflow_state)), (Convert.ToString(course.total_students)), Convert.ToString(rolesString));
-
-                            //Get list of students from each course
-                            try
-                            {
-                                {
-                                    endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + course.id + "/users?per_page=1000&"; //Get endpoint
-                                requester = new Requester();
-                                    json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
-                                    jsonObj = JsonConvert.DeserializeObject(json);
-
-                                    //list to add student id's to after they have been added to the all students list
-                                    string currentCourseID = Convert.ToString(course.id);
-
-                                    foreach (var student in jsonObj)
-                                    {
-                                        if (student.sis_user_id != null && student.name != null)
-                                        {
-                                            //add student if the id is not found in students added
-                                            if (!studentsAdded.Contains(Convert.ToString(student.sis_user_id)))
-                                            {
-                                                allStudentsGrid.Rows.Add(String.Format(Convert.ToString(student.name)), (Convert.ToString(student.sis_user_id)));
-                                                //add to list
-                                                studentsAdded += Convert.ToString(student.sis_user_id);
-                                            }
-                                        }
-                                    }
-                                }
-                            } //end try
-                            catch (Exception populateCourseStudentsException)
-                            {
-                                MessageBox.Show("An error has occurred populating course students. " + populateCourseStudentsException.Message + "\n");
-                            }
-                        }
-                    } //end try
-                    catch (Exception populateCoursesException)
-                    {
-                        MessageBox.Show(populateCoursesException.Message + "\n");
-                    }
-                    //clear selections and sort columns
-                    allStudentsGrid.Sort(allStudentsGrid.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
-                    allStudentsGrid.ClearSelection();
-                    courseStudentsGrid.ClearSelection();
-                    removeFromCourse.Enabled = false;
-                    courseDataGridView.Sort(courseDataGridView.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
-                    courseDataGridView.ClearSelection();
-                
-            } //end try
-            catch (Exception apiException)
+            //Make Call to get user name
+            if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
             {
-                MessageBox.Show("Token not authorized.  Input valid token.\n" + apiException.Message, "Authentication error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string profileObject = "name";
+                string userName = await getProfile.GetProfile(profileObject);
+
+                //Print message
+                labelLoggedIn.Text = "Showing courses for " + userName;
             }
+            else
+            {
+                labelLoggedIn.Text = "Not logged in";
+            }
+
+
+
+            //Get list of courses
+
+            //clear all datagridviews
+            courseStudentsGrid.Columns.Clear();
+            allStudentsGrid.Columns.Clear();
+            courseDataGridView.Columns.Clear();
+
+            // get jsonObj file
+            string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?per_page=1000&include[]=total_students&";//Get endpoint
+
+            var json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
+            dynamic jsonObj = JsonConvert.DeserializeObject(json);
+
+            //create columns and set width
+            courseDataGridView.Columns.Add("courseName", "Course Name");
+            courseDataGridView.Columns.Add("courseID", "Course ID");
+            courseDataGridView.Columns.Add("courseState", "Workflow State");
+            courseDataGridView.Columns.Add("courseStudents", "Student Count");
+            courseDataGridView.Columns.Add("courseRoles", "Roles");
+            courseDataGridView.Columns[0].Width = 290;
+            courseDataGridView.Columns[2].Width = 90;
+            courseDataGridView.Columns[3].Width = 50;
+
+            //create student grid columns
+            allStudentsGrid.Columns.Add("studentName", "Name");
+            allStudentsGrid.Columns.Add("studentID", "ID");
+
+            string studentsAdded = "";
+
+            foreach (var course in jsonObj)
+            {
+
+                //get and format course roles
+                string rolesString = "";
+                foreach (dynamic v in course.enrollments)
+                {
+                    rolesString += v.type + ", ";
+                }
+                rolesString = rolesString.Trim().Trim(',');
+
+                //populate course list
+                courseDataGridView.Rows.Add(String.Format(Convert.ToString(course.name)), (Convert.ToString(course.id)), (Convert.ToString(course.workflow_state)), (Convert.ToString(course.total_students)), Convert.ToString(rolesString));
+
+                //Get list of students from each course
+
+
+
+                //set up each call in a task list
+                tasks.Add(Task.Run(async () =>
+               {
+                   endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + course.id + "/users?per_page=1000&"; //Get endpoint
+
+                    json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
+                   jsonObj = JsonConvert.DeserializeObject(json);
+
+                    //list to add student id's to after they have been added to the all students list
+                    string currentCourseID = Convert.ToString(course.id);
+
+                   foreach (var student in jsonObj)
+                   {
+                       if (student.sis_user_id != null && student.name != null)
+                       {
+                            //add student if the id is not found in students added
+                            if (!studentsAdded.Contains(Convert.ToString(student.sis_user_id)))
+                           {
+                               studentList.Add(new Tuple<string, string>(Convert.ToString(student.name), Convert.ToString(student.sis_user_id)));
+
+                                //allStudentsGrid.Rows.Add(String.Format(Convert.ToString(student.name)), (Convert.ToString(student.sis_user_id)));
+
+                                //add to list
+                                studentsAdded += Convert.ToString(student.sis_user_id);
+                           }
+                       }
+                   }
+               }));
+
+            }
+
+            //lets tasks complete
+            await Task.WhenAll(tasks.ToArray());
+
+            //when tasks are complete, fill out UI
+            for (int i = 0; i < studentList.Count; i++)
+            {
+
+                allStudentsGrid.Rows.Add(studentList[i].Item1, studentList[i].Item2);
+            }
+
+
+            //clear selections and sort columns
+            allStudentsGrid.Sort(allStudentsGrid.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
+            allStudentsGrid.ClearSelection();
+            courseStudentsGrid.ClearSelection();
+            removeFromCourse.Enabled = false;
+            courseDataGridView.Sort(courseDataGridView.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
+            courseDataGridView.ClearSelection();
+
+
+
+            /*timer.Stop();
+            Console.WriteLine($"V2 time: {timer.Elapsed}");*/
         }
         private async Task populateCourseStudents()
         {
             //Clear columns
             courseStudentsGrid.Columns.Clear();
 
-           
-            
+
+
             try
             {
-                
+
 
                 //Get list of students for course selected:
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/users?per_page=1000&";//Get endpoint
-                Requester requester = new Requester();
+
                 var json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
                 dynamic jsonObj = JsonConvert.DeserializeObject(json);
                 courseStudentsGrid.Columns.Add("studentName", "Name");
@@ -212,6 +226,7 @@ namespace CanvasAPIApp
 
         private void CoursesForm_Load(object sender, EventArgs e)
         {
+            requester = new Requester();
             //loadCourseLists();
         }
 
@@ -223,8 +238,8 @@ namespace CanvasAPIApp
                 {
                     //mash name, ID and state together to search via substring
                     string search = row.Cells["studentName"].Value.ToString();
-                    
-                    if(row.Cells["studentID"].Value != null)
+
+                    if (row.Cells["studentID"].Value != null)
                         search += row.Cells["studentID"].Value.ToString();
 
                     if (!search.ToLower().Contains(enrolledStudentsSearch.Text.ToLower()))
@@ -236,7 +251,8 @@ namespace CanvasAPIApp
                         row.Visible = true;
                     }
                 }
-            }catch(Exception exc)
+            }
+            catch (Exception exc)
             {
                 MessageBox.Show("Error - " + exc.Message);
             }
@@ -280,7 +296,7 @@ namespace CanvasAPIApp
                     Int64 studentID = Int64.Parse(allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString());
                     MessageBox.Show(studentID.ToString());
                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?";
-                    Requester requester = new Requester();
+
                     var json = await requester.MakeRequestAsync(endPoint, tokenParameter, "&sis_user_id=" + studentID);
                     dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
@@ -295,7 +311,7 @@ namespace CanvasAPIApp
                             int enrollmentID = obj.id;
 
                             endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments/" + enrollmentID + "?";//Get base endpoint from setting
-                            requester = new Requester();
+
                             string task = "&task=conclude";
 
 
@@ -323,7 +339,7 @@ namespace CanvasAPIApp
             }
         }
 
-    private async void addToCourse_Click(object sender, EventArgs e)
+        private async void addToCourse_Click(object sender, EventArgs e)
         {
             try
             {
@@ -340,7 +356,7 @@ namespace CanvasAPIApp
                     Int64 studentID = Int64.Parse(allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString());
 
                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?";//Get base endpoint from setting
-                    Requester requester = new Requester();
+
                     string parameters = "&enrollment[sis_user_id]=" + studentID + "&enrollment[type]=StudentEnrollment" + "&enrollment[enrollment_state] = active";
 
                     //Make api call
@@ -379,8 +395,8 @@ namespace CanvasAPIApp
         }
 
         private void btnLoadCourses_Click(object sender, EventArgs e)
-        { 
-            loadCourseLists();           
+        {
+            loadCourseLists();
         }
     }
 }

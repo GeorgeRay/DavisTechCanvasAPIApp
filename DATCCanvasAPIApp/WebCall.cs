@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
-using System.Net.Http;
 
 //this class will be removed entirely before the merge, I left it here for reference 
 

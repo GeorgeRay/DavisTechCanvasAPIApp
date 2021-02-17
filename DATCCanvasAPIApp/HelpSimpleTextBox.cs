@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Newtonsoft.Json;
-using System.Globalization;
 
 namespace CanvasAPIApp
 {
@@ -26,10 +24,10 @@ namespace CanvasAPIApp
             {
                 version = "Version number not available during debugging";
             }
-                
-                string helpText = "Version: " + version;
-                rtbHelpOutput.Text = helpText;
-           
+
+            string helpText = "Version: " + version;
+            rtbHelpOutput.Text = helpText;
+
 
         }//End Text box load
     }//End Class

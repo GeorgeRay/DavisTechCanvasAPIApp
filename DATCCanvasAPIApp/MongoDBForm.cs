@@ -69,7 +69,7 @@ namespace CanvasAPIApp
                 //Set wait cursor
                 Cursor.Current = Cursors.WaitCursor;
                 var client = new MongoClient(connectionString);
-                
+
                 var database = client.GetDatabase(txbDefaultDatabase.Text);
 
                 foreach (var collection in database.ListCollectionsAsync().Result.ToListAsync<BsonDocument>().Result)

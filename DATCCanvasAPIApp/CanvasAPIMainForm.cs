@@ -24,7 +24,7 @@ namespace CanvasAPIApp
         private void CanvasAPIMainForm_Load(object sender, EventArgs e)
         {
 
-          
+
             //If there is no canvas token automatically open settings, this will generally only happen on the first opening. This is just a first time user check.
             if (Properties.Settings.Default.CurrentAccessToken == "No Access Token" || Properties.Settings.Default.CurrentAccessToken == "")
             {
@@ -130,11 +130,11 @@ namespace CanvasAPIApp
         //Open Current Profile form
         private void getCurrentProfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-                Cursor.Current = Cursors.WaitCursor;
-                SimpleTextBox simpleTxbForm = new SimpleTextBox("Current Profile", "Current Profile");
-                simpleTxbForm.StartPosition = FormStartPosition.CenterScreen;
-                simpleTxbForm.ShowDialog();
-                Cursor.Current = Cursors.Default;           
+            Cursor.Current = Cursors.WaitCursor;
+            SimpleTextBox simpleTxbForm = new SimpleTextBox("Current Profile", "Current Profile");
+            simpleTxbForm.StartPosition = FormStartPosition.CenterScreen;
+            simpleTxbForm.ShowDialog();
+            Cursor.Current = Cursors.Default;
 
         }//End Open Current Profile Form
 

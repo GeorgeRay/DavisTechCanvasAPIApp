@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CanvasAPIApp
 {
@@ -13,8 +9,8 @@ namespace CanvasAPIApp
         {
             return Properties.Settings.Default.CurrentAccessToken;
         }//End Get Access Token Parameter
-        
-        public string SequentialProgress (bool seqProChecked)
+
+        public string SequentialProgress(bool seqProChecked)
         {
             if (seqProChecked == true)
                 return "&module[require_sequential_progress]=true";

@@ -2,7 +2,7 @@
 
 namespace CanvasAPIApp
 {
-    class SubmissionVersion 
+    class SubmissionVersion
     {
         public DateTime Submitted_at { get; set; }
         public dynamic Assignment_id { get; set; }

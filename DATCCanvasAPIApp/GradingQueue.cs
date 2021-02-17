@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Linq;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Bson;
 using MongoDB.Driver.Linq;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CanvasAPIApp
 {
@@ -82,13 +82,13 @@ namespace CanvasAPIApp
             //reload the data
             btnRefreshQueue.Enabled = false;
             lblMessageBox.Text = "Getting Courses";
-            
+
             //saves sorting for after refresh
             var sortColumn = gradingDataGrid.SortedColumn;
             System.ComponentModel.ListSortDirection sortDirection = new System.ComponentModel.ListSortDirection();
             if (sortColumn != null)
             {
-                
+
                 if (gradingDataGrid.SortOrder == SortOrder.Ascending)
                     sortDirection = System.ComponentModel.ListSortDirection.Ascending;
                 else if (gradingDataGrid.SortOrder == SortOrder.Descending)
@@ -130,7 +130,7 @@ namespace CanvasAPIApp
                 }
             }
 
-            if(sortColumn != null && (sortDirection == System.ComponentModel.ListSortDirection.Ascending  ||  sortDirection == System.ComponentModel.ListSortDirection.Descending))
+            if (sortColumn != null && (sortDirection == System.ComponentModel.ListSortDirection.Ascending || sortDirection == System.ComponentModel.ListSortDirection.Descending))
                 gradingDataGrid.Sort(sortColumn, sortDirection);
 
             // using this method as hook to enable courseFilterTxt
@@ -211,22 +211,28 @@ namespace CanvasAPIApp
         {
             Requester requester = new Requester();
 
-            
-                List<Assignment> ungradedAssignmentList = new List<Assignment>();
-                string urlParameters;
-                urlParameters = "student_ids[]=all";
-                urlParameters += "&include[]=assignment";
-                urlParameters += "&workflow_state[]=submitted";
-                urlParameters += "&workflow_state[]=pending_review";
-                urlParameters += "&enrollment_state=active";
 
-                
+            List<Assignment> ungradedAssignmentList = new List<Assignment>();
+            string urlParameters;
+            urlParameters = "student_ids[]=all";
+            urlParameters += "&include[]=assignment";
+            urlParameters += "&workflow_state[]=submitted";
+            urlParameters += "&workflow_state[]=pending_review";
+            urlParameters += "&enrollment_state=active";
 
-                // get grading history
-                foreach (Course course in courseList)
+            //async webcalls vars
+            List<Tuple<string, string>> studentList = new List<Tuple<string, string>>();
+            List<Task> tasks = new List<Task>();
+
+            // gets grading event history
+            // adds each call to task
+            foreach (Course course in courseList)
+            {
+
+                tasks.Add(Task.Run( async () =>
                 {
                     string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
-                    
+
                     string json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                     if (json != "")
                     {
@@ -279,11 +285,15 @@ namespace CanvasAPIApp
                         }
 
                     }
+                }));
 
+            }//end foreach
 
-                }
-                return ungradedAssignmentList;
-            
+            //waits for all tasks
+            await Task.WhenAll(tasks.ToArray());
+
+            return ungradedAssignmentList;
+
         }
 
 
@@ -393,7 +403,7 @@ namespace CanvasAPIApp
                         }
                         else //Reserved is not checked
                         {
-                            
+
                             string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
 
                             //Add the data to the database
@@ -403,7 +413,7 @@ namespace CanvasAPIApp
 
                                 BsonDocument documentToWrite = new BsonDocument { { "_id", url }, { "grader", Properties.Settings.Default.AppUserName }, { "reserved_at", DateTime.Now.ToString() } };
                                 try
-                                { 
+                                {
                                     Process browserTab = Process.Start(url); //grading url in new tab
                                     mongoCollection.InsertOne(documentToWrite); //try to write to database
                                     //continue if successful:
@@ -420,7 +430,7 @@ namespace CanvasAPIApp
 
                                         gradingDataGrid.CurrentCell.Value = true;
                                         this.Activate(); //pulls the form into focus to display message
-                                       
+
                                         MessageBox.Show($"This assignment was reserved by {grader.Value}");
 
                                         RefreshQueue(); //refresh queue to update reserved checkbox
@@ -572,6 +582,6 @@ namespace CanvasAPIApp
             }
         }
 
-        
+
     }
 }
