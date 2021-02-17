@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -59,8 +58,9 @@ namespace CanvasAPIApp
         }
         public async void loadCourseLists()
         {
-            Stopwatch timer = new Stopwatch();
-            timer.Start();
+            //performance timer
+            //Stopwatch timer = new Stopwatch();
+            //timer.Start();
 
             addToCourse.Enabled = false;
             coursesAccessToken = Properties.Settings.Default.CurrentAccessToken;
@@ -86,8 +86,6 @@ namespace CanvasAPIApp
             {
                 labelLoggedIn.Text = "Not logged in";
             }
-
-
 
 
 
@@ -136,50 +134,50 @@ namespace CanvasAPIApp
 
                 //Get list of students from each course
 
-                
+
 
                 //set up each call in a task list
-                tasks.Add(Task.Run( async () =>
-                {
-                    endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + course.id + "/users?per_page=1000&"; //Get endpoint
+                tasks.Add(Task.Run(async () =>
+               {
+                   endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + course.id + "/users?per_page=1000&"; //Get endpoint
 
                     json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
-                    jsonObj = JsonConvert.DeserializeObject(json);
+                   jsonObj = JsonConvert.DeserializeObject(json);
 
                     //list to add student id's to after they have been added to the all students list
                     string currentCourseID = Convert.ToString(course.id);
 
-                    foreach (var student in jsonObj)
-                    {
-                        if (student.sis_user_id != null && student.name != null)
-                        {
+                   foreach (var student in jsonObj)
+                   {
+                       if (student.sis_user_id != null && student.name != null)
+                       {
                             //add student if the id is not found in students added
                             if (!studentsAdded.Contains(Convert.ToString(student.sis_user_id)))
-                            {
-                                studentList.Add(new Tuple<string, string>(Convert.ToString(student.name), Convert.ToString(student.sis_user_id)));
+                           {
+                               studentList.Add(new Tuple<string, string>(Convert.ToString(student.name), Convert.ToString(student.sis_user_id)));
 
                                 //allStudentsGrid.Rows.Add(String.Format(Convert.ToString(student.name)), (Convert.ToString(student.sis_user_id)));
 
                                 //add to list
                                 studentsAdded += Convert.ToString(student.sis_user_id);
-                            }
-                        }
-                    }
-                }));
-                
+                           }
+                       }
+                   }
+               }));
+
             }
-            
+
             //lets tasks complete
             await Task.WhenAll(tasks.ToArray());
 
             //when tasks are complete, fill out UI
-            for(int i=0; i<studentList.Count; i++)
+            for (int i = 0; i < studentList.Count; i++)
             {
-                
+
                 allStudentsGrid.Rows.Add(studentList[i].Item1, studentList[i].Item2);
             }
 
-            
+
             //clear selections and sort columns
             allStudentsGrid.Sort(allStudentsGrid.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
             allStudentsGrid.ClearSelection();
@@ -187,7 +185,7 @@ namespace CanvasAPIApp
             removeFromCourse.Enabled = false;
             courseDataGridView.Sort(courseDataGridView.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
             courseDataGridView.ClearSelection();
-            
+
 
 
             timer.Stop();

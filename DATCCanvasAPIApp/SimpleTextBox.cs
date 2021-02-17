@@ -1,24 +1,24 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 
 namespace CanvasAPIApp
 {
-   public partial class SimpleTextBox : Form
-   {
-      public SimpleTextBox(string title, string resourceName)
-      {
-         InitializeComponent();
-         Text = title; //set title text
-      }//End Initialization
+    public partial class SimpleTextBox : Form
+    {
+        public SimpleTextBox(string title, string resourceName)
+        {
+            InitializeComponent();
+            Text = title; //set title text
+        }//End Initialization
 
-      private async void SimpleTextBox_Load(object sender, EventArgs e)
-      {         
-         string accessToken = Properties.Settings.Default.CurrentAccessToken;
-         var token = accessToken;
-         //Get Profile
-         string endPoint = Properties.Settings.Default.InstructureSite;
-         Requester requester = new Requester();
+        private async void SimpleTextBox_Load(object sender, EventArgs e)
+        {
+            string accessToken = Properties.Settings.Default.CurrentAccessToken;
+            var token = accessToken;
+            //Get Profile
+            string endPoint = Properties.Settings.Default.InstructureSite;
+            Requester requester = new Requester();
 
             try
             {
@@ -41,18 +41,18 @@ namespace CanvasAPIApp
                 {
                     MessageBox.Show("Not logged in", "Authentication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-           }//endtry
+            }//endtry
             catch (Exception apiException)
             {
-                MessageBox.Show("Token not authorized.  Input valid token.\n" + apiException.Message,"Authentication error",
-                    MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Token not authorized.  Input valid token.\n" + apiException.Message, "Authentication error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-                
-      }//End Text box load
+
+        }//End Text box load
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            
+
         }
     }//End Class
 }//End Name Space

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CanvasAPIApp
@@ -33,7 +29,7 @@ namespace CanvasAPIApp
 
             HttpResponseMessage response = await client.GetAsync(finalUrl);
 
-            
+
             response.EnsureSuccessStatusCode();
 
             string responseString = await response.Content.ReadAsStringAsync();

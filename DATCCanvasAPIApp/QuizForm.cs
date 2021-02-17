@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Windows.Forms;
 
 
 namespace CanvasAPIApp
@@ -32,10 +32,10 @@ namespace CanvasAPIApp
         //Load Quiz Form
         private void QuizForm_Load(object sender, EventArgs e)
         {
-                  
+
             //setting default values
             cbxQuizType.SelectedItem = "Graded Quiz";
-            
+
         }//End Load Quiz Form
 
         //Time Limit Check box change
@@ -231,7 +231,7 @@ namespace CanvasAPIApp
             //rtbResults.AppendText(allParameters);
 
             //Make API Call
-            
+
             try
             {
                 //Validate fields
@@ -410,76 +410,76 @@ namespace CanvasAPIApp
         {
             try
             {
-            if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
-            {
-               if (nudCourseID.Value == 1)
-               {
-                  MessageBox.Show("Please Enter a Course ID");
-               }
-               else
-               {
-                  if (txbQuizName.TextLength > 0 & nudCourseID.Value > 1)
-                     btnSubmitQuiz.Enabled = true;
-                  else
-                     btnSubmitQuiz.Enabled = false;
-                  //allow user to input course name
-                  txbBaseName.Enabled = true;
+                if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
+                {
+                    if (nudCourseID.Value == 1)
+                    {
+                        MessageBox.Show("Please Enter a Course ID");
+                    }
+                    else
+                    {
+                        if (txbQuizName.TextLength > 0 & nudCourseID.Value > 1)
+                            btnSubmitQuiz.Enabled = true;
+                        else
+                            btnSubmitQuiz.Enabled = false;
+                        //allow user to input course name
+                        txbBaseName.Enabled = true;
 
-                  //Setting wait curser
-                  Cursor.Current = Cursors.WaitCursor;
-                  //Make Call to get user name
-                  if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
-                  {
-                     string profileObject = "name";
-                     userName = await getProfile.GetProfile(profileObject);
+                        //Setting wait curser
+                        Cursor.Current = Cursors.WaitCursor;
+                        //Make Call to get user name
+                        if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
+                        {
+                            string profileObject = "name";
+                            userName = await getProfile.GetProfile(profileObject);
 
-                     //Print message
-                     labelLoggedIn.Text = "Logged in as " + userName;
-                  }
-                  else
-                  {
-                     labelLoggedIn.Text = "Not logged in";
-                  }
+                            //Print message
+                            labelLoggedIn.Text = "Logged in as " + userName;
+                        }
+                        else
+                        {
+                            labelLoggedIn.Text = "Not logged in";
+                        }
 
-                  //Get Assignment Groups and course name
-                  try
-                  {
-                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/assignment_groups?";//Get base endpoint from setting
-                     Requester requester = new Requester();
-                     var json = await requester.MakeRequestAsync(endPoint, methods.AccessToken());
-                     dynamic jsonObj = JsonConvert.DeserializeObject(json);
+                        //Get Assignment Groups and course name
+                        try
+                        {
+                            string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/assignment_groups?";//Get base endpoint from setting
+                            Requester requester = new Requester();
+                            var json = await requester.MakeRequestAsync(endPoint, methods.AccessToken());
+                            dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
-                     foreach (var obj in jsonObj)
-                     {
-                        assignmentGroupvalues.Add(Convert.ToString(obj.id), Convert.ToString(obj.name));
-                        cbxAssignmentGroup.Items.Add(Convert.ToString(obj.name));
-                     }
-                     //Get Course Name
-                     endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "?";
-                     Requester courseRequester = new Requester();
-                     json = await courseRequester.MakeRequestAsync(endPoint, methods.AccessToken());
-                     //deserialize the JSON object
-                     jsonObj = JsonConvert.DeserializeObject(json);
-                     //parse the JSON object
-                     dynamic data = JObject.Parse(json);
-                     //Printing out results
-                     rtbResults.AppendText("Course " + Convert.ToString(data.name) + " has been selected!\n");
-                  }
-                  catch (Exception courseIDChangeException)
-                  {
-                     rtbResults.AppendText(courseIDChangeException.Message + "\n");
-                  }
+                            foreach (var obj in jsonObj)
+                            {
+                                assignmentGroupvalues.Add(Convert.ToString(obj.id), Convert.ToString(obj.name));
+                                cbxAssignmentGroup.Items.Add(Convert.ToString(obj.name));
+                            }
+                            //Get Course Name
+                            endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "?";
+                            Requester courseRequester = new Requester();
+                            json = await courseRequester.MakeRequestAsync(endPoint, methods.AccessToken());
+                            //deserialize the JSON object
+                            jsonObj = JsonConvert.DeserializeObject(json);
+                            //parse the JSON object
+                            dynamic data = JObject.Parse(json);
+                            //Printing out results
+                            rtbResults.AppendText("Course " + Convert.ToString(data.name) + " has been selected!\n");
+                        }
+                        catch (Exception courseIDChangeException)
+                        {
+                            rtbResults.AppendText(courseIDChangeException.Message + "\n");
+                        }
 
-                  //End Wait Cursor
-                  Cursor.Current = Cursors.Default;
-               }
-            }//end login if
-            else
-            {
+                        //End Wait Cursor
+                        Cursor.Current = Cursors.Default;
+                    }
+                }//end login if
+                else
+                {
 
-               MessageBox.Show("Not logged in. Enter valid token", "Authentication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-         }//end try
+                    MessageBox.Show("Not logged in. Enter valid token", "Authentication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }//end try
             catch (Exception apiException)
             {
                 MessageBox.Show("Token not authorized.  Input valid token.\n" + apiException.Message, "Authentication error",

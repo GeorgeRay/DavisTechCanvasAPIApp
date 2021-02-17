@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CanvasAPIApp
@@ -17,22 +11,22 @@ namespace CanvasAPIApp
             InitializeComponent();
         }
 
-        
+
 
 
         private void GradingQueuePriorityForm_Load(object sender, EventArgs e)
         {
-            
-            
+
+
             nmbPriority.Value = Properties.Settings.Default.DefaultPriority;
 
             List<KeyValuePair<int, string>> flags = GradingQueue.prioritySettings.priorityFlags;
-            
+
             //fills data grid with each priority
             foreach (KeyValuePair<int, string> flag in flags)
             {
                 DataGridViewRow row = new DataGridViewRow();
-                dgvPriority.Rows.Add(new object[] {flag.Value, flag.Key.ToString() });
+                dgvPriority.Rows.Add(new object[] { flag.Value, flag.Key.ToString() });
             }
         }//end on load
 
@@ -57,10 +51,10 @@ namespace CanvasAPIApp
 
                     if (row.Cells[0].Value == null || row.Cells[1].Value == null || row.Cells[0].Value.ToString() == "" || row.Cells[1].Value.ToString() == "")
                     {
-                        
+
                         throw new Exception("Values and priorites must be set.");
                     }
-                    
+
                     KeyValuePair<int, string> flag = new KeyValuePair<int, string>(int.Parse(row.Cells[1].Value.ToString()), row.Cells[0].Value.ToString());
 
                     flags.Add(flag);
@@ -84,7 +78,7 @@ namespace CanvasAPIApp
         //delete button
         private void btnDeleteSelected_Click(object sender, EventArgs e)
         {
-            foreach(DataGridViewRow row in dgvPriority.Rows)
+            foreach (DataGridViewRow row in dgvPriority.Rows)
             {
 
                 if ((row.Selected || row.Cells[0].Selected) && row.Index < dgvPriority.Rows.Count - 1)
@@ -100,8 +94,8 @@ namespace CanvasAPIApp
             if (control != null)
                 control.DroppedDown = true;
         }
-        
-       
+
+
         //on new row
         private void dgvPriority_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
