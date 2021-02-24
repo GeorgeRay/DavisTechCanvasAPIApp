@@ -31,7 +31,7 @@ namespace CanvasAPIApp
                     //dispaly each json object
                     foreach (var obj in jsonObj)
                     {
-                        rtbProfileOutput.AppendText(obj + "\n");
+                        rtbProfileOutput.AppendText(obj + "\n"); 
                     }
                     var url = jsonObj["avatar_url"];
                     string sUrl = url;
