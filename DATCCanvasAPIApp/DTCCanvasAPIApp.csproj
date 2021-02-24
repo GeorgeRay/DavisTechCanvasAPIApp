@@ -176,6 +176,7 @@
     <Compile Include="FireBaseAddForm.Designer.cs">
       <DependentUpon>FireBaseAddForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Requester.cs" />
     <Compile Include="SubmissionVersion.cs" />
     <Compile Include="CoursesForm.cs">
       <SubType>Form</SubType>
