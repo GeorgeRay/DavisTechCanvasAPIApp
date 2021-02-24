@@ -225,9 +225,9 @@ namespace CanvasAPIApp
             return defaultPriority;
         }
 
-        private Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
+        private async Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
         {
-            return Task.Run(() =>
+            return await Task.Run( async () =>
             {
                 List<Assignment> ungradedAssignmentList = new List<Assignment>();
                 string urlParameters;
@@ -241,8 +241,8 @@ namespace CanvasAPIApp
                 foreach (Course course in courseList)
                 {
                     string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
-                    var client = new RestClient(endPoint);
-                    var json = client.MakeRequest("access_token=" + Properties.Settings.Default.CurrentAccessToken);
+                    Requester requester = new Requester();
+                    var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                     if (json != "")
                     {
                         dynamic jsonObj = JsonConvert.DeserializeObject(json);
@@ -302,18 +302,18 @@ namespace CanvasAPIApp
         }
 
 
-        private Task<List<Course>> populateListOfCourses()
+        private async Task<List<Course>> populateListOfCourses()
         {
 
-            return Task.Run(() =>
+            return await Task.Run( async () =>
             {
 
                 List<Course> tempCourseList = new List<Course>();
 
                 // get jsonObj file
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?enrollment_type=teacher&per_page=1000&include[]=needs_grading_count&";//Get endpoint
-                var client = new RestClient(endPoint);
-                var json = client.MakeRequest("access_token=" + Properties.Settings.Default.CurrentAccessToken);
+                Requester requester = new Requester();
+                var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                 //if request fails a empty string will be returned, resulting in a null object
                 if (json != "")
                 {

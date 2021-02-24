@@ -29,7 +29,7 @@ namespace CanvasAPIApp
       }
 
       //Load course and user
-      private void btnLoadCourse_Click(object sender, EventArgs e)
+      private async void btnLoadCourse_Click(object sender, EventArgs e)
       {
          try
          {  //Ensure if there is active token
@@ -55,7 +55,7 @@ namespace CanvasAPIApp
                   if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
                   {
                      string profileObject = "name";
-                     string userName = getProfile.GetProfile(profileObject);
+                     string userName = await getProfile.GetProfile(profileObject);
 
                      //Print message
                      labelLoggedIn.Text = "Logged in as " + userName;
@@ -68,9 +68,9 @@ namespace CanvasAPIApp
                   try
                   {
                      string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/assignment_groups?";//Get base endpoint from setting
-                     var client = new RestClient(endPoint);
-                     var json = client.MakeRequest(parameters.AccessToken());
-                     dynamic jsonObj = JsonConvert.DeserializeObject(json);
+                     Requester requester = new Requester();
+                     var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                    dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
                      foreach (var obj in jsonObj)
                      {
@@ -79,9 +79,9 @@ namespace CanvasAPIApp
                      }
                      //Get student Groups
                      endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/group_categories?";
-                     var stuGroupclient = new RestClient(endPoint);
-                     json = stuGroupclient.MakeRequest(parameters.AccessToken());
-                     jsonObj = JsonConvert.DeserializeObject(json);
+                     
+                     json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                    jsonObj = JsonConvert.DeserializeObject(json);
 
                      foreach (var obj in jsonObj)
                      {
@@ -99,11 +99,10 @@ namespace CanvasAPIApp
 
                      //Get Course Name
                      endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "?";
-                     var courseClient = new RestClient(endPoint);
-                     courseClient.Method = HttpVerb.PUT;
-                     json = courseClient.MakeRequest(parameters.AccessToken());
-                     //deserialize the JSON object
-                     jsonObj = JsonConvert.DeserializeObject(json);
+                            requester = new Requester();
+                     json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                    //deserialize the JSON object
+                    jsonObj = JsonConvert.DeserializeObject(json);
                      //parse the JSON object
                      dynamic data = JObject.Parse(json);
                      //Printing out results
@@ -137,15 +136,14 @@ namespace CanvasAPIApp
          }
       }//End Load Course Click
 
-      private void buttonSubmitAssign_Click(object sender, EventArgs e)
+      private async void buttonSubmitAssign_Click(object sender, EventArgs e)
       {
          //create variables
 
          string restResult = "No Call Made";//this will be over written by results from web call
          var tokenParameter = parameters.AccessToken();//Create 
          string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/assignments?";//Get base endpoint from setting
-         var client = new RestClient(endPoint);
-         client.Method = HttpVerb.POST;//setting call to post
+         Requester requester = new Requester();
          int assignToMake = Convert.ToInt32(nudNumberOfAssign.Value);
          int assignNumber = 0;
 
@@ -218,9 +216,10 @@ namespace CanvasAPIApp
                         var assignDescriptionParameter = parameters.AssignDescription(htmlSafeIncrementedAssignInstruction);
 
                         //REST Call
-                        restResult = client.MakeRequestAssignment(tokenParameter + assignTitleParameter + allParameters + assignDescriptionParameter);
-                        //Write Results to Text box
-                        rtbResults.AppendText(String.Format("{0,-50} {1,-10}\n", incrementedAssignName, "Created"));
+                        
+                                restResult = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken, assignTitleParameter + allParameters + assignDescriptionParameter);
+                                //Write Results to Text box
+                                rtbResults.AppendText(String.Format("{0,-50} {1,-10}\n", incrementedAssignName, "Created"));
                         assignNumber++;
                         assignToMake--;
                      }//End Repeating submit while statement
@@ -251,9 +250,9 @@ namespace CanvasAPIApp
                var htmlSafeIncrementedAssignInstruction = Uri.EscapeDataString(incrementedAssignInstruction);
                //Setting Assignment description parameter
                var assignDescriptionParameter = parameters.AssignDescription(htmlSafeIncrementedAssignInstruction);
-               restResult = client.MakeRequestAssignment(tokenParameter + assignTitleParameter + allParameters + assignDescriptionParameter);
-               //Reset form for next submit
-               nudCourseID.TabStop = false;
+                    restResult = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken, assignTitleParameter + allParameters + assignDescriptionParameter);
+                    //Reset form for next submit
+                    nudCourseID.TabStop = false;
                txbBaseName.TabStop = false;
                //Write Results to Text box
                rtbResults.AppendText(String.Format("{0,-50} {1,-10}\n", txbAssignName.Text, "Created"));

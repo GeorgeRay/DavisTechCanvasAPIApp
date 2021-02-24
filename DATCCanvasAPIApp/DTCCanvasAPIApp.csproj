@@ -228,7 +228,6 @@
       <DependentUpon>SimpleTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Template.cs" />
-    <Compile Include="WebCall.cs" />
     <EmbeddedResource Include="AccessTokenForm.resx">
       <DependentUpon>AccessTokenForm.cs</DependentUpon>
     </EmbeddedResource>

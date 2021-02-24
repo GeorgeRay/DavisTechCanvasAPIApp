@@ -17,7 +17,7 @@ namespace CanvasAPIApp
 
 
         //Saving token
-        private void saveAccessToken_Click(object sender, EventArgs e)
+        private async void saveAccessToken_Click(object sender, EventArgs e)
         {
             //Saving User input
 
@@ -44,7 +44,7 @@ namespace CanvasAPIApp
                     //REST object to get
                     string name = "name";
                     //Display Name of current profile this is an API Call
-                    lbxCurrentUser.Text = getProfile.GetProfile(name);
+                    lbxCurrentUser.Text = await getProfile.GetProfile(name);
                     //Save name to the app settings
                     Properties.Settings.Default.AppUserName = lbxCurrentUser.Text;
                     Properties.Settings.Default.Save();
@@ -153,7 +153,7 @@ namespace CanvasAPIApp
 
         }//End Closing Form
 
-        private void AccessTokenForm_Shown(object sender, EventArgs e)
+        private async void AccessTokenForm_Shown(object sender, EventArgs e)
         {
 
             if (Properties.Settings.Default.CurrentAccessToken != "No Access Token")
@@ -162,7 +162,7 @@ namespace CanvasAPIApp
                 try
                 {
                     string name = "name";
-                    lbxCurrentUser.Text = getProfile.GetProfile(name);
+                    lbxCurrentUser.Text = await getProfile.GetProfile(name);
 
                 }
                 catch (Exception callException)
