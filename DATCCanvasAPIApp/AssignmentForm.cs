@@ -20,9 +20,10 @@ namespace CanvasAPIApp
       //Give Class access to Get Call
       GeneralAPIGets getProfile = new GeneralAPIGets();
 
+        Requester requester = new Requester();
 
-      //Initialize form
-      public AssignmentForm(string title)
+        //Initialize form
+        public AssignmentForm(string title)
       {
          InitializeComponent();
          Text = title;
@@ -68,7 +69,7 @@ namespace CanvasAPIApp
                   try
                   {
                      string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/assignment_groups?";//Get base endpoint from setting
-                     Requester requester = new Requester();
+                     
                      var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                     dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
@@ -99,7 +100,7 @@ namespace CanvasAPIApp
 
                      //Get Course Name
                      endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "?";
-                            requester = new Requester();
+                     
                      json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                     //deserialize the JSON object
                     jsonObj = JsonConvert.DeserializeObject(json);
@@ -143,7 +144,7 @@ namespace CanvasAPIApp
          string restResult = "No Call Made";//this will be over written by results from web call
          var tokenParameter = parameters.AccessToken();//Create 
          string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/assignments?";//Get base endpoint from setting
-         Requester requester = new Requester();
+         
          int assignToMake = Convert.ToInt32(nudNumberOfAssign.Value);
          int assignNumber = 0;
 

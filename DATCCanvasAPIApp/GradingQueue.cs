@@ -28,6 +28,8 @@ namespace CanvasAPIApp
 
         private bool mongoWarningshown = false;
 
+        Requester requester = new Requester();
+
         public GradingQueue()
         {
             InitializeComponent();
@@ -241,7 +243,7 @@ namespace CanvasAPIApp
                 foreach (Course course in courseList)
                 {
                     string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
-                    Requester requester = new Requester();
+                    
                     var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                     if (json != "")
                     {
@@ -312,7 +314,7 @@ namespace CanvasAPIApp
 
                 // get jsonObj file
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?enrollment_type=teacher&per_page=1000&include[]=needs_grading_count&";//Get endpoint
-                Requester requester = new Requester();
+                
                 var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                 //if request fails a empty string will be returned, resulting in a null object
                 if (json != "")

@@ -11,6 +11,8 @@ namespace CanvasAPIApp
         //Give Class access to Get Call
         GeneralAPIGets getProfile = new GeneralAPIGets();
 
+        Requester requester = new Requester();
+
         public CoursesForm()
         {
             InitializeComponent();
@@ -85,7 +87,7 @@ namespace CanvasAPIApp
 
                     // get jsonObj file
                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?per_page=1000&include[]=total_students&";//Get endpoint
-                    Requester requester = new Requester();
+                    
                     string json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
                     dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
@@ -124,7 +126,7 @@ namespace CanvasAPIApp
                         {
                             {
                                 endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + course.id + "/users?per_page=1000&"; //Get endpoint
-                                requester = new Requester();
+                                
 
 
                                 json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
@@ -181,7 +183,7 @@ namespace CanvasAPIApp
             {
                 //Get list of students for course selected:
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?per_page=1000&";//Get endpoint
-                Requester requester = new Requester();
+               
                 string json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                 dynamic jsonObj = JsonConvert.DeserializeObject(json);
                 courseStudentsGrid.Columns.Add("studentName", "Name");
@@ -280,7 +282,7 @@ namespace CanvasAPIApp
 
 
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments/" + enrollmentID + "?";
-                Requester requester = new Requester();
+                
                 
                 try
                 {
@@ -316,7 +318,7 @@ namespace CanvasAPIApp
                     Int64 studentID = Int64.Parse(allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString());
 
                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?";//Get base endpoint from setting
-                    Requester requester = new Requester();
+                   
                     
                     string parameters = "&enrollment[sis_user_id]=" + studentID + "&enrollment[type]=StudentEnrollment" + "&enrollment[enrollment_state] = active";
 
