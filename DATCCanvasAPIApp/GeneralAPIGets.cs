@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace CanvasAPIApp
 {
-    class GeneralAPIGets
+    class GeneralAPIGets 
     {
         //Getting name from Profile
         public async Task<dynamic> GetProfile(string name)
