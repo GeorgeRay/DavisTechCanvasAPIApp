@@ -11,7 +11,7 @@ namespace CanvasAPIApp
         //Get Access Token Parameter
         public string AccessToken()
         {
-            return "access_token=" + Properties.Settings.Default.CurrentAccessToken;
+            return Properties.Settings.Default.CurrentAccessToken;
         }//End Get Access Token Parameter
         
         public string SequentialProgress (bool seqProChecked)
