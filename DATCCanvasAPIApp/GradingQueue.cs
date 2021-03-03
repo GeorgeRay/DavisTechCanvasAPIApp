@@ -241,7 +241,6 @@ namespace CanvasAPIApp
             urlParameters += "&enrollment_state=active";
 
             //async webcalls vars
-            List<Tuple<string, string>> studentList = new List<Tuple<string, string>>();
             List<Task> tasks = new List<Task>();
 
             // gets grading event history
@@ -303,9 +302,8 @@ namespace CanvasAPIApp
                                 }
                             }
                         }
-
                     }
-                }));
+                }));//end task
 
             }//end foreach
 

@@ -30,10 +30,9 @@ namespace CanvasAPIApp
         {
             string finalUrl = url + $"access_token={accessToken}" + parameters;
 
-            Console.WriteLine(finalUrl);
+            //Console.WriteLine(finalUrl);
 
             HttpResponseMessage response = await client.GetAsync(finalUrl);
-
 
             response.EnsureSuccessStatusCode();
 
