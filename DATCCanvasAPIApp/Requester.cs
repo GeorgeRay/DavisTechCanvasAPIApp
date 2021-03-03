@@ -20,9 +20,9 @@ namespace CanvasAPIApp
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            //sets maximum connections at once, .net default is 2. Seems to improve performance speed somewhat.
+            //sets maximum connections at once, .NET default apparently is 2. Seems to improve performance speed somewhat.
             //I didn't want to increase it too much without knowing what might happen but I read people who set it to 20 or 50 with no problems.
-            ServicePointManager.DefaultConnectionLimit = 5;
+            ServicePointManager.DefaultConnectionLimit = 6;
 
         }
 

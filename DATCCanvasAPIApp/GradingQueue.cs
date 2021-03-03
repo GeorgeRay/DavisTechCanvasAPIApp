@@ -229,22 +229,31 @@ namespace CanvasAPIApp
 
         private async Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
         {
-            return await Task.Run( async () =>
-            {
-                List<Assignment> ungradedAssignmentList = new List<Assignment>();
-                string urlParameters;
-                urlParameters = "student_ids[]=all";
-                urlParameters += "&include[]=assignment";
-                urlParameters += "&workflow_state[]=submitted";
-                urlParameters += "&workflow_state[]=pending_review";
-                urlParameters += "&enrollment_state=active";
+            Requester requester = new Requester();
 
-                // get grading history
-                foreach (Course course in courseList)
+
+            List<Assignment> ungradedAssignmentList = new List<Assignment>();
+            string urlParameters;
+            urlParameters = "student_ids[]=all";
+            urlParameters += "&include[]=assignment";
+            urlParameters += "&workflow_state[]=submitted";
+            urlParameters += "&workflow_state[]=pending_review";
+            urlParameters += "&enrollment_state=active";
+
+            //async webcalls vars
+            List<Tuple<string, string>> studentList = new List<Tuple<string, string>>();
+            List<Task> tasks = new List<Task>();
+
+            // gets grading event history
+            // adds each call to task
+            foreach (Course course in courseList)
+            {
+
+                tasks.Add(Task.Run(async () =>
                 {
                     string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
-                    
-                    var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+
+                    string json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                     if (json != "")
                     {
                         dynamic jsonObj = JsonConvert.DeserializeObject(json);
@@ -296,13 +305,16 @@ namespace CanvasAPIApp
                         }
 
                     }
+                }));
 
+            }//end foreach
 
-                }
-                return ungradedAssignmentList;
-            });
+            //waits for all tasks
+            await Task.WhenAll(tasks.ToArray());
+
+            return ungradedAssignmentList;
+
         }
-
 
         private async Task<List<Course>> populateListOfCourses()
         {

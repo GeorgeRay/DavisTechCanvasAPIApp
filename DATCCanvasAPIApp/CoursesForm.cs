@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
@@ -54,6 +56,7 @@ namespace CanvasAPIApp
                 }
             }
         }
+        /*
         public async void loadCourseLists()
         {
             addToCourse.Enabled = false;
@@ -175,6 +178,144 @@ namespace CanvasAPIApp
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        */
+
+        public async void loadCourseLists()
+        {
+            //performance timer
+            /*Stopwatch timer = new Stopwatch();
+            timer.Start();*/
+
+            addToCourse.Enabled = false;
+            coursesAccessToken = Properties.Settings.Default.CurrentAccessToken;
+            CanvasAPIMainForm.GlobalCourseID = 1;
+
+            //async webcalls vars
+            List<Tuple<string, string>> studentList = new List<Tuple<string, string>>();
+            List<Task> tasks = new List<Task>();
+
+            //Setting wait cursor
+            Cursor.Current = Cursors.WaitCursor;
+
+            //Make Call to get user name
+            if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
+            {
+                string profileObject = "name";
+                string userName = await getProfile.GetProfile(profileObject);
+
+                //Print message
+                labelLoggedIn.Text = "Showing courses for " + userName;
+            }
+            else
+            {
+                labelLoggedIn.Text = "Not logged in";
+            }
+
+
+
+            //Get list of courses
+
+            //clear all datagridviews
+            courseStudentsGrid.Columns.Clear();
+            allStudentsGrid.Columns.Clear();
+            courseDataGridView.Columns.Clear();
+
+            // get jsonObj file
+            string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?per_page=1000&include[]=total_students&";//Get endpoint
+
+            var json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
+            dynamic jsonObj = JsonConvert.DeserializeObject(json);
+
+            //create columns and set width
+            courseDataGridView.Columns.Add("courseName", "Course Name");
+            courseDataGridView.Columns.Add("courseID", "Course ID");
+            courseDataGridView.Columns.Add("courseState", "Workflow State");
+            courseDataGridView.Columns.Add("courseStudents", "Student Count");
+            courseDataGridView.Columns.Add("courseRoles", "Roles");
+            courseDataGridView.Columns[0].Width = 290;
+            courseDataGridView.Columns[2].Width = 90;
+            courseDataGridView.Columns[3].Width = 50;
+
+            //create student grid columns
+            allStudentsGrid.Columns.Add("studentName", "Name");
+            allStudentsGrid.Columns.Add("studentID", "ID");
+
+            string studentsAdded = "";
+
+            foreach (var course in jsonObj)
+            {
+
+                //get and format course roles
+                string rolesString = "";
+                foreach (dynamic v in course.enrollments)
+                {
+                    rolesString += v.type + ", ";
+                }
+                rolesString = rolesString.Trim().Trim(',');
+
+                //populate course list
+                courseDataGridView.Rows.Add(String.Format(Convert.ToString(course.name)), (Convert.ToString(course.id)), (Convert.ToString(course.workflow_state)), (Convert.ToString(course.total_students)), Convert.ToString(rolesString));
+
+                //Get list of students from each course
+
+
+
+                //set up each call in a task list
+                tasks.Add(Task.Run(async () =>
+                {
+                    endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + course.id + "/users?per_page=1000&"; //Get endpoint
+
+                    json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
+                    jsonObj = JsonConvert.DeserializeObject(json);
+
+                    //list to add student id's to after they have been added to the all students list
+                    string currentCourseID = Convert.ToString(course.id);
+
+                    foreach (var student in jsonObj)
+                    {
+                        if (student.sis_user_id != null && student.name != null)
+                        {
+                            //add student if the id is not found in students added
+                            if (!studentsAdded.Contains(Convert.ToString(student.sis_user_id)))
+                            {
+                                studentList.Add(new Tuple<string, string>(Convert.ToString(student.name), Convert.ToString(student.sis_user_id)));
+
+                                //allStudentsGrid.Rows.Add(String.Format(Convert.ToString(student.name)), (Convert.ToString(student.sis_user_id)));
+
+                                //add to list
+                                studentsAdded += Convert.ToString(student.sis_user_id);
+                            }
+                        }
+                    }
+                }));
+
+            }
+
+            //lets tasks complete
+            await Task.WhenAll(tasks.ToArray());
+
+            //when tasks are complete, fill out UI
+            for (int i = 0; i < studentList.Count; i++)
+            {
+
+                allStudentsGrid.Rows.Add(studentList[i].Item1, studentList[i].Item2);
+            }
+
+
+            //clear selections and sort columns
+            allStudentsGrid.Sort(allStudentsGrid.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
+            allStudentsGrid.ClearSelection();
+            courseStudentsGrid.ClearSelection();
+            removeFromCourse.Enabled = false;
+            courseDataGridView.Sort(courseDataGridView.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
+            courseDataGridView.ClearSelection();
+
+
+
+            /*timer.Stop();
+            Console.WriteLine($"V2 time: {timer.Elapsed}");*/
+        }
+
         private async void populateCourseStudents()
         {
             //Clear columns
