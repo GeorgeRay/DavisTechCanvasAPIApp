@@ -29,10 +29,11 @@ namespace CanvasAPIApp
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 0D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 0D);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RateLimitForm));
             this.rateLimitChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.rateLimitChart)).BeginInit();
@@ -40,20 +41,20 @@ namespace CanvasAPIApp
             // 
             // rateLimitChart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.rateLimitChart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.rateLimitChart.Legends.Add(legend2);
+            chartArea3.Name = "ChartArea1";
+            this.rateLimitChart.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.rateLimitChart.Legends.Add(legend3);
             this.rateLimitChart.Location = new System.Drawing.Point(12, 12);
             this.rateLimitChart.Name = "rateLimitChart";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Legend = "Legend1";
-            series2.Name = "Requests remaining";
-            series2.Points.Add(dataPoint2);
-            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.rateLimitChart.Series.Add(series2);
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Legend = "Legend1";
+            series3.Name = "Requests remaining";
+            series3.Points.Add(dataPoint3);
+            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.rateLimitChart.Series.Add(series3);
             this.rateLimitChart.Size = new System.Drawing.Size(776, 349);
             this.rateLimitChart.TabIndex = 0;
             this.rateLimitChart.Text = "chart1";
@@ -64,9 +65,7 @@ namespace CanvasAPIApp
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(779, 43);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Rate limits are refilled every few seconds, and the maximum is usually 700 but ca" +
-    "n vary depending on server conditions. The current limit is updated every time t" +
-    "he app makes a web call to Canvas.";
+            this.label1.Text = resources.GetString("label1.Text");
             // 
             // RateLimitForm
             // 
@@ -76,7 +75,7 @@ namespace CanvasAPIApp
             this.Controls.Add(this.label1);
             this.Controls.Add(this.rateLimitChart);
             this.Name = "RateLimitForm";
-            this.Text = "RateLimitForm";
+            this.Text = "Rate Limits";
             this.Load += new System.EventHandler(this.RateLimitForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.rateLimitChart)).EndInit();
             this.ResumeLayout(false);

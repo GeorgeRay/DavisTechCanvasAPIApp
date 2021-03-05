@@ -117,4 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Rate limits are refilled every few seconds, and the maximum allotted for this app is usually 700 but can vary depending on server conditions. The limits are checked every time the app makes a web call to Canvas.</value>
+  </data>
 </root>
