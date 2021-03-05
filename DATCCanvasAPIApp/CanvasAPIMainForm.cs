@@ -10,9 +10,15 @@ namespace CanvasAPIApp
         //Global course ID
         static public int GlobalCourseID = 1;
 
+        //rate limit monitor
+        public static RateLimitTracker RateLimitTracker { get; set;}
+
         //Initializing Form
         public CanvasAPIMainForm()
         {
+            //initialize rate limit monitor
+            RateLimitTracker = new RateLimitTracker();
+
             InitializeComponent();
         }//End Initializing Form
 
@@ -32,7 +38,6 @@ namespace CanvasAPIApp
                 accessTokenForm.ShowDialog();
 
             }
-
 
             //loads main form components
 
@@ -200,6 +205,12 @@ namespace CanvasAPIApp
             dataSources.ShowDialog();
             Cursor.Current = Cursors.Default;
 
+        }
+
+        private void rateLimitsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form rateLimitForm = new RateLimitForm();
+            rateLimitForm.ShowDialog();
         }
     }
 }

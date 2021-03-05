@@ -44,6 +44,7 @@
             this.accessTokenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.dataSourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mongoDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rateLimitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutCanvasAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -149,7 +150,8 @@
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.accessTokenToolStripMenuItem1,
-            this.dataSourcesToolStripMenuItem});
+            this.dataSourcesToolStripMenuItem,
+            this.rateLimitsToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -157,7 +159,7 @@
             // accessTokenToolStripMenuItem1
             // 
             this.accessTokenToolStripMenuItem1.Name = "accessTokenToolStripMenuItem1";
-            this.accessTokenToolStripMenuItem1.Size = new System.Drawing.Size(170, 22);
+            this.accessTokenToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.accessTokenToolStripMenuItem1.Text = "Instructure Access";
             this.accessTokenToolStripMenuItem1.Click += new System.EventHandler(this.accessTokenToolStripMenuItem1_Click);
             // 
@@ -166,7 +168,7 @@
             this.dataSourcesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mongoDBToolStripMenuItem});
             this.dataSourcesToolStripMenuItem.Name = "dataSourcesToolStripMenuItem";
-            this.dataSourcesToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.dataSourcesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.dataSourcesToolStripMenuItem.Text = "Data Sources";
             // 
             // mongoDBToolStripMenuItem
@@ -175,6 +177,13 @@
             this.mongoDBToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.mongoDBToolStripMenuItem.Text = "MongoDB";
             this.mongoDBToolStripMenuItem.Click += new System.EventHandler(this.mongoDBToolStripMenuItem_Click);
+            // 
+            // rateLimitsToolStripMenuItem
+            // 
+            this.rateLimitsToolStripMenuItem.Name = "rateLimitsToolStripMenuItem";
+            this.rateLimitsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rateLimitsToolStripMenuItem.Text = "Rate Limits";
+            this.rateLimitsToolStripMenuItem.Click += new System.EventHandler(this.rateLimitsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -229,7 +238,7 @@
             this.tabPageAssign.Location = new System.Drawing.Point(4, 22);
             this.tabPageAssign.Name = "tabPageAssign";
             this.tabPageAssign.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAssign.Size = new System.Drawing.Size(976, 505);
+            this.tabPageAssign.Size = new System.Drawing.Size(976, 601);
             this.tabPageAssign.TabIndex = 0;
             this.tabPageAssign.Text = "Assignments";
             this.tabPageAssign.UseVisualStyleBackColor = true;
@@ -239,7 +248,7 @@
             this.tabPageQuiz.Location = new System.Drawing.Point(4, 22);
             this.tabPageQuiz.Name = "tabPageQuiz";
             this.tabPageQuiz.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageQuiz.Size = new System.Drawing.Size(976, 505);
+            this.tabPageQuiz.Size = new System.Drawing.Size(976, 601);
             this.tabPageQuiz.TabIndex = 1;
             this.tabPageQuiz.Text = "Quizzes";
             this.tabPageQuiz.UseVisualStyleBackColor = true;
@@ -248,7 +257,7 @@
             // 
             this.tabPagePages.Location = new System.Drawing.Point(4, 22);
             this.tabPagePages.Name = "tabPagePages";
-            this.tabPagePages.Size = new System.Drawing.Size(976, 505);
+            this.tabPagePages.Size = new System.Drawing.Size(976, 601);
             this.tabPagePages.TabIndex = 2;
             this.tabPagePages.Text = "Pages";
             this.tabPagePages.UseVisualStyleBackColor = true;
@@ -257,7 +266,7 @@
             // 
             this.tabPageModule.Location = new System.Drawing.Point(4, 22);
             this.tabPageModule.Name = "tabPageModule";
-            this.tabPageModule.Size = new System.Drawing.Size(976, 505);
+            this.tabPageModule.Size = new System.Drawing.Size(976, 601);
             this.tabPageModule.TabIndex = 4;
             this.tabPageModule.Text = "Modules";
             this.tabPageModule.UseVisualStyleBackColor = true;
@@ -266,7 +275,7 @@
             // 
             this.tabPageCalendar.Location = new System.Drawing.Point(4, 22);
             this.tabPageCalendar.Name = "tabPageCalendar";
-            this.tabPageCalendar.Size = new System.Drawing.Size(976, 505);
+            this.tabPageCalendar.Size = new System.Drawing.Size(976, 601);
             this.tabPageCalendar.TabIndex = 5;
             this.tabPageCalendar.Text = "Calendar";
             this.tabPageCalendar.UseVisualStyleBackColor = true;
@@ -276,7 +285,7 @@
             this.tabPageGradingQueue.Location = new System.Drawing.Point(4, 22);
             this.tabPageGradingQueue.Name = "tabPageGradingQueue";
             this.tabPageGradingQueue.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGradingQueue.Size = new System.Drawing.Size(976, 505);
+            this.tabPageGradingQueue.Size = new System.Drawing.Size(976, 601);
             this.tabPageGradingQueue.TabIndex = 6;
             this.tabPageGradingQueue.Text = "Grading Queue";
             this.tabPageGradingQueue.UseVisualStyleBackColor = true;
@@ -330,6 +339,7 @@
         private System.Windows.Forms.ToolStripMenuItem gradingQueueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dataSourcesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mongoDBToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rateLimitsToolStripMenuItem;
     }
 }
 

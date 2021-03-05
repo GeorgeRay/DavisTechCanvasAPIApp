@@ -37,6 +37,11 @@ namespace CanvasAPIApp
 
             response.EnsureSuccessStatusCode();
 
+            //stores rate limit information from response header
+            string responseRateLimitRemaining = response.Headers.GetValues("X-Rate-Limit-Remaining").FirstOrDefault();
+            Console.WriteLine(responseRateLimitRemaining);
+            CanvasAPIMainForm.RateLimitTracker.AddLimitCheck(DateTime.Now, responseRateLimitRemaining);
+
             string responseString = await response.Content.ReadAsStringAsync();
 
             return responseString;
