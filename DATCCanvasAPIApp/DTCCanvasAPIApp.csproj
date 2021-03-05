@@ -28,7 +28,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>Canvas API Application</ProductName>
     <PublisherName>Davis Technical College</PublisherName>
-    <ApplicationRevision>31</ApplicationRevision>
+    <ApplicationRevision>32</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -176,6 +176,7 @@
     <Compile Include="FireBaseAddForm.Designer.cs">
       <DependentUpon>FireBaseAddForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Requester.cs" />
     <Compile Include="SubmissionVersion.cs" />
     <Compile Include="CoursesForm.cs">
       <SubType>Form</SubType>
@@ -227,7 +228,6 @@
       <DependentUpon>SimpleTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Template.cs" />
-    <Compile Include="WebCall.cs" />
     <EmbeddedResource Include="AccessTokenForm.resx">
       <DependentUpon>AccessTokenForm.cs</DependentUpon>
     </EmbeddedResource>

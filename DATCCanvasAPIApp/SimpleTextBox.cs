@@ -12,26 +12,26 @@ namespace CanvasAPIApp
          Text = title; //set title text
       }//End Initialization
 
-      private void SimpleTextBox_Load(object sender, EventArgs e)
+      private async void SimpleTextBox_Load(object sender, EventArgs e)
       {         
          string accessToken = Properties.Settings.Default.CurrentAccessToken;
-         var token = "&access_token="+accessToken;
+         var token = accessToken;
          //Get Profile
          string endPoint = Properties.Settings.Default.InstructureSite;
-         var client = new RestClient(endPoint);
+         Requester requester = new Requester();
 
             try
             {
                 if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
                 {
                     //Get Profile
-                    var json = client.MakeRequest("/api/v1/users/self/profile?" + token);
+                    var json = await requester.MakeRequestAsync(endPoint + "/api/v1/users/self/profile?", token);
                     //Dederialize json
                     dynamic jsonObj = JsonConvert.DeserializeObject(json);
                     //dispaly each json object
                     foreach (var obj in jsonObj)
                     {
-                        rtbProfileOutput.AppendText(obj + "\n");
+                        rtbProfileOutput.AppendText(obj + "\n"); 
                     }
                     var url = jsonObj["avatar_url"];
                     string sUrl = url;

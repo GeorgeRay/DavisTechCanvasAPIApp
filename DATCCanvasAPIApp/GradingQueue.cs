@@ -28,6 +28,8 @@ namespace CanvasAPIApp
 
         private bool mongoWarningshown = false;
 
+        Requester requester = new Requester();
+
         public GradingQueue()
         {
             InitializeComponent();
@@ -225,24 +227,32 @@ namespace CanvasAPIApp
             return defaultPriority;
         }
 
-        private Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
+        private async Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
         {
-            return Task.Run(() =>
-            {
-                List<Assignment> ungradedAssignmentList = new List<Assignment>();
-                string urlParameters;
-                urlParameters = "student_ids[]=all";
-                urlParameters += "&include[]=assignment";
-                urlParameters += "&workflow_state[]=submitted";
-                urlParameters += "&workflow_state[]=pending_review";
-                urlParameters += "&enrollment_state=active";
+            Requester requester = new Requester();
 
-                // get grading history
-                foreach (Course course in courseList)
+
+            List<Assignment> ungradedAssignmentList = new List<Assignment>();
+            string urlParameters;
+            urlParameters = "student_ids[]=all";
+            urlParameters += "&include[]=assignment";
+            urlParameters += "&workflow_state[]=submitted";
+            urlParameters += "&workflow_state[]=pending_review";
+            urlParameters += "&enrollment_state=active";
+
+            //async webcalls vars
+            List<Task> tasks = new List<Task>();
+
+            // gets grading event history
+            // adds each call to task
+            foreach (Course course in courseList)
+            {
+
+                tasks.Add(Task.Run(async () =>
                 {
                     string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
-                    var client = new RestClient(endPoint);
-                    var json = client.MakeRequest("access_token=" + Properties.Settings.Default.CurrentAccessToken);
+
+                    string json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                     if (json != "")
                     {
                         dynamic jsonObj = JsonConvert.DeserializeObject(json);
@@ -292,28 +302,30 @@ namespace CanvasAPIApp
                                 }
                             }
                         }
-
                     }
+                }));//end task
 
+            }//end foreach
 
-                }
-                return ungradedAssignmentList;
-            });
+            //waits for all tasks
+            await Task.WhenAll(tasks.ToArray());
+
+            return ungradedAssignmentList;
+
         }
 
-
-        private Task<List<Course>> populateListOfCourses()
+        private async Task<List<Course>> populateListOfCourses()
         {
 
-            return Task.Run(() =>
+            return await Task.Run( async () =>
             {
 
                 List<Course> tempCourseList = new List<Course>();
 
                 // get jsonObj file
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?enrollment_type=teacher&per_page=1000&include[]=needs_grading_count&";//Get endpoint
-                var client = new RestClient(endPoint);
-                var json = client.MakeRequest("access_token=" + Properties.Settings.Default.CurrentAccessToken);
+                
+                var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                 //if request fails a empty string will be returned, resulting in a null object
                 if (json != "")
                 {
