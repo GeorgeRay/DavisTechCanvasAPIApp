@@ -19,11 +19,12 @@ namespace CanvasAPIApp
 
         private void RateLimitForm_Load(object sender, EventArgs e)
         {
-            rateLimitChart.Series.Clear();
-            
-            foreach(RateLimitTracker.LimitCheck check in CanvasAPIMainForm.RateLimitTracker.LimitChecks)
+            rateLimitChart.Series.FirstOrDefault().Points.Clear();
+
+
+            foreach (RateLimitTracker.LimitCheck check in CanvasAPIMainForm.RateLimitTracker.LimitChecks)
             {
-                //chart?
+                rateLimitChart.Series.FirstOrDefault().Points.AddXY(check.Timestamp, check.LimitRemaining);
             }
         }
     }

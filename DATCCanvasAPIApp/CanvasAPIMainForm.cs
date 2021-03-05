@@ -209,7 +209,9 @@ namespace CanvasAPIApp
 
         private void rateLimitsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             Form rateLimitForm = new RateLimitForm();
+            rateLimitForm.StartPosition = FormStartPosition.CenterParent;
             rateLimitForm.ShowDialog();
         }
     }
