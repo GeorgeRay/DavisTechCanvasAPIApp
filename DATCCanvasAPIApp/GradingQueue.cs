@@ -9,6 +9,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Driver.Linq;
 using System.Globalization;
+using System.Data;
 
 namespace CanvasAPIApp
 {
@@ -87,14 +88,16 @@ namespace CanvasAPIApp
             btnLoadCourses.Enabled = false;
             lblMessageBox.Text = "Getting Courses";
 
-            //saves sorting for after refresh
-            var sortColumn = gradingDataGrid.SortedColumn;
-
+            //saves sorting for after refresh defalts to priority if nothing is selected
+            var sortColumn = gradingDataGrid.SortedColumn != null ? gradingDataGrid.SortedColumn : gradingDataGrid.Columns[1];
+            //the data grid view sort method takes a ComponentModel sort direction.
             System.ComponentModel.ListSortDirection sortDirection = new System.ComponentModel.ListSortDirection();
             if (gradingDataGrid.SortOrder == SortOrder.Ascending)
                 sortDirection = System.ComponentModel.ListSortDirection.Ascending;
-            else if(gradingDataGrid.SortOrder == SortOrder.Descending)
+            else if (gradingDataGrid.SortOrder == SortOrder.Descending)
                 sortDirection = System.ComponentModel.ListSortDirection.Descending;
+
+
 
             //gets courses if they aren't already set
             if (CourseList.Count == 0)
@@ -149,7 +152,13 @@ namespace CanvasAPIApp
             }
 
             //resets sort direction
-            if (sortColumn != null)
+            if (sortColumn.Name == "Priority")
+            {
+                gradingDataGrid.Sort(gradingDataGrid.Columns["Submit_at"], System.ComponentModel.ListSortDirection.Ascending);
+                gradingDataGrid.Sort(gradingDataGrid.Columns["Priority"], sortDirection);               
+
+            }           
+            else
             {
                 gradingDataGrid.Sort(sortColumn, sortDirection);
             }
@@ -192,12 +201,7 @@ namespace CanvasAPIApp
                     gradingDataGrid.Rows.Add(assignment.graded, assignment.priority, assignment.courseName,
                         assignment.assignment_name, assignment.submitted_at, assignment.workflow_state,
                         assignment.speed_grader_url, assignment.grades_url);
-                }
-                //default sorting on priority column
-
-                //sort by priority
-                gradingDataGrid.Sort(gradingDataGrid.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
-
+                }  
             }
         }
 
