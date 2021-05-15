@@ -162,7 +162,15 @@ namespace CanvasAPIApp
         {
             return Task.Run(() =>
             {
-                return mongoDatabase.GetCollection<ReservedAssignment>(Properties.Settings.Default.MongoDBGradingCollection).AsQueryable<ReservedAssignment>().ToList();
+                try
+                {
+                    return mongoDatabase.GetCollection<ReservedAssignment>(Properties.Settings.Default.MongoDBGradingCollection).AsQueryable<ReservedAssignment>().ToList();
+                }
+                catch (Exception)
+                {                    
+                    return new List<ReservedAssignment>();
+                }
+               
             });
         }
 
