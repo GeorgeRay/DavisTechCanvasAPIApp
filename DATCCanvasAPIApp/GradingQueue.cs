@@ -335,7 +335,7 @@ namespace CanvasAPIApp
                 List<Course> tempCourseList = new List<Course>();
 
                 // get jsonObj file
-                string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?enrollment_type=teacher&per_page=1000&include[]=needs_grading_count&";//Get endpoint
+                string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?enrollment_type=teacher&per_page=1000&";//Get endpoint
                 
                 var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                 //if request fails a empty string will be returned, resulting in a null object
