@@ -30,14 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gradingDataGrid = new System.Windows.Forms.DataGridView();
-            this.reserved = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CourseNumber = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.AssignmentNameColumn = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.Submit_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Workflow_state = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Speedgrader_url = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.grades_url = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnRefreshQueue = new System.Windows.Forms.Button();
             this.cbxAutoRefresh = new System.Windows.Forms.CheckBox();
             this.nudSeconds = new System.Windows.Forms.NumericUpDown();
@@ -47,6 +39,14 @@
             this.courseFilterLbl = new System.Windows.Forms.Label();
             this.btnPrioritySettings = new System.Windows.Forms.Button();
             this.btnLoadCourses = new System.Windows.Forms.Button();
+            this.reserved = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CourseNumber = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.AssignmentNameColumn = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.Submit_at = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Workflow_state = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Speedgrader_url = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.grades_url = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gradingDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSeconds)).BeginInit();
             this.SuspendLayout();
@@ -69,15 +69,120 @@
             this.Workflow_state,
             this.Speedgrader_url,
             this.grades_url});
-            this.gradingDataGrid.Location = new System.Drawing.Point(12, 115);
-            this.gradingDataGrid.Margin = new System.Windows.Forms.Padding(4, 31, 4, 4);
+            this.gradingDataGrid.Location = new System.Drawing.Point(6, 60);
+            this.gradingDataGrid.Margin = new System.Windows.Forms.Padding(2, 16, 2, 2);
             this.gradingDataGrid.Name = "gradingDataGrid";
             this.gradingDataGrid.ReadOnly = true;
             this.gradingDataGrid.RowTemplate.Height = 33;
             this.gradingDataGrid.ShowEditingIcon = false;
-            this.gradingDataGrid.Size = new System.Drawing.Size(1688, 885);
+            this.gradingDataGrid.Size = new System.Drawing.Size(844, 460);
             this.gradingDataGrid.TabIndex = 0;
             this.gradingDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gradingDataGrid_CellContentClick);
+            // 
+            // btnRefreshQueue
+            // 
+            this.btnRefreshQueue.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnRefreshQueue.Location = new System.Drawing.Point(6, 28);
+            this.btnRefreshQueue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRefreshQueue.Name = "btnRefreshQueue";
+            this.btnRefreshQueue.Size = new System.Drawing.Size(128, 23);
+            this.btnRefreshQueue.TabIndex = 1;
+            this.btnRefreshQueue.Text = "Refresh Assignments";
+            this.btnRefreshQueue.UseVisualStyleBackColor = false;
+            this.btnRefreshQueue.Click += new System.EventHandler(this.btnRefreshQueue_Click);
+            // 
+            // cbxAutoRefresh
+            // 
+            this.cbxAutoRefresh.AutoSize = true;
+            this.cbxAutoRefresh.Checked = true;
+            this.cbxAutoRefresh.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxAutoRefresh.Location = new System.Drawing.Point(6, 6);
+            this.cbxAutoRefresh.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxAutoRefresh.Name = "cbxAutoRefresh";
+            this.cbxAutoRefresh.Size = new System.Drawing.Size(88, 17);
+            this.cbxAutoRefresh.TabIndex = 2;
+            this.cbxAutoRefresh.Text = "Auto Refresh";
+            this.cbxAutoRefresh.UseVisualStyleBackColor = true;
+            this.cbxAutoRefresh.CheckedChanged += new System.EventHandler(this.cbxAutoRefresh_CheckedChanged);
+            // 
+            // nudSeconds
+            // 
+            this.nudSeconds.Location = new System.Drawing.Point(98, 5);
+            this.nudSeconds.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nudSeconds.Maximum = new decimal(new int[] {
+            3600,
+            0,
+            0,
+            0});
+            this.nudSeconds.Minimum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.nudSeconds.Name = "nudSeconds";
+            this.nudSeconds.Size = new System.Drawing.Size(60, 20);
+            this.nudSeconds.TabIndex = 3;
+            this.nudSeconds.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            // 
+            // timerRefreshQueue
+            // 
+            this.timerRefreshQueue.Tick += new System.EventHandler(this.timerRefreshQueue_Tick);
+            // 
+            // lblMessageBox
+            // 
+            this.lblMessageBox.AutoSize = true;
+            this.lblMessageBox.Location = new System.Drawing.Point(167, 8);
+            this.lblMessageBox.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblMessageBox.Name = "lblMessageBox";
+            this.lblMessageBox.Size = new System.Drawing.Size(0, 13);
+            this.lblMessageBox.TabIndex = 4;
+            // 
+            // courseFilterTxt
+            // 
+            this.courseFilterTxt.Enabled = false;
+            this.courseFilterTxt.Location = new System.Drawing.Point(336, 28);
+            this.courseFilterTxt.Name = "courseFilterTxt";
+            this.courseFilterTxt.Size = new System.Drawing.Size(100, 20);
+            this.courseFilterTxt.TabIndex = 5;
+            this.courseFilterTxt.TextChanged += new System.EventHandler(this.courseFilterTxt_TextChanged);
+            // 
+            // courseFilterLbl
+            // 
+            this.courseFilterLbl.AutoSize = true;
+            this.courseFilterLbl.Location = new System.Drawing.Point(257, 31);
+            this.courseFilterLbl.Name = "courseFilterLbl";
+            this.courseFilterLbl.Size = new System.Drawing.Size(70, 13);
+            this.courseFilterLbl.TabIndex = 6;
+            this.courseFilterLbl.Text = "Filter Courses";
+            // 
+            // btnPrioritySettings
+            // 
+            this.btnPrioritySettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrioritySettings.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnPrioritySettings.Location = new System.Drawing.Point(681, 24);
+            this.btnPrioritySettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnPrioritySettings.Name = "btnPrioritySettings";
+            this.btnPrioritySettings.Size = new System.Drawing.Size(152, 23);
+            this.btnPrioritySettings.TabIndex = 7;
+            this.btnPrioritySettings.Text = "Priority settings";
+            this.btnPrioritySettings.UseVisualStyleBackColor = false;
+            this.btnPrioritySettings.Click += new System.EventHandler(this.btnPrioritySettings_Click);
+            // 
+            // btnLoadCourses
+            // 
+            this.btnLoadCourses.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnLoadCourses.Location = new System.Drawing.Point(138, 28);
+            this.btnLoadCourses.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLoadCourses.Name = "btnLoadCourses";
+            this.btnLoadCourses.Size = new System.Drawing.Size(100, 23);
+            this.btnLoadCourses.TabIndex = 8;
+            this.btnLoadCourses.Text = "Refresh courses";
+            this.btnLoadCourses.UseVisualStyleBackColor = false;
+            this.btnLoadCourses.Click += new System.EventHandler(this.btnLoadCourses_Click);
             // 
             // reserved
             // 
@@ -85,7 +190,7 @@
             this.reserved.HeaderText = "Reserved";
             this.reserved.Name = "reserved";
             this.reserved.ReadOnly = true;
-            this.reserved.Width = 110;
+            this.reserved.Width = 59;
             // 
             // Priority
             // 
@@ -95,7 +200,7 @@
             this.Priority.ReadOnly = true;
             this.Priority.ToolTipText = "1 = Instructor Meeting\\n2 = Pacific Trails, 3 = Final Projects, 4 = Everything el" +
     "se";
-            this.Priority.Width = 124;
+            this.Priority.Width = 63;
             // 
             // CourseNumber
             // 
@@ -119,10 +224,10 @@
             // Submit_at
             // 
             this.Submit_at.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Submit_at.HeaderText = "Submited At";
+            this.Submit_at.HeaderText = "Submitted At";
             this.Submit_at.Name = "Submit_at";
             this.Submit_at.ReadOnly = true;
-            this.Submit_at.Width = 160;
+            this.Submit_at.Width = 92;
             // 
             // Workflow_state
             // 
@@ -146,118 +251,11 @@
             this.grades_url.ReadOnly = true;
             this.grades_url.Visible = false;
             // 
-            // btnRefreshQueue
-            // 
-            this.btnRefreshQueue.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnRefreshQueue.Location = new System.Drawing.Point(13, 53);
-            this.btnRefreshQueue.Margin = new System.Windows.Forms.Padding(4);
-            this.btnRefreshQueue.Name = "btnRefreshQueue";
-            this.btnRefreshQueue.Size = new System.Drawing.Size(256, 44);
-            this.btnRefreshQueue.TabIndex = 1;
-            this.btnRefreshQueue.Text = "Refresh Assignments";
-            this.btnRefreshQueue.UseVisualStyleBackColor = false;
-            this.btnRefreshQueue.Click += new System.EventHandler(this.btnRefreshQueue_Click);
-            // 
-            // cbxAutoRefresh
-            // 
-            this.cbxAutoRefresh.AutoSize = true;
-            this.cbxAutoRefresh.Checked = true;
-            this.cbxAutoRefresh.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxAutoRefresh.Location = new System.Drawing.Point(12, 12);
-            this.cbxAutoRefresh.Margin = new System.Windows.Forms.Padding(4);
-            this.cbxAutoRefresh.Name = "cbxAutoRefresh";
-            this.cbxAutoRefresh.Size = new System.Drawing.Size(169, 29);
-            this.cbxAutoRefresh.TabIndex = 2;
-            this.cbxAutoRefresh.Text = "Auto Refresh";
-            this.cbxAutoRefresh.UseVisualStyleBackColor = true;
-            this.cbxAutoRefresh.CheckedChanged += new System.EventHandler(this.cbxAutoRefresh_CheckedChanged);
-            // 
-            // nudSeconds
-            // 
-            this.nudSeconds.Location = new System.Drawing.Point(196, 10);
-            this.nudSeconds.Margin = new System.Windows.Forms.Padding(4);
-            this.nudSeconds.Maximum = new decimal(new int[] {
-            3600,
-            0,
-            0,
-            0});
-            this.nudSeconds.Minimum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.nudSeconds.Name = "nudSeconds";
-            this.nudSeconds.Size = new System.Drawing.Size(120, 31);
-            this.nudSeconds.TabIndex = 3;
-            this.nudSeconds.Value = new decimal(new int[] {
-            60,
-            0,
-            0,
-            0});
-            // 
-            // timerRefreshQueue
-            // 
-            this.timerRefreshQueue.Tick += new System.EventHandler(this.timerRefreshQueue_Tick);
-            // 
-            // lblMessageBox
-            // 
-            this.lblMessageBox.AutoSize = true;
-            this.lblMessageBox.Location = new System.Drawing.Point(334, 15);
-            this.lblMessageBox.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblMessageBox.Name = "lblMessageBox";
-            this.lblMessageBox.Size = new System.Drawing.Size(0, 25);
-            this.lblMessageBox.TabIndex = 4;
-            // 
-            // courseFilterTxt
-            // 
-            this.courseFilterTxt.Enabled = false;
-            this.courseFilterTxt.Location = new System.Drawing.Point(672, 53);
-            this.courseFilterTxt.Margin = new System.Windows.Forms.Padding(6);
-            this.courseFilterTxt.Name = "courseFilterTxt";
-            this.courseFilterTxt.Size = new System.Drawing.Size(196, 31);
-            this.courseFilterTxt.TabIndex = 5;
-            this.courseFilterTxt.TextChanged += new System.EventHandler(this.courseFilterTxt_TextChanged);
-            // 
-            // courseFilterLbl
-            // 
-            this.courseFilterLbl.AutoSize = true;
-            this.courseFilterLbl.Location = new System.Drawing.Point(514, 59);
-            this.courseFilterLbl.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.courseFilterLbl.Name = "courseFilterLbl";
-            this.courseFilterLbl.Size = new System.Drawing.Size(146, 25);
-            this.courseFilterLbl.TabIndex = 6;
-            this.courseFilterLbl.Text = "Filter Courses";
-            // 
-            // btnPrioritySettings
-            // 
-            this.btnPrioritySettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrioritySettings.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnPrioritySettings.Location = new System.Drawing.Point(1362, 46);
-            this.btnPrioritySettings.Margin = new System.Windows.Forms.Padding(4);
-            this.btnPrioritySettings.Name = "btnPrioritySettings";
-            this.btnPrioritySettings.Size = new System.Drawing.Size(304, 44);
-            this.btnPrioritySettings.TabIndex = 7;
-            this.btnPrioritySettings.Text = "Priority settings";
-            this.btnPrioritySettings.UseVisualStyleBackColor = false;
-            this.btnPrioritySettings.Click += new System.EventHandler(this.btnPrioritySettings_Click);
-            // 
-            // btnLoadCourses
-            // 
-            this.btnLoadCourses.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnLoadCourses.Location = new System.Drawing.Point(277, 53);
-            this.btnLoadCourses.Margin = new System.Windows.Forms.Padding(4);
-            this.btnLoadCourses.Name = "btnLoadCourses";
-            this.btnLoadCourses.Size = new System.Drawing.Size(199, 44);
-            this.btnLoadCourses.TabIndex = 8;
-            this.btnLoadCourses.Text = "Refresh courses";
-            this.btnLoadCourses.UseVisualStyleBackColor = false;
-            this.btnLoadCourses.Click += new System.EventHandler(this.btnLoadCourses_Click);
-            // 
             // GradingQueue
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1688, 1012);
+            this.ClientSize = new System.Drawing.Size(844, 526);
             this.Controls.Add(this.btnLoadCourses);
             this.Controls.Add(this.btnPrioritySettings);
             this.Controls.Add(this.courseFilterTxt);
@@ -267,7 +265,7 @@
             this.Controls.Add(this.btnRefreshQueue);
             this.Controls.Add(this.gradingDataGrid);
             this.Controls.Add(this.courseFilterLbl);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "GradingQueue";
             this.Text = "GradingQueue";
             this.Load += new System.EventHandler(this.GradingQueue_Load);
@@ -288,6 +286,8 @@
         private System.Windows.Forms.Label lblMessageBox;
         private System.Windows.Forms.TextBox courseFilterTxt;
         private System.Windows.Forms.Label courseFilterLbl;
+        private System.Windows.Forms.Button btnPrioritySettings;
+        private System.Windows.Forms.Button btnLoadCourses;
         private System.Windows.Forms.DataGridViewCheckBoxColumn reserved;
         private System.Windows.Forms.DataGridViewTextBoxColumn Priority;
         private System.Windows.Forms.DataGridViewLinkColumn CourseNumber;
@@ -296,7 +296,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Workflow_state;
         private System.Windows.Forms.DataGridViewLinkColumn Speedgrader_url;
         private System.Windows.Forms.DataGridViewTextBoxColumn grades_url;
-        private System.Windows.Forms.Button btnPrioritySettings;
-        private System.Windows.Forms.Button btnLoadCourses;
     }
 }

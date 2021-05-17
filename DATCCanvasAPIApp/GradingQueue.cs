@@ -39,7 +39,6 @@ namespace CanvasAPIApp
             {
                 ConnectToMongoDB();
             }
-            RefreshQueue();
         }
 
         public void ConnectToMongoDB()
@@ -69,6 +68,8 @@ namespace CanvasAPIApp
         {
             prioritySettings = new PrioritySettings();
             defaultPriority = Properties.Settings.Default.DefaultPriority;
+            //The checking the auto refresh will load the queue for the first time
+            cbxAutoRefresh.Checked = true;
 
         }
 
