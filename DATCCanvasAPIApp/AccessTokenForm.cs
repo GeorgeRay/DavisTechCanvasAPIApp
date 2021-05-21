@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using System.Net;
 
@@ -24,7 +24,8 @@ namespace CanvasAPIApp
 
             //Setting variable for try catch and web call
             String currentAccessToken = Properties.Settings.Default.CurrentAccessToken;
-
+            //Trim the user Input to eliminate denial of entry with correct token
+            currentAccessToken = currentAccessToken.Trim();
 
             //Set wait cursor
             Cursor.Current = Cursors.WaitCursor;
@@ -38,7 +39,7 @@ namespace CanvasAPIApp
                     //Setting new access token
 
 
-                    Properties.Settings.Default.CurrentAccessToken = txbCurrentAccessToken.Text.ToString();
+                    Properties.Settings.Default.CurrentAccessToken = txbCurrentAccessToken.Text.ToString().Trim();
                     Properties.Settings.Default.Save();
 
                     //REST object to get
@@ -94,14 +95,14 @@ namespace CanvasAPIApp
 
             try
             {
-                WebRequest webRequest = WebRequest.Create(txbWebsite.Text.ToString());
+                WebRequest webRequest = WebRequest.Create(txbWebsite.Text.ToString().Trim());
                 WebResponse webResponse;
 
                 webResponse = webRequest.GetResponse();
                 MessageBox.Show("The site has been saved.", "Success", MessageBoxButtons.OK);
 
                 //Saving Website to settings
-                Properties.Settings.Default.InstructureSite = txbWebsite.Text.ToString();
+                Properties.Settings.Default.InstructureSite = txbWebsite.Text.ToString().Trim();
                 Properties.Settings.Default.Save();
 
                 lnkGetAccessTokenLink.Enabled = true;
