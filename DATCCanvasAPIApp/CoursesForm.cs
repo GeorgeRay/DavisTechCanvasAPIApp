@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -153,7 +153,6 @@ namespace CanvasAPIApp
                         }
                     }//end for
                 }));//end task
-
             }
 
             //lets tasks complete
@@ -182,11 +181,12 @@ namespace CanvasAPIApp
             {
                 //Get list of students for course selected:
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?per_page=1000&";//Get endpoint
-               
+
                 string json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                 dynamic jsonObj = JsonConvert.DeserializeObject(json);
                 courseStudentsGrid.Columns.Add("studentName", "Name");
                 courseStudentsGrid.Columns.Add("studentID", "ID");
+                courseStudentsGrid.Columns.Add("last_activity_at", "Last Activity");
                 courseStudentsGrid.Columns.Add("EnrollmentID", "EnrollmentID");
                 courseStudentsGrid.Columns["EnrollmentID"].Visible = false; //We don't need to show the canvas ID but will use it to work with students.
 
@@ -195,7 +195,8 @@ namespace CanvasAPIApp
                     String enrollemntTypeString = Convert.ToString(student.type);
                     enrollemntTypeString = enrollemntTypeString.Substring(0, enrollemntTypeString.Length - 10);
                     var displayName = $"{Convert.ToString(student.user.name)} ({enrollemntTypeString})";
-                    courseStudentsGrid.Rows.Add(displayName, (Convert.ToString(student.user.sis_user_id)), Convert.ToString(student.id));
+                    var displayDate =  (Convert.ToString(student.last_activity_at)).Split(' ')[0];
+                    courseStudentsGrid.Rows.Add(displayName, (Convert.ToString(student.user.sis_user_id)), displayDate, Convert.ToString(student.id));
                 }
                 courseStudentsGrid.Sort(courseStudentsGrid.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
             } //end try
@@ -209,7 +210,7 @@ namespace CanvasAPIApp
 
         private void CoursesForm_Load(object sender, EventArgs e)
         {
-            //loadCourseLists();
+            // loadCourseLists();
         }
 
         private void enrolledStudentsSearch_TextChanged(object sender, EventArgs e)
@@ -278,7 +279,7 @@ namespace CanvasAPIApp
                 var tokenParameter = coursesAccessToken;//Create
 
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments/" + enrollmentID + "?";
-                
+
                 try
                 {
                     //Make api call
@@ -313,8 +314,8 @@ namespace CanvasAPIApp
                     Int64 studentID = Int64.Parse(allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString());
 
                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?";//Get base endpoint from setting
-                   
-                    
+
+
                     string parameters = "&enrollment[sis_user_id]=" + studentID + "&enrollment[type]=StudentEnrollment" + "&enrollment[enrollment_state] = active";
 
                     //Make api call
