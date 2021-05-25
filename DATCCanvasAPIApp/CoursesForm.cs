@@ -195,8 +195,8 @@ namespace CanvasAPIApp
                     String enrollemntTypeString = Convert.ToString(student.type);
                     enrollemntTypeString = enrollemntTypeString.Substring(0, enrollemntTypeString.Length - 10);
                     var displayName = $"{Convert.ToString(student.user.name)} ({enrollemntTypeString})";
-                    //courseStudentsGrid.Rows.Add(displayName, (Convert.ToString(student.user.sis_user_id)), Convert.ToString(student.id)); student.id
-                    courseStudentsGrid.Rows.Add(displayName, Convert.ToString(student.id), Convert.ToString(student.last_activity_at));
+                    var displayDate =  (Convert.ToString(student.last_activity_at)).Split(' ')[0];
+                    courseStudentsGrid.Rows.Add(displayName, (Convert.ToString(student.user.sis_user_id)), displayDate, Convert.ToString(student.id));
                 }
                 courseStudentsGrid.Sort(courseStudentsGrid.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
             } //end try
