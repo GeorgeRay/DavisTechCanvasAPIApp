@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -31,9 +31,26 @@ namespace CanvasAPIApp
             string finalUrl = url + $"access_token={accessToken}" + parameters;
 
             //debug output:
-            //Console.WriteLine(finalUrl);
+            //Console.WriteLine(finalUrl);            
 
             HttpResponseMessage response = await client.GetAsync(finalUrl);
+
+            response.EnsureSuccessStatusCode();
+
+            string responseString = await response.Content.ReadAsStringAsync();
+
+            return responseString;
+
+        }
+        //Delete request created originally for concluding courses for students in Courseform
+        public async Task<string> MakeDeleteRequestAsync(string url, string accessToken, string parameters = "")
+        {
+            string finalUrl = url + $"access_token={accessToken}" + parameters;
+
+            //debug output:
+            //Console.WriteLine(finalUrl);            
+
+            HttpResponseMessage response = await client.DeleteAsync(finalUrl);
 
             response.EnsureSuccessStatusCode();
 
