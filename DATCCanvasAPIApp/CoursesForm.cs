@@ -277,13 +277,11 @@ namespace CanvasAPIApp
             {
                 string restResult = "No Call Made";//this will be over written by results from web call
                 var tokenParameter = coursesAccessToken;//Create
-
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments/" + enrollmentID + "?";
-
                 try
                 {
                     //Make api call
-                    restResult = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                    restResult = await requester.MakeDeleteRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
 
                     MessageBox.Show(courseName + " has been concluded for " + studentName);
                     populateCourseStudents();
