@@ -123,7 +123,7 @@ namespace CanvasAPIApp
                 rolesString = rolesString.Trim().Trim(',');
 
                 //populate course list
-                courseDataGridView.Rows.Add(String.Format(Convert.ToString(course.name)), (Convert.ToString(course.id)), (Convert.ToString(course.workflow_state)), (Convert.ToString(course.total_students)), Convert.ToString(rolesString));
+                courseDataGridView.Rows.Add(String.Format(Convert.ToString(course.name)), (Convert.ToString(course.id)), (Convert.ToString(course.workflow_state)), (Convert.ToInt32(course.total_students)), Convert.ToString(rolesString));
 
                 //set up each call in a task list
                 tasks.Add(Task.Run(async () =>
