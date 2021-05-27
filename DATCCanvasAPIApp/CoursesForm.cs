@@ -301,8 +301,9 @@ namespace CanvasAPIApp
             {
                 //get course name from list
                 string courseName = (courseDataGridView.Rows[courseDataGridView.CurrentCell.RowIndex].Cells["courseName"].Value.ToString());
+                string studentName = allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentName"].Value.ToString();
                 //verify that selected student is to be added
-                DialogResult addStudent = MessageBox.Show("Are you sure you want to invite this student to " + courseName + "?", "Add Student", MessageBoxButtons.YesNo);
+                DialogResult addStudent = MessageBox.Show("Are you sure you want to invite " + studentName + " to " + courseName + "?", "Add Student", MessageBoxButtons.YesNo);
                 if (addStudent == DialogResult.Yes)
                 {
                     string restResult = "No Call Made";//this will be over written by results from web call
@@ -312,16 +313,36 @@ namespace CanvasAPIApp
                     Int64 studentID = Int64.Parse(allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString());
 
                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?";//Get base endpoint from setting
-
-
                     string parameters = "&enrollment[sis_user_id]=" + studentID + "&enrollment[type]=StudentEnrollment" + "&enrollment[enrollment_state] = active";
+
+                    //call the Json Obj to grab enrollment_User_Id as it hasn't been called on this page
+                    string json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                    dynamic jsonObj = JsonConvert.DeserializeObject(json);
+                    string enrollmentUserId = "";
+
+                    //using the information we have, loop through the object to find the user, then set the needed info to enrollmentUserID
+                    foreach (var student in jsonObj)
+                    {
+                        if (student.user.sis_user_id != null)
+                        {
+                            //handles the cases where the ID is not a number (such as teachers having an Email as an ID)
+                            try
+                            {
+                                if (studentID == Convert.ToInt64(student.user.sis_user_id))
+                                {
+                                    enrollmentUserId = Convert.ToString(student.user_id);
+                                }
+                            }
+                            catch { }//if the id is bad, do nothing and move on
+                        }
+                    }
 
                     //Make api call
                     try
                     {
                         //add student and repopulate list
-                        restResult = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
-                        MessageBox.Show((courseStudentsGrid.Rows[courseStudentsGrid.CurrentCell.RowIndex].Cells["studentName"].Value.ToString()) + " has been invited to " + courseName);
+                        restResult = await requester.MakeInvitationRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken, enrollmentUserId);
+                        MessageBox.Show(studentName + " has been invited to " + courseName);
                         populateCourseStudents();
                     }
                     catch (Exception apiException)
