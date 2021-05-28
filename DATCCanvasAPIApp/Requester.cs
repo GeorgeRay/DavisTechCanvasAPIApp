@@ -60,14 +60,9 @@ namespace CanvasAPIApp
 
         }
         //POST method used to invite students to courses, has 4 variables
-        public async Task<string> MakeInvitationRequestAsync(string url, string accessToken, string user_id, string parameters = "")
+        public async Task<string> MakePOSTRequestAsync(string url, string accessToken, Dictionary<string, string> values, string parameters = "")
         {
             string finalUrl = url + $"access_token={accessToken}" + parameters;
-
-            var values = new Dictionary<string, string>
-                {
-                    { "enrollment[user_id]", user_id},
-                };
 
             var content = new FormUrlEncodedContent(values);
 
