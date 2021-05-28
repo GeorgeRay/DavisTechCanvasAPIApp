@@ -64,7 +64,7 @@ namespace CanvasAPIApp
             CanvasAPIMainForm.GlobalCourseID = 1;
 
             //async webcalls vars
-            List<Tuple<string, string>> studentList = new List<Tuple<string, string>>();
+            List<Tuple<string, string, string>> studentList = new List<Tuple<string, string, string>>();
             List<Task> tasks = new List<Task>();
 
             //Setting wait cursor
@@ -108,6 +108,8 @@ namespace CanvasAPIApp
             //create student grid columns
             allStudentsGrid.Columns.Add("studentName", "Name");
             allStudentsGrid.Columns.Add("studentID", "ID");
+            allStudentsGrid.Columns.Add("user_ID", "user_ID");
+            allStudentsGrid.Columns["user_ID"].Visible = false; //We don't need to show the user ID but will use it to work with students, one example being POST.
 
             string studentsAdded = "";
 
@@ -123,7 +125,7 @@ namespace CanvasAPIApp
                 rolesString = rolesString.Trim().Trim(',');
 
                 //populate course list
-                courseDataGridView.Rows.Add(String.Format(Convert.ToString(course.name)), (Convert.ToString(course.id)), (Convert.ToString(course.workflow_state)), (Convert.ToInt32(course.total_students)), Convert.ToString(rolesString));
+                courseDataGridView.Rows.Add(String.Format(Convert.ToString(course.name)), (Convert.ToString(course.id)), (Convert.ToString(course.workflow_state)), Convert.ToInt32(course.total_students), Convert.ToString(rolesString));
 
                 //set up each call in a task list
                 tasks.Add(Task.Run(async () =>
@@ -143,7 +145,7 @@ namespace CanvasAPIApp
                             //add student if the id is not found in students added
                             if (!studentsAdded.Contains(Convert.ToString(student.sis_user_id)))
                             {
-                                studentList.Add(new Tuple<string, string>(Convert.ToString(student.name), Convert.ToString(student.sis_user_id)));
+                                studentList.Add(new Tuple<string, string, string>(Convert.ToString(student.name), Convert.ToString(student.sis_user_id), Convert.ToString(student.id)));
 
                                 //allStudentsGrid.Rows.Add(String.Format(Convert.ToString(student.name)), (Convert.ToString(student.sis_user_id)));
 
@@ -161,7 +163,7 @@ namespace CanvasAPIApp
             //when tasks are complete, fill out UI
             for (int i = 0; i < studentList.Count; i++)
             {
-                allStudentsGrid.Rows.Add(studentList[i].Item1, studentList[i].Item2);
+                allStudentsGrid.Rows.Add(studentList[i].Item1, studentList[i].Item2, studentList[i].Item3);
             }
 
             //clear selections and sort columns
@@ -190,12 +192,13 @@ namespace CanvasAPIApp
                 courseStudentsGrid.Columns.Add("EnrollmentID", "EnrollmentID");
                 courseStudentsGrid.Columns["EnrollmentID"].Visible = false; //We don't need to show the canvas ID but will use it to work with students.
 
+
                 foreach (var student in jsonObj)
                 {
                     String enrollemntTypeString = Convert.ToString(student.type);
                     enrollemntTypeString = enrollemntTypeString.Substring(0, enrollemntTypeString.Length - 10);
                     var displayName = $"{Convert.ToString(student.user.name)} ({enrollemntTypeString})";
-                    var displayDate =  (Convert.ToString(student.last_activity_at)).Split(' ')[0];
+                    var displayDate = (Convert.ToString(student.last_activity_at)).Split(' ')[0];
                     courseStudentsGrid.Rows.Add(displayName, (Convert.ToString(student.user.sis_user_id)), displayDate, Convert.ToString(student.id));
                 }
                 courseStudentsGrid.Sort(courseStudentsGrid.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
@@ -311,37 +314,18 @@ namespace CanvasAPIApp
 
                     //get student ID from list
                     Int64 studentID = Int64.Parse(allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString());
-
                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?";//Get base endpoint from setting
-                    string parameters = "&enrollment[sis_user_id]=" + studentID + "&enrollment[type]=StudentEnrollment" + "&enrollment[enrollment_state] = active";
-
-                    //call the Json Obj to grab enrollment_User_Id as it hasn't been called on this page
-                    string json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
-                    dynamic jsonObj = JsonConvert.DeserializeObject(json);
-                    string enrollmentUserId = "";
-
-                    //using the information we have, loop through the object to find the user, then set the needed info to enrollmentUserID
-                    foreach (var student in jsonObj)
-                    {
-                        if (student.user.sis_user_id != null)
-                        {
-                            //handles the cases where the ID is not a number (such as teachers having an Email as an ID)
-                            try
+                    var enrollmentUserId = new Dictionary<string, string>
                             {
-                                if (studentID == Convert.ToInt64(student.user.sis_user_id))
-                                {
-                                    enrollmentUserId = Convert.ToString(student.user_id);
-                                }
-                            }
-                            catch { }//if the id is bad, do nothing and move on
-                        }
-                    }
+                                { "enrollment[user_id]", allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["user_ID"].Value.ToString()},
+                            };
+
 
                     //Make api call
                     try
                     {
                         //add student and repopulate list
-                        restResult = await requester.MakeInvitationRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken, enrollmentUserId);
+                        restResult = await requester.MakePOSTRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken, enrollmentUserId);
                         MessageBox.Show(studentName + " has been invited to " + courseName);
                         populateCourseStudents();
                     }
