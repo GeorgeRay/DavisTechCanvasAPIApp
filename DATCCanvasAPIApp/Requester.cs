@@ -59,5 +59,24 @@ namespace CanvasAPIApp
             return responseString;
 
         }
+        //POST method used to invite students to courses, has 4 variables
+        public async Task<string> MakePOSTRequestAsync(string url, string accessToken, Dictionary<string, string> values, string parameters = "")
+        {
+            string finalUrl = url + $"access_token={accessToken}" + parameters;
+
+            var content = new FormUrlEncodedContent(values);
+
+            //debug output:
+            //Console.WriteLine(finalUrl);            
+
+            HttpResponseMessage response = await client.PostAsync(finalUrl, content);
+
+            response.EnsureSuccessStatusCode();
+
+            string responseString = await response.Content.ReadAsStringAsync();
+
+            return responseString;
+
+        }
     }
 }
