@@ -28,7 +28,7 @@ namespace CanvasAPIApp
 
         }
 
-        public async Task<string> MakeRequestAsync(string url, string accessToken, string parameters = "")
+        public async Task<string> MakeRequestAsync(string url, string parameters = "")
         {
             string finalUrl = url + parameters;
 

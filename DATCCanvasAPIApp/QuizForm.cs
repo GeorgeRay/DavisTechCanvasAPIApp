@@ -434,7 +434,7 @@ namespace CanvasAPIApp
                         {
                             string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/assignment_groups?";//Get base endpoint from setting
                             Requester requester = new Requester();
-                            var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                            var json = await requester.MakeRequestAsync(endPoint);
                             dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
                             foreach (var obj in jsonObj)
@@ -445,7 +445,7 @@ namespace CanvasAPIApp
                             //Get Course Name
                             endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "?";
 
-                            json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                            json = await requester.MakeRequestAsync(endPoint);
                             //deserialize the JSON object
                             jsonObj = JsonConvert.DeserializeObject(json);
                             //parse the JSON object

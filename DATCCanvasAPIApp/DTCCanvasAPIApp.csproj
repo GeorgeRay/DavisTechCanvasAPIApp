@@ -134,14 +134,14 @@
     <Compile Include="AccessTokenForm.Designer.cs">
       <DependentUpon>AccessTokenForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Assignment.cs" />
+    <Compile Include="GradingAssignment.cs" />
     <Compile Include="AssignmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AssignmentForm.Designer.cs">
       <DependentUpon>AssignmentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AssignmentParameters.cs" />
+    <Compile Include="Assignment.cs" />
     <Compile Include="CalendarForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,7 +197,7 @@
       <DependentUpon>ModuleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ModuleParameters.cs" />
-    <Compile Include="PageParameters.cs" />
+    <Compile Include="Page.cs" />
     <Compile Include="PagesForm.cs">
       <SubType>Form</SubType>
     </Compile>

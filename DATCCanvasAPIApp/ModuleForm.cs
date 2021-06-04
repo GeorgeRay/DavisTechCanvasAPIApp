@@ -59,7 +59,7 @@ namespace CanvasAPIApp
                             //Get Course Name
                             string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "?";
                             Requester requester = new Requester();
-                            var json = await requester.MakeRequestAsync(endPoint, parameters.AccessToken());
+                            var json = await requester.MakeRequestAsync(endPoint);
                             //deserialize the JSON object
                             dynamic jsonObj = JsonConvert.DeserializeObject(json);
                             //parse the JSON object
@@ -80,7 +80,7 @@ namespace CanvasAPIApp
                             courseModulesGrid.Refresh();
                             string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "/modules?";//Get endpoint
                             Requester requester = new Requester();
-                            var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                            var json = await requester.MakeRequestAsync(endPoint);
                             dynamic jsonObj = JsonConvert.DeserializeObject(json);
                             courseModulesGrid.Columns.Add("moduleName", "Module Name");
                             courseModulesGrid.Columns.Add("modulePos", "Position");
@@ -189,7 +189,7 @@ namespace CanvasAPIApp
                                     var htmlSafeIncrementedModuleName = Uri.EscapeDataString(incrementedModuleName);
                                     var moduleTitleParameter = "&module[name]=" + htmlSafeIncrementedModuleName;
 
-                                    restResult = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken, moduleTitleParameter + allParameters);
+                                    restResult = await requester.MakeRequestAsync(endPoint, moduleTitleParameter + allParameters);
 
                                     //Write Results to Text box
                                     rtbResults.AppendText(String.Format("{0,-50} {1,-10}\n", incrementedModuleName, "Created"));
@@ -218,7 +218,7 @@ namespace CanvasAPIApp
                         //Creating Module Name and making it HTML safe
                         var moduleNameParameter = "&module[name]=" + Uri.EscapeDataString(txbModuleName.Text);
                         MessageBox.Show(tokenParameter + moduleNameParameter + allParameters);
-                        restResult = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken, moduleNameParameter + allParameters);
+                        restResult = await requester.MakeRequestAsync(endPoint, moduleNameParameter + allParameters);
                         //Reset form for next submit
                         nudCourseID.TabStop = false;
                         txbBaseName.TabStop = false;

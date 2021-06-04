@@ -25,7 +25,7 @@ namespace CanvasAPIApp
                 if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
                 {
                     //Get Profile
-                    var json = await requester.MakeRequestAsync(endPoint + "/api/v1/users/self/profile?", token);
+                    var json = await requester.MakeRequestAsync(endPoint + "/api/v1/users/self/profile?");
                     //Dederialize json
                     dynamic jsonObj = JsonConvert.DeserializeObject(json);
                     //dispaly each json object

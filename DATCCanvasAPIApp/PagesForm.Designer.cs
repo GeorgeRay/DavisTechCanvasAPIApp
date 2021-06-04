@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PagesForm));
-            this.rtbAssignInstructions = new System.Windows.Forms.RichTextBox();
+            this.rtbPageBody = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.xbxUseBase = new System.Windows.Forms.CheckBox();
             this.buttonReset = new System.Windows.Forms.Button();
             this.labelLoggedIn = new System.Windows.Forms.Label();
-            this.buttonSubmitAssign = new System.Windows.Forms.Button();
+            this.buttonSubmitPage = new System.Windows.Forms.Button();
             this.rtbResults = new System.Windows.Forms.RichTextBox();
             this.btnLoadCourse = new System.Windows.Forms.Button();
             this.nudCourseID = new System.Windows.Forms.NumericUpDown();
@@ -57,15 +57,15 @@
             this.groupBoxEdit.SuspendLayout();
             this.SuspendLayout();
             // 
-            // rtbAssignInstructions
+            // rtbPageBody
             // 
-            this.rtbAssignInstructions.Location = new System.Drawing.Point(6, 217);
-            this.rtbAssignInstructions.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.rtbAssignInstructions.Name = "rtbAssignInstructions";
-            this.rtbAssignInstructions.Size = new System.Drawing.Size(1080, 391);
-            this.rtbAssignInstructions.TabIndex = 69;
-            this.rtbAssignInstructions.TabStop = false;
-            this.rtbAssignInstructions.Text = "";
+            this.rtbPageBody.Location = new System.Drawing.Point(6, 217);
+            this.rtbPageBody.Margin = new System.Windows.Forms.Padding(6);
+            this.rtbPageBody.Name = "rtbPageBody";
+            this.rtbPageBody.Size = new System.Drawing.Size(1080, 391);
+            this.rtbPageBody.TabIndex = 69;
+            this.rtbPageBody.TabStop = false;
+            this.rtbPageBody.Text = "";
             // 
             // label1
             // 
@@ -91,7 +91,7 @@
             this.xbxUseBase.Checked = true;
             this.xbxUseBase.CheckState = System.Windows.Forms.CheckState.Checked;
             this.xbxUseBase.Location = new System.Drawing.Point(12, 129);
-            this.xbxUseBase.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxUseBase.Margin = new System.Windows.Forms.Padding(6);
             this.xbxUseBase.Name = "xbxUseBase";
             this.xbxUseBase.Size = new System.Drawing.Size(486, 29);
             this.xbxUseBase.TabIndex = 66;
@@ -103,7 +103,7 @@
             // buttonReset
             // 
             this.buttonReset.Location = new System.Drawing.Point(288, 1044);
-            this.buttonReset.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.buttonReset.Margin = new System.Windows.Forms.Padding(6);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(236, 69);
             this.buttonReset.TabIndex = 65;
@@ -120,22 +120,22 @@
             this.labelLoggedIn.TabIndex = 64;
             this.labelLoggedIn.Text = "Enter course ID and press load to begin";
             // 
-            // buttonSubmitAssign
+            // buttonSubmitPage
             // 
-            this.buttonSubmitAssign.Enabled = false;
-            this.buttonSubmitAssign.Location = new System.Drawing.Point(20, 1044);
-            this.buttonSubmitAssign.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.buttonSubmitAssign.Name = "buttonSubmitAssign";
-            this.buttonSubmitAssign.Size = new System.Drawing.Size(236, 69);
-            this.buttonSubmitAssign.TabIndex = 63;
-            this.buttonSubmitAssign.Text = "Submit";
-            this.buttonSubmitAssign.UseVisualStyleBackColor = true;
-            this.buttonSubmitAssign.Click += new System.EventHandler(this.buttonSubmitAssign_Click);
+            this.buttonSubmitPage.Enabled = false;
+            this.buttonSubmitPage.Location = new System.Drawing.Point(20, 1044);
+            this.buttonSubmitPage.Margin = new System.Windows.Forms.Padding(6);
+            this.buttonSubmitPage.Name = "buttonSubmitPage";
+            this.buttonSubmitPage.Size = new System.Drawing.Size(236, 69);
+            this.buttonSubmitPage.TabIndex = 63;
+            this.buttonSubmitPage.Text = "Submit";
+            this.buttonSubmitPage.UseVisualStyleBackColor = true;
+            this.buttonSubmitPage.Click += new System.EventHandler(this.buttonSubmitPage_Click);
             // 
             // rtbResults
             // 
             this.rtbResults.Location = new System.Drawing.Point(1124, 67);
-            this.rtbResults.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.rtbResults.Margin = new System.Windows.Forms.Padding(6);
             this.rtbResults.Name = "rtbResults";
             this.rtbResults.ReadOnly = true;
             this.rtbResults.Size = new System.Drawing.Size(532, 989);
@@ -146,7 +146,7 @@
             // btnLoadCourse
             // 
             this.btnLoadCourse.Location = new System.Drawing.Point(6, 50);
-            this.btnLoadCourse.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnLoadCourse.Margin = new System.Windows.Forms.Padding(6);
             this.btnLoadCourse.Name = "btnLoadCourse";
             this.btnLoadCourse.Size = new System.Drawing.Size(346, 44);
             this.btnLoadCourse.TabIndex = 56;
@@ -157,7 +157,7 @@
             // nudCourseID
             // 
             this.nudCourseID.Location = new System.Drawing.Point(126, 4);
-            this.nudCourseID.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.nudCourseID.Margin = new System.Windows.Forms.Padding(6);
             this.nudCourseID.Maximum = new decimal(new int[] {
             2147483646,
             0,
@@ -192,7 +192,7 @@
             // 
             this.txbBaseName.Enabled = false;
             this.txbBaseName.Location = new System.Drawing.Point(568, 12);
-            this.txbBaseName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txbBaseName.Margin = new System.Windows.Forms.Padding(6);
             this.txbBaseName.Name = "txbBaseName";
             this.txbBaseName.Size = new System.Drawing.Size(520, 31);
             this.txbBaseName.TabIndex = 57;
@@ -222,7 +222,7 @@
             // 
             this.txbPageName.Enabled = false;
             this.txbPageName.Location = new System.Drawing.Point(568, 62);
-            this.txbPageName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txbPageName.Margin = new System.Windows.Forms.Padding(6);
             this.txbPageName.Name = "txbPageName";
             this.txbPageName.Size = new System.Drawing.Size(520, 31);
             this.txbPageName.TabIndex = 58;
@@ -231,7 +231,7 @@
             // nudNumberOfAssign
             // 
             this.nudNumberOfAssign.Location = new System.Drawing.Point(922, 123);
-            this.nudNumberOfAssign.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.nudNumberOfAssign.Margin = new System.Windows.Forms.Padding(6);
             this.nudNumberOfAssign.Minimum = new decimal(new int[] {
             1,
             0,
@@ -253,9 +253,9 @@
             this.groupBoxEdit.Controls.Add(this.radioButtonTeachers);
             this.groupBoxEdit.Controls.Add(this.label2);
             this.groupBoxEdit.Location = new System.Drawing.Point(6, 625);
-            this.groupBoxEdit.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBoxEdit.Margin = new System.Windows.Forms.Padding(6);
             this.groupBoxEdit.Name = "groupBoxEdit";
-            this.groupBoxEdit.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBoxEdit.Padding = new System.Windows.Forms.Padding(6);
             this.groupBoxEdit.Size = new System.Drawing.Size(400, 192);
             this.groupBoxEdit.TabIndex = 71;
             this.groupBoxEdit.TabStop = false;
@@ -265,7 +265,7 @@
             // 
             this.radioButtonAnyone.AutoSize = true;
             this.radioButtonAnyone.Location = new System.Drawing.Point(18, 150);
-            this.radioButtonAnyone.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.radioButtonAnyone.Margin = new System.Windows.Forms.Padding(6);
             this.radioButtonAnyone.Name = "radioButtonAnyone";
             this.radioButtonAnyone.Size = new System.Drawing.Size(116, 29);
             this.radioButtonAnyone.TabIndex = 3;
@@ -277,7 +277,7 @@
             // 
             this.radioButtonTeachandStu.AutoSize = true;
             this.radioButtonTeachandStu.Location = new System.Drawing.Point(18, 106);
-            this.radioButtonTeachandStu.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.radioButtonTeachandStu.Margin = new System.Windows.Forms.Padding(6);
             this.radioButtonTeachandStu.Name = "radioButtonTeachandStu";
             this.radioButtonTeachandStu.Size = new System.Drawing.Size(266, 29);
             this.radioButtonTeachandStu.TabIndex = 2;
@@ -289,7 +289,7 @@
             // 
             this.radioButtonTeachers.AutoSize = true;
             this.radioButtonTeachers.Location = new System.Drawing.Point(18, 62);
-            this.radioButtonTeachers.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.radioButtonTeachers.Margin = new System.Windows.Forms.Padding(6);
             this.radioButtonTeachers.Name = "radioButtonTeachers";
             this.radioButtonTeachers.Size = new System.Drawing.Size(183, 29);
             this.radioButtonTeachers.TabIndex = 1;
@@ -311,7 +311,7 @@
             // 
             this.checkBoxContentChange.AutoSize = true;
             this.checkBoxContentChange.Location = new System.Drawing.Point(568, 648);
-            this.checkBoxContentChange.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.checkBoxContentChange.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxContentChange.Name = "checkBoxContentChange";
             this.checkBoxContentChange.Size = new System.Drawing.Size(447, 29);
             this.checkBoxContentChange.TabIndex = 72;
@@ -322,7 +322,7 @@
             // 
             this.checkBoxPagePublish.AutoSize = true;
             this.checkBoxPagePublish.Location = new System.Drawing.Point(12, 829);
-            this.checkBoxPagePublish.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.checkBoxPagePublish.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxPagePublish.Name = "checkBoxPagePublish";
             this.checkBoxPagePublish.Size = new System.Drawing.Size(288, 29);
             this.checkBoxPagePublish.TabIndex = 73;
@@ -338,13 +338,13 @@
             this.Controls.Add(this.checkBoxContentChange);
             this.Controls.Add(this.groupBoxEdit);
             this.Controls.Add(this.nudNumberOfAssign);
-            this.Controls.Add(this.rtbAssignInstructions);
+            this.Controls.Add(this.rtbPageBody);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.xbxUseBase);
             this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.labelLoggedIn);
-            this.Controls.Add(this.buttonSubmitAssign);
+            this.Controls.Add(this.buttonSubmitPage);
             this.Controls.Add(this.rtbResults);
             this.Controls.Add(this.btnLoadCourse);
             this.Controls.Add(this.nudCourseID);
@@ -354,7 +354,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txbPageName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "PagesForm";
             this.Text = "Pages";
             ((System.ComponentModel.ISupportInitialize)(this.nudCourseID)).EndInit();
@@ -368,13 +368,13 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox rtbAssignInstructions;
+        private System.Windows.Forms.RichTextBox rtbPageBody;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox xbxUseBase;
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.Label labelLoggedIn;
-        private System.Windows.Forms.Button buttonSubmitAssign;
+        private System.Windows.Forms.Button buttonSubmitPage;
         private System.Windows.Forms.RichTextBox rtbResults;
         private System.Windows.Forms.Button btnLoadCourse;
         public System.Windows.Forms.NumericUpDown nudCourseID;

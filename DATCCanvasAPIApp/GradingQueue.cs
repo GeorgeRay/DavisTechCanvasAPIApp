@@ -16,7 +16,7 @@ namespace CanvasAPIApp
     public partial class GradingQueue : Form
     {
         // declarations
-        List<Assignment> ungradedAssignmentList;
+        List<GradingAssignment> ungradedAssignmentList;
         private bool isChanging = false;
         private bool connectedToMongoDB = false;
         MongoClient mongoClient;
@@ -191,14 +191,14 @@ namespace CanvasAPIApp
             gradingDataGrid.Rows.Clear();
         }
 
-        private void LoadDataGridView(List<Assignment> assignmentList)
+        private void LoadDataGridView(List<GradingAssignment> assignmentList)
         {
             //bool sortByPriority = false;
             clearDataGridView();
 
             if (assignmentList.Count > 0)
             {
-                foreach (Assignment assignment in assignmentList)
+                foreach (GradingAssignment assignment in assignmentList)
                 {
 
                     gradingDataGrid.Rows.Add(assignment.graded, assignment.priority, assignment.courseName,
@@ -242,12 +242,12 @@ namespace CanvasAPIApp
             return defaultPriority;
         }
 
-        private async Task<List<Assignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
+        private async Task<List<GradingAssignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
         {
             Requester requester = new Requester();
 
 
-            List<Assignment> ungradedAssignmentList = new List<Assignment>();
+            List<GradingAssignment> ungradedAssignmentList = new List<GradingAssignment>();
             string urlParameters;
             urlParameters = "student_ids[]=all";
             urlParameters += "&include[]=assignment";
@@ -267,7 +267,7 @@ namespace CanvasAPIApp
                 {
                     string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
 
-                    string json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                    string json = await requester.MakeRequestAsync(endPoint);
                     if (json != "")
                     {
                         dynamic jsonObj = JsonConvert.DeserializeObject(json);
@@ -313,7 +313,7 @@ namespace CanvasAPIApp
                                         gradingReservedList.Remove(theReservation);
                                     }
 
-                                    ungradedAssignmentList.Add(new Assignment(reserved, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url, grades_url));
+                                    ungradedAssignmentList.Add(new GradingAssignment(reserved, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url, grades_url));
                                 }
                             }
                         }
@@ -340,7 +340,7 @@ namespace CanvasAPIApp
                 // get jsonObj file
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?enrollment_type=teacher&per_page=1000&";//Get endpoint
                 
-                var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                var json = await requester.MakeRequestAsync(endPoint);
                 //if request fails a empty string will be returned, resulting in a null object
                 if (json != "")
                 {
@@ -494,7 +494,7 @@ namespace CanvasAPIApp
         }
 
         // filters ungradedAssignmentList by courseName property
-        private List<Assignment> courseFilter(List<Assignment> assignments, string filterFor)
+        private List<GradingAssignment> courseFilter(List<GradingAssignment> assignments, string filterFor)
         {
             if (!filterFor.Equals(string.Empty)) // argument is not empty
             {

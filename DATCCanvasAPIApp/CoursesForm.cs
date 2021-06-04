@@ -92,7 +92,7 @@ namespace CanvasAPIApp
             // get jsonObj file
             string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?per_page=1000&include[]=total_students&";//Get endpoint
 
-            var json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
+            var json = await requester.MakeRequestAsync(endPoint);
             dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
             //create columns and set width
@@ -132,7 +132,7 @@ namespace CanvasAPIApp
                 {
                     endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + course.id + "/users?per_page=1000&"; //Get endpoint
 
-                    json = await requester.MakeRequestAsync(endPoint, coursesAccessToken);
+                    json = await requester.MakeRequestAsync(endPoint);
                     jsonObj = JsonConvert.DeserializeObject(json);
 
                     //list to add student id's to after they have been added to the all students list
@@ -184,7 +184,7 @@ namespace CanvasAPIApp
                 //Get list of students for course selected:
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?per_page=1000&";//Get endpoint
 
-                string json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                string json = await requester.MakeRequestAsync(endPoint);
                 dynamic jsonObj = JsonConvert.DeserializeObject(json);
                 courseStudentsGrid.Columns.Add("studentName", "Name");
                 courseStudentsGrid.Columns.Add("studentID", "ID");

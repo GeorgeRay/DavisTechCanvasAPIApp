@@ -15,7 +15,7 @@ namespace CanvasAPIApp
             string endPoint = Properties.Settings.Default.InstructureSite;
             Requester requester = new Requester();
             //Get Profile
-            var json = await requester.MakeRequestAsync(endPoint + "/api/v1/users/self/profile?", accessToken);
+            var json = await requester.MakeRequestAsync(endPoint + "/api/v1/users/self/profile?");
             //Deserialize json object onlif if data was returned
             if (json != "")
             {
