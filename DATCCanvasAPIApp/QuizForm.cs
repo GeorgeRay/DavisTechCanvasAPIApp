@@ -13,13 +13,13 @@ namespace CanvasAPIApp
     public partial class QuizForm : Form
     {
         //Give the whole class access to parameters
-        QuizMethods methods = new QuizMethods();
+        Quiz currentQuiz = new Quiz();
         //Dictionary items to POST
         Dictionary<string, string> assignmentGroupvalues = new Dictionary<string, string>();
         //Give Class access to Get Call
         GeneralAPIGets getProfile = new GeneralAPIGets();
 
-        //Declaring varables
+        //Declaring variables
         string userName;
 
         //Initialize Form
@@ -32,10 +32,10 @@ namespace CanvasAPIApp
         //Load Quiz Form
         private void QuizForm_Load(object sender, EventArgs e)
         {
-                  
+
             //setting default values
             cbxQuizType.SelectedItem = "Graded Quiz";
-            
+
         }//End Load Quiz Form
 
         //Time Limit Check box change
@@ -146,12 +146,12 @@ namespace CanvasAPIApp
                 xbxCorrectAnswersAfterLastAttempt.Checked = false;
                 xbxCorrectAnswersAfterLastAttempt.Visible = false;
             }
-        }//End Allowed Attemps
+        }//End Allowed Attempts
 
         //Control items in response combo box
         private void cbx_CheckedChanged(object sender, EventArgs e)
         {
-            if (xbxQuizResponses.Checked) //if the Quiz responeses is check
+            if (xbxQuizResponses.Checked) //if the Quiz responses is checked
             {
                 if (xbxLimitAttempts.Checked == true)//if the allowed attempts is check
                 {
@@ -191,50 +191,40 @@ namespace CanvasAPIApp
             //create variables
 
             string restResult = "No Call Made";//this will be over written by results from web call
-            var tokenParameter = methods.AccessToken();//Create 
+
             string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/quizzes?";//Get base endpoint from setting
             Requester requester = new Requester();
             int quizesToMake = Convert.ToInt32(nudNumberOfQuiz.Value);
             int quizNumber = 0;
-            //Setting methods
 
-            var quizTypeParameter = methods.QuizType(Convert.ToString(cbxQuizType.SelectedItem));
+            currentQuiz.quiz_type = currentQuiz.QuizType(Convert.ToString(cbxQuizType.SelectedItem));
             //Getting key back
-            var assignmentGroupKey = (from kvp in assignmentGroupvalues where kvp.Value == Convert.ToString(cbxAssignmentGroup.SelectedItem) select kvp.Key).FirstOrDefault();
-            var assignmentTypeParameter = methods.AssignmentGroup(assignmentGroupKey);
-            var quizTimeLimitParameter = methods.QuizTimeLimit(xbxTimeLimit.Checked, Convert.ToInt32(nudMinutes.Value));
-            var shuffleAnswersParameter = methods.ShuffleAnswers(xbxShuffle.Checked);
-            var hideResultsParameter = methods.HideResults(xbxQuizResponses.Checked, xbxOnlyAfterLastAttempt.Checked);
-            var showCorrectAnswer = methods.ShowCorrectAnswer(xbxSeeCorrectAnswers.Checked);
-            var showCorrectAnswerLastAttempt = methods.ShowCorrectAnswerLastAttempt(xbxCorrectAnswersAfterLastAttempt.Checked);
-            var showCorrectAnswersAt = methods.ShowCorrectAnswerAt(xbxSeeCorrectAnswers.Checked, dtpShow.Checked, dtpShow.Value, dtpShowTime.Value);
-            var hideCorrectAnswersAt = methods.HideCorrectAnswerAt(xbxSeeCorrectAnswers.Checked, dtpHide.Checked, dtpHide.Value, dtpHideTime.Value);
-            var allowedAttempts = methods.AllowedAttempts(xbxAttempts.Checked, xbxLimitAttempts.Checked, Convert.ToInt32(nudAttempts.Value));
-            var scoringPolicy = methods.ScoringPolicy(Convert.ToString(cbxScoreToKeep.SelectedItem));
-            var oneQuestionAtATime = methods.OneQuestionAtATime(xbxOneQuestionTime.Checked);
-            var cantGoBack = methods.CantGoBack(xbxOneQuestionTime.Checked, xbxLockQuestion.Checked);
-            var accessCode = methods.AccessCode(xbxAccessCode.Checked, txbAccessCode.Text);
-            var ipAddressFilter = methods.IpAddressFiltering(xbxIPAddresses.Checked, txbIPAddresses.Text);
-            var oneTimeResults = methods.OneTimeResults(xbxQuizResponses.Checked, xbxOnlyOnce.Checked);
-            var requireLockdownBrowser = methods.RequireLockdownBrowser(xbxRequireLockDownBowser.Checked);
-            var requireLockdownBrowsertoView = methods.RequireLockdownBrowsertoVeiwResults(xbxRequireLockDownBowser.Checked, xbxRequireLockDownBrowsertoViewResuts.Checked);
-            var dueDate = methods.DueDate(dtpDueDate.Checked, dtpDueDate.Value, dtpDueDateTime.Value);
-            var unlockDate = methods.UnlockDate(dtpUnlockDate.Checked, dtpUnlockDate.Value, dtpUnlockDateTime.Value);
-            var lockDate = methods.LockDate(dtpLockDate.Checked, dtpLockDate.Value, dtpLockDateTime.Value);
-            var publishQuiz = methods.PublishQuiz(xbxPublish.Checked);
-            //combining all parameters
-            var allParameters = quizTypeParameter + assignmentTypeParameter
-                  + shuffleAnswersParameter + quizTimeLimitParameter + hideResultsParameter + showCorrectAnswer + showCorrectAnswerLastAttempt
-                  + showCorrectAnswersAt + hideCorrectAnswersAt + dueDate + unlockDate + lockDate + allowedAttempts + scoringPolicy + oneQuestionAtATime
-                  + cantGoBack + accessCode + ipAddressFilter + oneTimeResults + requireLockdownBrowser + publishQuiz + requireLockdownBrowsertoView;
-
-            //rtbResults.AppendText(allParameters);
+            currentQuiz.assignment_group_id = (from kvp in assignmentGroupvalues where kvp.Value == Convert.ToString(cbxAssignmentGroup.SelectedItem) select kvp.Key).FirstOrDefault();
+            currentQuiz.time_limit = currentQuiz.QuizTimeLimit(xbxTimeLimit.Checked, Convert.ToInt32(nudMinutes.Value));
+            currentQuiz.shuffle_answers = xbxShuffle.Checked;
+            currentQuiz.hide_results = currentQuiz.HideResults(xbxQuizResponses.Checked, xbxOnlyAfterLastAttempt.Checked);
+            currentQuiz.show_correct_answers = xbxSeeCorrectAnswers.Checked;
+            currentQuiz.show_correct_answers_last_attempt = xbxCorrectAnswersAfterLastAttempt.Checked;
+            currentQuiz.show_correct_aswers_at = currentQuiz.ShowCorrectAnswerAt(xbxSeeCorrectAnswers.Checked, dtpShow.Checked, dtpShow.Value, dtpShowTime.Value);
+            currentQuiz.hide_correct_answers_at = currentQuiz.HideCorrectAnswerAt(xbxSeeCorrectAnswers.Checked, dtpHide.Checked, dtpHide.Value, dtpHideTime.Value);
+            currentQuiz.allowed_attempts = currentQuiz.AllowedAttempts(xbxAttempts.Checked, xbxLimitAttempts.Checked, Convert.ToInt32(nudAttempts.Value));
+            currentQuiz.scoring_policy = currentQuiz.ScoringPolicy(Convert.ToString(cbxScoreToKeep.SelectedItem));
+            currentQuiz.one_question_at_a_time = xbxOneQuestionTime.Checked;
+            currentQuiz.cant_go_back = currentQuiz.CantGoBack(xbxOneQuestionTime.Checked, xbxLockQuestion.Checked);
+            currentQuiz.access_code = currentQuiz.AccessCode(xbxAccessCode.Checked, txbAccessCode.Text);
+            currentQuiz.ip_filter = currentQuiz.IpAddressFiltering(xbxIPAddresses.Checked, txbIPAddresses.Text);
+            currentQuiz.one_time_results = currentQuiz.OneTimeResults(xbxQuizResponses.Checked, xbxOnlyOnce.Checked);
+            currentQuiz.require_lockdown_browser = xbxRequireLockDownBowser.Checked;
+            currentQuiz.require_lockdown_browser_for_results = currentQuiz.RequireLockdownBrowsertoVeiwResults(xbxRequireLockDownBowser.Checked, xbxRequireLockDownBrowsertoViewResuts.Checked);
+            currentQuiz.due_at = currentQuiz.DueDate(dtpDueDate.Checked, dtpDueDate.Value, dtpDueDateTime.Value);
+            currentQuiz.unlock_at = currentQuiz.UnlockDate(dtpUnlockDate.Checked, dtpUnlockDate.Value, dtpUnlockDateTime.Value);
+            currentQuiz.lock_at = currentQuiz.LockDate(dtpLockDate.Checked, dtpLockDate.Value, dtpLockDateTime.Value);
+            currentQuiz.published = xbxPublish.Checked;
 
             //Make API Call
-            
+
             try
             {
-                //Validate fields
 
                 //Write out submit header
                 rtbResults.AppendText(String.Format("{0,-50} {1,-10}\n", "Quiz Name", "Status"));
@@ -247,27 +237,25 @@ namespace CanvasAPIApp
                         var pattern = @"\[([^\]]*)\]";
                         var inputNumber = Regex.Match(txbBaseName.Text, pattern).Value.Replace("[", "").Replace("]", "");
                         quizNumber = Convert.ToInt32(inputNumber);
-                        //While loop to run until Quizes to make is zero
+                        //While loop to run until Quizzes to make is zero
 
                         try
                         {
-                            while (quizesToMake > 0)
+                            for (int loopIndex = 1; loopIndex <= quizesToMake; loopIndex++)
                             {
                                 //Incrementing quiz number
-                                var incrementedQuizName = Regex.Replace(txbBaseName.Text, @"\[([^\]]*)\]", Convert.ToString(quizNumber));
-                                var htmlSafeIncrementedQuizName = Uri.EscapeDataString(incrementedQuizName);
-                                var quizTitleParameter = "&quiz[title]=" + htmlSafeIncrementedQuizName;
-                                //Formating Quiz Description for HTML
-                                var incrementedQuizInstruction = Regex.Replace(rtbQuizInstructions.Text, @"\[([^\]]*)\]", incrementedQuizName);
-                                var htmlSafeIncrementedQuizInstruction = Uri.EscapeDataString(incrementedQuizInstruction);
-                                var quizDescriptionParameter = methods.QuizDescription(htmlSafeIncrementedQuizInstruction);
-                                //REST Call
-                                restResult = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken, quizTitleParameter + allParameters + quizDescriptionParameter);
+                                currentQuiz.title = Regex.Replace(txbBaseName.Text, @"\[([^\]]*)\]", Convert.ToString(quizNumber));
 
+                                //Formating Quiz Description for HTML
+                                currentQuiz.description = Regex.Replace(rtbQuizInstructions.Text, @"\[([^\]]*)\]", currentQuiz.title);
+                                //REST Call
+                                var jsonString = $"{{\"quiz\":{JsonConvert.SerializeObject(currentQuiz)}}}";
+                                //restResult = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken, quizTitleParameter + allParameters + quizDescriptionParameter);
+                                restResult = await requester.MakePOSTRequestAsync(endPoint, jsonString);
                                 //Write Results to Text box
-                                rtbResults.AppendText(String.Format("{0,-50} {1,-10}\n", incrementedQuizName, "Created"));
+                                rtbResults.AppendText(String.Format("{0,-50} {1,-10}\n", currentQuiz.title, "Created"));
                                 quizNumber++;
-                                quizesToMake--;
+
                             }//End Repeating submit while statement
 
                             //Clear QuizNames
@@ -288,14 +276,13 @@ namespace CanvasAPIApp
                 else
                 {
                     //Creating Quiz Title and making it HTML safe
-                    var quizTitleParameter = "&quiz[title]=" + Uri.EscapeDataString(txbQuizName.Text);
+                    currentQuiz.title = txbQuizName.Text;
                     //Formating Quiz Description for HTML
-                    var incrementedQuizInstruction = Regex.Replace(rtbQuizInstructions.Text, @"\[([^\]]*)\]", txbQuizName.Text);
-                    //Makeing Quiz instruction HTML Safe
-                    var htmlSafeIncrementedQuizInstruction = Uri.EscapeDataString(incrementedQuizInstruction);
-                    //Setting quiz description parameter
-                    var quizDescriptionParameter = methods.QuizDescription(htmlSafeIncrementedQuizInstruction);
-                    restResult = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken, quizTitleParameter + allParameters + quizDescriptionParameter);
+                    currentQuiz.description = Regex.Replace(rtbQuizInstructions.Text, @"\[([^\]]*)\]", txbQuizName.Text);
+
+                    //restResult = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken, quizTitleParameter + allParameters + quizDescriptionParameter);
+                    var jsonString = $"{{\"quiz\":{JsonConvert.SerializeObject(currentQuiz)}}}";
+                    restResult = await requester.MakePOSTRequestAsync(endPoint, jsonString);
                     //Reset form for next submit
                     nudCourseID.TabStop = false;
                     txbBaseName.TabStop = false;
@@ -411,76 +398,76 @@ namespace CanvasAPIApp
         {
             try
             {
-            if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
-            {
-               if (nudCourseID.Value == 1)
-               {
-                  MessageBox.Show("Please Enter a Course ID");
-               }
-               else
-               {
-                  if (txbQuizName.TextLength > 0 & nudCourseID.Value > 1)
-                     btnSubmitQuiz.Enabled = true;
-                  else
-                     btnSubmitQuiz.Enabled = false;
-                  //allow user to input course name
-                  txbBaseName.Enabled = true;
+                if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
+                {
+                    if (nudCourseID.Value == 1)
+                    {
+                        MessageBox.Show("Please Enter a Course ID");
+                    }
+                    else
+                    {
+                        if (txbQuizName.TextLength > 0 & nudCourseID.Value > 1)
+                            btnSubmitQuiz.Enabled = true;
+                        else
+                            btnSubmitQuiz.Enabled = false;
+                        //allow user to input course name
+                        txbBaseName.Enabled = true;
 
-                  //Setting wait curser
-                  Cursor.Current = Cursors.WaitCursor;
-                  //Make Call to get user name
-                  if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
-                  {
-                     string profileObject = "name";
-                     userName = await getProfile.GetProfile(profileObject);
+                        //Setting wait cursor
+                        Cursor.Current = Cursors.WaitCursor;
+                        //Make Call to get user name
+                        if (Properties.Settings.Default.CurrentAccessToken != "No Access Token" && Properties.Settings.Default.CurrentAccessToken != "")
+                        {
+                            string profileObject = "name";
+                            userName = await getProfile.GetProfile(profileObject);
 
-                     //Print message
-                     labelLoggedIn.Text = "Logged in as " + userName;
-                  }
-                  else
-                  {
-                     labelLoggedIn.Text = "Not logged in";
-                  }
+                            //Print message
+                            labelLoggedIn.Text = "Logged in as " + userName;
+                        }
+                        else
+                        {
+                            labelLoggedIn.Text = "Not logged in";
+                        }
 
-                  //Get Assignment Groups and course name
-                  try
-                  {
-                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/assignment_groups?";//Get base endpoint from setting
-                     Requester requester = new Requester();
-                     var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                        //Get Assignment Groups and course name
+                        try
+                        {
+                            string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + Convert.ToString(nudCourseID.Value) + "/assignment_groups?";//Get base endpoint from setting
+                            Requester requester = new Requester();
+                            var json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                             dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
-                     foreach (var obj in jsonObj)
-                     {
-                        assignmentGroupvalues.Add(Convert.ToString(obj.id), Convert.ToString(obj.name));
-                        cbxAssignmentGroup.Items.Add(Convert.ToString(obj.name));
-                     }
-                     //Get Course Name
-                     endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "?";
-                     
-                     json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                            foreach (var obj in jsonObj)
+                            {
+                                assignmentGroupvalues.Add(Convert.ToString(obj.id), Convert.ToString(obj.name));
+                                cbxAssignmentGroup.Items.Add(Convert.ToString(obj.name));
+                            }
+                            //Get Course Name
+                            endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + nudCourseID.Value + "?";
+
+                            json = await requester.MakeRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
                             //deserialize the JSON object
                             jsonObj = JsonConvert.DeserializeObject(json);
-                     //parse the JSON object
-                     dynamic data = JObject.Parse(json);
-                     //Printing out results
-                     rtbResults.AppendText("Course " + Convert.ToString(data.name) + " has been selected!\n");
-                  }
-                  catch (Exception courseIDChangeException)
-                  {
-                     rtbResults.AppendText(courseIDChangeException.Message + "\n");
-                  }
+                            //parse the JSON object
+                            dynamic data = JObject.Parse(json);
+                            //Printing out results
+                            rtbResults.AppendText("Course " + Convert.ToString(data.name) + " has been selected!\n");
+                        }
+                        catch (Exception courseIDChangeException)
+                        {
+                            rtbResults.AppendText(courseIDChangeException.Message + "\n");
+                        }
 
-                  //End Wait Cursor
-                  Cursor.Current = Cursors.Default;
-               }
-            }//end login if
-            else
-            {
+                        //End Wait Cursor
+                        Cursor.Current = Cursors.Default;
+                    }
+                }//end login if
+                else
+                {
 
-               MessageBox.Show("Not logged in. Enter valid token", "Authentication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-         }//end try
+                    MessageBox.Show("Not logged in. Enter valid token", "Authentication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }//end try
             catch (Exception apiException)
             {
                 MessageBox.Show("Token not authorized.  Input valid token.\n" + apiException.Message, "Authentication error",
@@ -521,7 +508,7 @@ namespace CanvasAPIApp
         {
             if (userName == "AJ Hepler" || userName == "George Ray")
             {
-                MessageBox.Show("For the Unicorn AJ here is your publish button!");
+                MessageBox.Show("For the Unicorn AJ here is your publish check box!");
                 rtbResults.AppendText("Task: Let AJ know we love him.\nCheck.");
             }
         }

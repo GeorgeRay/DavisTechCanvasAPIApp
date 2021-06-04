@@ -3,99 +3,93 @@ using System.Collections.Generic;
 
 namespace CanvasAPIApp
 {
-    public class QuizMethods
+    public class Quiz
     {
-        //Get Access Token Method
-        public string AccessToken()
-        {
-            return Properties.Settings.Default.CurrentAccessToken;
-        }//End Get Access Token Parameter
+        public string title { get; set; }
+        public string description { get; set; }
+        public string quiz_type { get; set; }
+        public string assignment_group_id { get; set; }
+        public string time_limit { get; set; }
+        public bool shuffle_answers { get; set; }
+        public string hide_results { get; set; }
+        public bool show_correct_answers { get; set; }
+        public bool show_correct_answers_last_attempt { get; set; }
+        public string show_correct_aswers_at { get; set; }
+        public string hide_correct_answers_at { get; set; }
+        public int allowed_attempts { get; set; } = 1;
+        public string scoring_policy { get; set; }
+        public bool one_question_at_a_time { get; set; }
+        public bool cant_go_back { get; set; }
+        public string access_code { get; set; }
+        public string ip_filter { get; set; }
+        public string due_at { get; set; }
+        public string lock_at { get; set; }
+        public string unlock_at { get; set; }
+        public bool published { get; set; }
+        public bool one_time_results { get; set; }
+        public bool only_visible_to_overrides { get; set; }
+        public bool require_lockdown_browser { get; set; }
+        public bool require_lockdown_browser_for_results { get; set; }
 
-        public string QuizDescription(string quizDescription)
-        {
-            return "&quiz[description]=" + quizDescription;
-        }//End Quiz Description
 
         public string QuizType(string quizType)
         {
             switch (quizType)
             {
                 case "Practice Quiz":
-                    return "&quiz[quiz_type]=practice_quiz";
+                    return "practice_quiz";
+                  
                 case "Graded Quiz":
-                    return "&quiz[quiz_type]=assignment";
+                    return "assignment";
+                   
                 case "Graded Survey":
-                    return "&quiz[quiz_type]=graded_survey";
+                    return "graded_survey";
+                
                 case "Ungraded Survey":
-                    return "&quiz[quiz_type]=survey";
+                    return "survey";
+                  
                 default:
                     return "default";
+                 
             }//End swtich
         }//End QuizType
 
-        //Assignment group
-        public string AssignmentGroup(string assignmentGroupid)
-        {
-            return "&quiz[assignment_group_id]=" + assignmentGroupid;
-        }//End Assignment group
+  
 
         //Quiz Time limit
         public string QuizTimeLimit(bool timeLimit, int quizTimeLimit)
         {
             if (timeLimit == true)
-                return "&quiz[time_limit]=" + quizTimeLimit;
+                return quizTimeLimit.ToString();
             else
-                return "&quiz[time_limit]=";
+                return null;
         }//Quiz Time limit
 
-        //Shuffle Questions
-        public string ShuffleAnswers(bool shuffleAnswers)
-        {
-            if (shuffleAnswers == true)
-                return "&quiz[shuffle_answers]=true";
-            else
-                return "";
-        }//End Shuffle Questions
-
+        
         //Hide Results
         public string HideResults(bool seeQuizResponses, bool afterLastAttempt)
         {
             if (seeQuizResponses == false)
             {
-                return "&quiz[hide_results]=always";
+                return "always";
             }
             if (seeQuizResponses == true && afterLastAttempt == true)
             {
-                return "&quiz[hide_results]=until_after_last_attempt";
+                return "until_after_last_attempt";
             }
             else
                 return "";
         }//end hide Results
 
-        //Show Correct Answers
-        public string ShowCorrectAnswer(bool showCorrectAnswer)
-        {
-            if (showCorrectAnswer == true)
-                return "&quiz[show_correct_answers]=true";
-            else
-                return "";
-        }//End show Correct Answers
+        
 
-        //Show Correct Answers only after last attempt
-        public string ShowCorrectAnswerLastAttempt(bool showCorrectAnswerLastAttempt)
-        {
-            if (showCorrectAnswerLastAttempt == true)
-                return "&quiz[show_correct_answers_last_attempt]=true";
-            else
-                return "";
-        }//End Show Correct Answer only after last attempt
-
+        
         //Show Correct answer at
         public string ShowCorrectAnswerAt(bool showCorrectAnswer, bool showChecked, DateTime showCorrectAnswerAtDate, DateTime showCorrectAnswerAtTime)
         {
             string showDate = showCorrectAnswerAtDate.ToString("yyyy-MM-dd") + "T" + showCorrectAnswerAtTime.ToString("HH:mm:ss");
             if (showCorrectAnswer == true && showChecked == true && showCorrectAnswerAtDate.ToShortDateString() != DateTime.Now.ToShortDateString())
-                return "&quiz[show_correct_answers_at]=" + showDate;
+                return showDate;
             else
                 return "";
         }//End Show Correct Answer at
@@ -106,7 +100,7 @@ namespace CanvasAPIApp
         {
             string hideDate = hideCorrectAnswerAtDate.ToString("yyyy-MM-dd") + "T" + hideCorrectAnswerAtTime.ToString("HH:mm:ss");
             if (showCorrectAnswer == true && hideChecked == true && hideCorrectAnswerAtDate.ToShortDateString() != DateTime.Now.ToShortDateString())
-                return "&quiz[hide_correct_answers_at]=" + hideDate;
+                return hideDate;
             else
                 return "";
         }//End Show Correct Answer at
@@ -116,7 +110,7 @@ namespace CanvasAPIApp
         {
             string strDueDate = dueDateChosen.ToString("yyyy-MM-dd") + "T" + dueTimeChosen.ToString("HH:mm:ss");
             if (dueDateChecked == true && dueDateChosen.ToShortDateString() != DateTime.Now.ToShortDateString())
-                return "&quiz[due_at]=" + strDueDate;
+                return strDueDate;
             else
                 return "";
         }//End Due Date
@@ -125,7 +119,7 @@ namespace CanvasAPIApp
         {
             string strDueDate = unlockDateChosen.ToString("yyyy-MM-dd") + "T" + unlockTimeChosen.ToString("HH:mm:ss");
             if (unlockDateChecked == true && unlockDateChosen.ToShortDateString() != DateTime.Now.ToShortDateString())
-                return "&quiz[unlock_at]=" + strDueDate;
+                return strDueDate;
             else
                 return "";
         }//End Unlock Date
@@ -134,20 +128,20 @@ namespace CanvasAPIApp
         {
             string strDueDate = lockDateChosen.ToString("yyyy-MM-dd") + "T" + lockTimeChosen.ToString("HH:mm:ss");
             if (lockDateChecked == true && lockDateChosen.ToShortDateString() != DateTime.Now.ToShortDateString())
-                return "&quiz[lock_at]=" + strDueDate;
+                return strDueDate;
             else
                 return "";
         }//End Lock Date
 
         //Number of times to take quiz
-        public string AllowedAttempts(bool allowMultiAttempts, bool maxAttempt, int maxNumAttempts)
+        public int AllowedAttempts(bool allowMultiAttempts, bool maxAttempt, int maxNumAttempts)
         {
             if (allowMultiAttempts == true && maxAttempt == true)
-                return "&quiz[allowed_attempts]=" + maxNumAttempts;
+                return maxNumAttempts;
             if (allowMultiAttempts == true && maxAttempt == false)
-                return "&quiz[allowed_attempts]=-1";
+                return -1;
             else
-                return "";
+                return 1;
         }//End Numer of time to take quiz
 
         //Scoring Policy
@@ -156,39 +150,31 @@ namespace CanvasAPIApp
             switch (scoringPolicy)
             {
                 case "Highest":
-                    return "&quiz[scoring_policy]=keep_highest";
+                    return "keep_highest";
                 case "Latest":
-                    return "&quiz[scoring_policy]=keep_latest";
+                    return "keep_latest";
                 case "Average":
-                    return "&quiz[scoring_policy]=keep_average";
+                    return "keep_average";
                 default:
                     return "";
             }
         }//End Scoring Policy
 
-        //One Question at a time
-        public string OneQuestionAtATime(bool oneQuestionAtATime)
-        {
-            if (oneQuestionAtATime == true)
-                return "&quiz[one_question_at_a_time]=true";
-            else
-                return "";
-        }//End One Question at at Time
-
+       
         //Can't go back
-        public string CantGoBack(bool oneQuestionAtATime, bool cantGoBack)
+        public bool CantGoBack(bool oneQuestionAtATime, bool cantGoBack)
         {
             if (oneQuestionAtATime == true && cantGoBack == true)
-                return "&quiz[cant_go_back]=true";
+                return true;
             else
-                return "";
+                return false;
         }//End Cant Go Back
 
         //Access Code
         public string AccessCode(bool requireAccessCode, string accessCode)
         {
             if (requireAccessCode == true && accessCode.Length > 0)
-                return "&quiz[access_code]=" + Uri.EscapeDataString(accessCode);
+                return accessCode;
             else
                 return "";
         }//End Access Code
@@ -197,47 +183,29 @@ namespace CanvasAPIApp
         public string IpAddressFiltering(bool filterAddresses, string ipAddresses)
         {
             if (filterAddresses == true && ipAddresses.Length > 0)
-                return "&quiz[ip_filter]=" + Uri.EscapeDataString(ipAddresses);
+                return ipAddresses;
             else
                 return "";
         }//End IP Address filtering
 
-        public string OneTimeResults(bool seeQuizResponses, bool oneTimeResults)
+        public bool OneTimeResults(bool seeQuizResponses, bool oneTimeResults)
         {
             if (seeQuizResponses == true && oneTimeResults == true)
-                return "&quiz[one_time_results]=true";
+                return true;
             else
-                return "";
+                return false;
         }
 
-        public string RequireLockdownBrowser(bool requireLockdownBrowser)
-        {
-            if (requireLockdownBrowser == true)
-            {
-                return "&quiz[require_lockdown_browser]=true";
-            }
-            else
-                return "";
-        }// End Require Lock Down Browser
-
-        public string RequireLockdownBrowsertoVeiwResults(bool requireLockDownBrowser, bool requireLockdownBrowsertoViewResults)
+        public bool RequireLockdownBrowsertoVeiwResults(bool requireLockDownBrowser, bool requireLockdownBrowsertoViewResults)
         {
             if (requireLockDownBrowser == true && requireLockdownBrowsertoViewResults == true)
-                return "&quiz[require_lockdown_browser_for_results]=true";
+                return true;
             if (requireLockDownBrowser == true && requireLockdownBrowsertoViewResults == false)
-                return "&quiz[require_lockdown_browser_for_results]=false";
+                return false;
             else
-                return "";
+                return false;
 
-        }
-
-        public string PublishQuiz(bool publishQuiz)
-        {
-            if (publishQuiz == true)
-                return "&quiz[published]=true";
-            else
-                return "";
-        }//End Publish Quiz
+        }       
 
     }//End Parameter Class
 

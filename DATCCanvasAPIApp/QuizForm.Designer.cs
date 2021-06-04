@@ -115,7 +115,7 @@
             // 
             this.txbQuizName.Enabled = false;
             this.txbQuizName.Location = new System.Drawing.Point(568, 62);
-            this.txbQuizName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txbQuizName.Margin = new System.Windows.Forms.Padding(6);
             this.txbQuizName.Name = "txbQuizName";
             this.txbQuizName.Size = new System.Drawing.Size(520, 31);
             this.txbQuizName.TabIndex = 5;
@@ -190,7 +190,7 @@
             // rtbQuizInstructions
             // 
             this.rtbQuizInstructions.Location = new System.Drawing.Point(12, 200);
-            this.rtbQuizInstructions.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.rtbQuizInstructions.Margin = new System.Windows.Forms.Padding(6);
             this.rtbQuizInstructions.Name = "rtbQuizInstructions";
             this.rtbQuizInstructions.Size = new System.Drawing.Size(1080, 87);
             this.rtbQuizInstructions.TabIndex = 16;
@@ -207,7 +207,7 @@
             "Graded Survey",
             "Ungraded Survey"});
             this.cbxQuizType.Location = new System.Drawing.Point(6, 331);
-            this.cbxQuizType.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.cbxQuizType.Margin = new System.Windows.Forms.Padding(6);
             this.cbxQuizType.Name = "cbxQuizType";
             this.cbxQuizType.Size = new System.Drawing.Size(238, 33);
             this.cbxQuizType.TabIndex = 6;
@@ -218,7 +218,7 @@
             // 
             this.xbxShuffle.AutoSize = true;
             this.xbxShuffle.Location = new System.Drawing.Point(308, 338);
-            this.xbxShuffle.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxShuffle.Margin = new System.Windows.Forms.Padding(6);
             this.xbxShuffle.Name = "xbxShuffle";
             this.xbxShuffle.Size = new System.Drawing.Size(199, 29);
             this.xbxShuffle.TabIndex = 9;
@@ -230,7 +230,7 @@
             // 
             this.xbxTimeLimit.AutoSize = true;
             this.xbxTimeLimit.Location = new System.Drawing.Point(308, 387);
-            this.xbxTimeLimit.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxTimeLimit.Margin = new System.Windows.Forms.Padding(6);
             this.xbxTimeLimit.Name = "xbxTimeLimit";
             this.xbxTimeLimit.Size = new System.Drawing.Size(238, 29);
             this.xbxTimeLimit.TabIndex = 10;
@@ -247,9 +247,9 @@
             this.gbxAttemps.Controls.Add(this.cbxScoreToKeep);
             this.gbxAttemps.Controls.Add(this.xbxAttempts);
             this.gbxAttemps.Location = new System.Drawing.Point(674, 302);
-            this.gbxAttemps.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.gbxAttemps.Margin = new System.Windows.Forms.Padding(6);
             this.gbxAttemps.Name = "gbxAttemps";
-            this.gbxAttemps.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.gbxAttemps.Padding = new System.Windows.Forms.Padding(6);
             this.gbxAttemps.Size = new System.Drawing.Size(440, 231);
             this.gbxAttemps.TabIndex = 21;
             this.gbxAttemps.TabStop = false;
@@ -259,7 +259,7 @@
             // 
             this.nudAttempts.Enabled = false;
             this.nudAttempts.Location = new System.Drawing.Point(318, 156);
-            this.nudAttempts.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.nudAttempts.Margin = new System.Windows.Forms.Padding(6);
             this.nudAttempts.Minimum = new decimal(new int[] {
             1,
             0,
@@ -281,7 +281,7 @@
             // 
             this.xbxLimitAttempts.AutoSize = true;
             this.xbxLimitAttempts.Location = new System.Drawing.Point(120, 158);
-            this.xbxLimitAttempts.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxLimitAttempts.Margin = new System.Windows.Forms.Padding(6);
             this.xbxLimitAttempts.Name = "xbxLimitAttempts";
             this.xbxLimitAttempts.Size = new System.Drawing.Size(179, 29);
             this.xbxLimitAttempts.TabIndex = 25;
@@ -300,7 +300,7 @@
             "Latest",
             "Average"});
             this.cbxScoreToKeep.Location = new System.Drawing.Point(174, 85);
-            this.cbxScoreToKeep.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.cbxScoreToKeep.Margin = new System.Windows.Forms.Padding(6);
             this.cbxScoreToKeep.Name = "cbxScoreToKeep";
             this.cbxScoreToKeep.Size = new System.Drawing.Size(210, 33);
             this.cbxScoreToKeep.TabIndex = 1;
@@ -311,7 +311,7 @@
             // 
             this.xbxAttempts.AutoSize = true;
             this.xbxAttempts.Location = new System.Drawing.Point(34, 52);
-            this.xbxAttempts.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxAttempts.Margin = new System.Windows.Forms.Padding(6);
             this.xbxAttempts.Name = "xbxAttempts";
             this.xbxAttempts.Size = new System.Drawing.Size(266, 29);
             this.xbxAttempts.TabIndex = 0;
@@ -324,7 +324,7 @@
             // 
             this.nudMinutes.Enabled = false;
             this.nudMinutes.Location = new System.Drawing.Point(558, 387);
-            this.nudMinutes.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.nudMinutes.Margin = new System.Windows.Forms.Padding(6);
             this.nudMinutes.Name = "nudMinutes";
             this.nudMinutes.Size = new System.Drawing.Size(72, 31);
             this.nudMinutes.TabIndex = 22;
@@ -343,9 +343,9 @@
             this.gbxResponses.Controls.Add(this.lblShowCorrectAnswer);
             this.gbxResponses.Controls.Add(this.lblHideCorrectAnswers);
             this.gbxResponses.Location = new System.Drawing.Point(12, 552);
-            this.gbxResponses.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.gbxResponses.Margin = new System.Windows.Forms.Padding(6);
             this.gbxResponses.Name = "gbxResponses";
-            this.gbxResponses.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.gbxResponses.Padding = new System.Windows.Forms.Padding(6);
             this.gbxResponses.Size = new System.Drawing.Size(650, 350);
             this.gbxResponses.TabIndex = 26;
             this.gbxResponses.TabStop = false;
@@ -355,7 +355,7 @@
             this.dtpHideTime.Enabled = false;
             this.dtpHideTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtpHideTime.Location = new System.Drawing.Point(442, 306);
-            this.dtpHideTime.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dtpHideTime.Margin = new System.Windows.Forms.Padding(6);
             this.dtpHideTime.Name = "dtpHideTime";
             this.dtpHideTime.ShowUpDown = true;
             this.dtpHideTime.Size = new System.Drawing.Size(192, 31);
@@ -369,7 +369,7 @@
             this.dtpShowTime.Enabled = false;
             this.dtpShowTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtpShowTime.Location = new System.Drawing.Point(442, 231);
-            this.dtpShowTime.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dtpShowTime.Margin = new System.Windows.Forms.Padding(6);
             this.dtpShowTime.Name = "dtpShowTime";
             this.dtpShowTime.ShowUpDown = true;
             this.dtpShowTime.Size = new System.Drawing.Size(192, 31);
@@ -382,7 +382,7 @@
             // 
             this.dtpHide.Checked = false;
             this.dtpHide.Location = new System.Drawing.Point(12, 306);
-            this.dtpHide.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dtpHide.Margin = new System.Windows.Forms.Padding(6);
             this.dtpHide.Name = "dtpHide";
             this.dtpHide.ShowCheckBox = true;
             this.dtpHide.Size = new System.Drawing.Size(406, 31);
@@ -394,7 +394,7 @@
             // 
             this.dtpShow.Checked = false;
             this.dtpShow.Location = new System.Drawing.Point(12, 231);
-            this.dtpShow.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dtpShow.Margin = new System.Windows.Forms.Padding(6);
             this.dtpShow.Name = "dtpShow";
             this.dtpShow.ShowCheckBox = true;
             this.dtpShow.Size = new System.Drawing.Size(406, 31);
@@ -408,7 +408,7 @@
             // 
             this.xbxCorrectAnswersAfterLastAttempt.AutoSize = true;
             this.xbxCorrectAnswersAfterLastAttempt.Location = new System.Drawing.Point(32, 158);
-            this.xbxCorrectAnswersAfterLastAttempt.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxCorrectAnswersAfterLastAttempt.Margin = new System.Windows.Forms.Padding(6);
             this.xbxCorrectAnswersAfterLastAttempt.Name = "xbxCorrectAnswersAfterLastAttempt";
             this.xbxCorrectAnswersAfterLastAttempt.Size = new System.Drawing.Size(488, 29);
             this.xbxCorrectAnswersAfterLastAttempt.TabIndex = 3;
@@ -421,7 +421,7 @@
             // 
             this.xbxSeeCorrectAnswers.AutoSize = true;
             this.xbxSeeCorrectAnswers.Location = new System.Drawing.Point(12, 113);
-            this.xbxSeeCorrectAnswers.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxSeeCorrectAnswers.Margin = new System.Windows.Forms.Padding(6);
             this.xbxSeeCorrectAnswers.Name = "xbxSeeCorrectAnswers";
             this.xbxSeeCorrectAnswers.Size = new System.Drawing.Size(405, 29);
             this.xbxSeeCorrectAnswers.TabIndex = 2;
@@ -435,7 +435,7 @@
             // 
             this.xbxOnlyOnce.AutoSize = true;
             this.xbxOnlyOnce.Location = new System.Drawing.Point(12, 65);
-            this.xbxOnlyOnce.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxOnlyOnce.Margin = new System.Windows.Forms.Padding(6);
             this.xbxOnlyOnce.Name = "xbxOnlyOnce";
             this.xbxOnlyOnce.Size = new System.Drawing.Size(330, 29);
             this.xbxOnlyOnce.TabIndex = 1;
@@ -448,7 +448,7 @@
             // 
             this.xbxOnlyAfterLastAttempt.AutoSize = true;
             this.xbxOnlyAfterLastAttempt.Location = new System.Drawing.Point(12, 17);
-            this.xbxOnlyAfterLastAttempt.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxOnlyAfterLastAttempt.Margin = new System.Windows.Forms.Padding(6);
             this.xbxOnlyAfterLastAttempt.Name = "xbxOnlyAfterLastAttempt";
             this.xbxOnlyAfterLastAttempt.Size = new System.Drawing.Size(438, 29);
             this.xbxOnlyAfterLastAttempt.TabIndex = 0;
@@ -461,7 +461,7 @@
             // 
             this.xbxQuizResponses.AutoSize = true;
             this.xbxQuizResponses.Location = new System.Drawing.Point(24, 525);
-            this.xbxQuizResponses.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxQuizResponses.Margin = new System.Windows.Forms.Padding(6);
             this.xbxQuizResponses.Name = "xbxQuizResponses";
             this.xbxQuizResponses.Size = new System.Drawing.Size(428, 29);
             this.xbxQuizResponses.TabIndex = 14;
@@ -474,7 +474,7 @@
             // 
             this.xbxIPAddresses.AutoSize = true;
             this.xbxIPAddresses.Location = new System.Drawing.Point(12, 229);
-            this.xbxIPAddresses.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxIPAddresses.Margin = new System.Windows.Forms.Padding(6);
             this.xbxIPAddresses.Name = "xbxIPAddresses";
             this.xbxIPAddresses.Size = new System.Drawing.Size(225, 29);
             this.xbxIPAddresses.TabIndex = 2;
@@ -487,7 +487,7 @@
             // 
             this.xbxAccessCode.AutoSize = true;
             this.xbxAccessCode.Location = new System.Drawing.Point(12, 131);
-            this.xbxAccessCode.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxAccessCode.Margin = new System.Windows.Forms.Padding(6);
             this.xbxAccessCode.Name = "xbxAccessCode";
             this.xbxAccessCode.Size = new System.Drawing.Size(276, 29);
             this.xbxAccessCode.TabIndex = 0;
@@ -506,9 +506,9 @@
             this.groupBox1.Controls.Add(this.xbxIPAddresses);
             this.groupBox1.Controls.Add(this.lblIpAddresses);
             this.groupBox1.Location = new System.Drawing.Point(674, 704);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(6);
             this.groupBox1.Size = new System.Drawing.Size(440, 448);
             this.groupBox1.TabIndex = 31;
             this.groupBox1.TabStop = false;
@@ -519,7 +519,7 @@
             this.xbxRequireLockDownBrowsertoViewResuts.Checked = true;
             this.xbxRequireLockDownBrowsertoViewResuts.CheckState = System.Windows.Forms.CheckState.Checked;
             this.xbxRequireLockDownBrowsertoViewResuts.Location = new System.Drawing.Point(38, 69);
-            this.xbxRequireLockDownBrowsertoViewResuts.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxRequireLockDownBrowsertoViewResuts.Margin = new System.Windows.Forms.Padding(6);
             this.xbxRequireLockDownBrowsertoViewResuts.Name = "xbxRequireLockDownBrowsertoViewResuts";
             this.xbxRequireLockDownBrowsertoViewResuts.Size = new System.Drawing.Size(320, 29);
             this.xbxRequireLockDownBrowsertoViewResuts.TabIndex = 2;
@@ -532,7 +532,7 @@
             // 
             this.xbxRequireLockDownBowser.AutoSize = true;
             this.xbxRequireLockDownBowser.Location = new System.Drawing.Point(12, 25);
-            this.xbxRequireLockDownBowser.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxRequireLockDownBowser.Margin = new System.Windows.Forms.Padding(6);
             this.xbxRequireLockDownBowser.Name = "xbxRequireLockDownBowser";
             this.xbxRequireLockDownBowser.Size = new System.Drawing.Size(424, 29);
             this.xbxRequireLockDownBowser.TabIndex = 2;
@@ -544,7 +544,7 @@
             // txbIPAddresses
             // 
             this.txbIPAddresses.Location = new System.Drawing.Point(30, 277);
-            this.txbIPAddresses.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txbIPAddresses.Margin = new System.Windows.Forms.Padding(6);
             this.txbIPAddresses.Name = "txbIPAddresses";
             this.txbIPAddresses.Size = new System.Drawing.Size(350, 31);
             this.txbIPAddresses.TabIndex = 3;
@@ -554,7 +554,7 @@
             // txbAccessCode
             // 
             this.txbAccessCode.Location = new System.Drawing.Point(30, 179);
-            this.txbAccessCode.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txbAccessCode.Margin = new System.Windows.Forms.Padding(6);
             this.txbAccessCode.Name = "txbAccessCode";
             this.txbAccessCode.Size = new System.Drawing.Size(350, 31);
             this.txbAccessCode.TabIndex = 1;
@@ -577,9 +577,9 @@
             this.groupBox2.Controls.Add(this.xbxOneQuestionTime);
             this.groupBox2.Controls.Add(this.xbxLockQuestion);
             this.groupBox2.Location = new System.Drawing.Point(674, 552);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(6);
             this.groupBox2.Size = new System.Drawing.Size(440, 140);
             this.groupBox2.TabIndex = 32;
             this.groupBox2.TabStop = false;
@@ -588,7 +588,7 @@
             // 
             this.xbxOneQuestionTime.AutoSize = true;
             this.xbxOneQuestionTime.Location = new System.Drawing.Point(12, 37);
-            this.xbxOneQuestionTime.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxOneQuestionTime.Margin = new System.Windows.Forms.Padding(6);
             this.xbxOneQuestionTime.Name = "xbxOneQuestionTime";
             this.xbxOneQuestionTime.Size = new System.Drawing.Size(315, 29);
             this.xbxOneQuestionTime.TabIndex = 0;
@@ -601,7 +601,7 @@
             // 
             this.xbxLockQuestion.AutoSize = true;
             this.xbxLockQuestion.Location = new System.Drawing.Point(42, 81);
-            this.xbxLockQuestion.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxLockQuestion.Margin = new System.Windows.Forms.Padding(6);
             this.xbxLockQuestion.Name = "xbxLockQuestion";
             this.xbxLockQuestion.Size = new System.Drawing.Size(342, 29);
             this.xbxLockQuestion.TabIndex = 1;
@@ -624,7 +624,7 @@
             // 
             this.btnSubmitQuiz.Enabled = false;
             this.btnSubmitQuiz.Location = new System.Drawing.Point(24, 1175);
-            this.btnSubmitQuiz.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnSubmitQuiz.Margin = new System.Windows.Forms.Padding(6);
             this.btnSubmitQuiz.Name = "btnSubmitQuiz";
             this.btnSubmitQuiz.Size = new System.Drawing.Size(188, 50);
             this.btnSubmitQuiz.TabIndex = 15;
@@ -635,7 +635,7 @@
             // btnResetForm
             // 
             this.btnResetForm.Location = new System.Drawing.Point(930, 1175);
-            this.btnResetForm.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnResetForm.Margin = new System.Windows.Forms.Padding(6);
             this.btnResetForm.Name = "btnResetForm";
             this.btnResetForm.Size = new System.Drawing.Size(184, 50);
             this.btnResetForm.TabIndex = 16;
@@ -665,7 +665,7 @@
             this.xbxUseBase.Checked = true;
             this.xbxUseBase.CheckState = System.Windows.Forms.CheckState.Checked;
             this.xbxUseBase.Location = new System.Drawing.Point(12, 123);
-            this.xbxUseBase.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxUseBase.Margin = new System.Windows.Forms.Padding(6);
             this.xbxUseBase.Name = "xbxUseBase";
             this.xbxUseBase.Size = new System.Drawing.Size(486, 29);
             this.xbxUseBase.TabIndex = 2;
@@ -680,7 +680,7 @@
             // 
             this.txbBaseName.Enabled = false;
             this.txbBaseName.Location = new System.Drawing.Point(568, 12);
-            this.txbBaseName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txbBaseName.Margin = new System.Windows.Forms.Padding(6);
             this.txbBaseName.Name = "txbBaseName";
             this.txbBaseName.Size = new System.Drawing.Size(520, 31);
             this.txbBaseName.TabIndex = 3;
@@ -713,7 +713,7 @@
             // rtbResults
             // 
             this.rtbResults.Location = new System.Drawing.Point(1126, 67);
-            this.rtbResults.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.rtbResults.Margin = new System.Windows.Forms.Padding(6);
             this.rtbResults.Name = "rtbResults";
             this.rtbResults.ReadOnly = true;
             this.rtbResults.Size = new System.Drawing.Size(524, 929);
@@ -724,7 +724,7 @@
             // nudCourseID
             // 
             this.nudCourseID.Location = new System.Drawing.Point(126, 4);
-            this.nudCourseID.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.nudCourseID.Margin = new System.Windows.Forms.Padding(6);
             this.nudCourseID.Maximum = new decimal(new int[] {
             2147483646,
             0,
@@ -748,7 +748,7 @@
             // nudNumberOfQuiz
             // 
             this.nudNumberOfQuiz.Location = new System.Drawing.Point(858, 121);
-            this.nudNumberOfQuiz.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.nudNumberOfQuiz.Margin = new System.Windows.Forms.Padding(6);
             this.nudNumberOfQuiz.Minimum = new decimal(new int[] {
             1,
             0,
@@ -786,7 +786,7 @@
             this.cbxAssignmentGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxAssignmentGroup.FormattingEnabled = true;
             this.cbxAssignmentGroup.Location = new System.Drawing.Point(6, 408);
-            this.cbxAssignmentGroup.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.cbxAssignmentGroup.Margin = new System.Windows.Forms.Padding(6);
             this.cbxAssignmentGroup.Name = "cbxAssignmentGroup";
             this.cbxAssignmentGroup.Size = new System.Drawing.Size(238, 33);
             this.cbxAssignmentGroup.TabIndex = 7;
@@ -796,7 +796,7 @@
             // 
             this.xbxAnonymous.AutoSize = true;
             this.xbxAnonymous.Location = new System.Drawing.Point(308, 431);
-            this.xbxAnonymous.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxAnonymous.Margin = new System.Windows.Forms.Padding(6);
             this.xbxAnonymous.Name = "xbxAnonymous";
             this.xbxAnonymous.Size = new System.Drawing.Size(347, 29);
             this.xbxAnonymous.TabIndex = 11;
@@ -819,7 +819,7 @@
             this.nudScore.DecimalPlaces = 1;
             this.nudScore.InterceptArrowKeys = false;
             this.nudScore.Location = new System.Drawing.Point(494, 481);
-            this.nudScore.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.nudScore.Margin = new System.Windows.Forms.Padding(6);
             this.nudScore.Name = "nudScore";
             this.nudScore.Size = new System.Drawing.Size(136, 31);
             this.nudScore.TabIndex = 13;
@@ -829,7 +829,7 @@
             // btnLoadCourse
             // 
             this.btnLoadCourse.Location = new System.Drawing.Point(6, 50);
-            this.btnLoadCourse.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnLoadCourse.Margin = new System.Windows.Forms.Padding(6);
             this.btnLoadCourse.Name = "btnLoadCourse";
             this.btnLoadCourse.Size = new System.Drawing.Size(346, 44);
             this.btnLoadCourse.TabIndex = 1;
@@ -850,7 +850,7 @@
             // 
             this.xbxPublish.AutoSize = true;
             this.xbxPublish.Location = new System.Drawing.Point(24, 1131);
-            this.xbxPublish.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xbxPublish.Margin = new System.Windows.Forms.Padding(6);
             this.xbxPublish.Name = "xbxPublish";
             this.xbxPublish.Size = new System.Drawing.Size(282, 29);
             this.xbxPublish.TabIndex = 45;
@@ -864,7 +864,7 @@
             this.dtpDueDateTime.Enabled = false;
             this.dtpDueDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtpDueDateTime.Location = new System.Drawing.Point(454, 938);
-            this.dtpDueDateTime.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dtpDueDateTime.Margin = new System.Windows.Forms.Padding(6);
             this.dtpDueDateTime.Name = "dtpDueDateTime";
             this.dtpDueDateTime.ShowUpDown = true;
             this.dtpDueDateTime.Size = new System.Drawing.Size(192, 31);
@@ -876,7 +876,7 @@
             // 
             this.dtpDueDate.Checked = false;
             this.dtpDueDate.Location = new System.Drawing.Point(24, 938);
-            this.dtpDueDate.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dtpDueDate.Margin = new System.Windows.Forms.Padding(6);
             this.dtpDueDate.Name = "dtpDueDate";
             this.dtpDueDate.ShowCheckBox = true;
             this.dtpDueDate.Size = new System.Drawing.Size(406, 31);
@@ -900,7 +900,7 @@
             this.dtpLockDateTime.Enabled = false;
             this.dtpLockDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtpLockDateTime.Location = new System.Drawing.Point(454, 1081);
-            this.dtpLockDateTime.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dtpLockDateTime.Margin = new System.Windows.Forms.Padding(6);
             this.dtpLockDateTime.Name = "dtpLockDateTime";
             this.dtpLockDateTime.ShowUpDown = true;
             this.dtpLockDateTime.Size = new System.Drawing.Size(192, 31);
@@ -912,7 +912,7 @@
             // 
             this.dtpLockDate.Checked = false;
             this.dtpLockDate.Location = new System.Drawing.Point(24, 1081);
-            this.dtpLockDate.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dtpLockDate.Margin = new System.Windows.Forms.Padding(6);
             this.dtpLockDate.Name = "dtpLockDate";
             this.dtpLockDate.ShowCheckBox = true;
             this.dtpLockDate.Size = new System.Drawing.Size(406, 31);
@@ -936,7 +936,7 @@
             this.dtpUnlockDateTime.Enabled = false;
             this.dtpUnlockDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtpUnlockDateTime.Location = new System.Drawing.Point(454, 1012);
-            this.dtpUnlockDateTime.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dtpUnlockDateTime.Margin = new System.Windows.Forms.Padding(6);
             this.dtpUnlockDateTime.Name = "dtpUnlockDateTime";
             this.dtpUnlockDateTime.ShowUpDown = true;
             this.dtpUnlockDateTime.Size = new System.Drawing.Size(192, 31);
@@ -948,7 +948,7 @@
             // 
             this.dtpUnlockDate.Checked = false;
             this.dtpUnlockDate.Location = new System.Drawing.Point(24, 1012);
-            this.dtpUnlockDate.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dtpUnlockDate.Margin = new System.Windows.Forms.Padding(6);
             this.dtpUnlockDate.Name = "dtpUnlockDate";
             this.dtpUnlockDate.ShowCheckBox = true;
             this.dtpUnlockDate.Size = new System.Drawing.Size(406, 31);
@@ -971,7 +971,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1920, 1271);
+            this.ClientSize = new System.Drawing.Size(1920, 1301);
             this.Controls.Add(this.dtpUnlockDateTime);
             this.Controls.Add(this.dtpUnlockDate);
             this.Controls.Add(this.lblQuizUnlockDate);
@@ -1017,7 +1017,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txbQuizName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "QuizForm";
             this.Text = "Create Quiz";
             this.TopMost = true;

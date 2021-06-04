@@ -91,7 +91,7 @@
             this.courseDataGridView.Name = "courseDataGridView";
             this.courseDataGridView.RowHeadersVisible = false;
             this.courseDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.courseDataGridView.Size = new System.Drawing.Size(615, 559);
+            this.courseDataGridView.Size = new System.Drawing.Size(615, 641);
             this.courseDataGridView.TabIndex = 4;
             this.courseDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.courseDataGridView_CellClick);
             // 
@@ -150,7 +150,7 @@
             this.courseStudentsGrid.Name = "courseStudentsGrid";
             this.courseStudentsGrid.RowHeadersVisible = false;
             this.courseStudentsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.courseStudentsGrid.Size = new System.Drawing.Size(312, 217);
+            this.courseStudentsGrid.Size = new System.Drawing.Size(312, 299);
             this.courseStudentsGrid.TabIndex = 9;
             this.courseStudentsGrid.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.courseStudentsGrid_CellMouseClick);
             // 
@@ -185,7 +185,7 @@
             // addToCourse
             // 
             this.addToCourse.Enabled = false;
-            this.addToCourse.Location = new System.Drawing.Point(636, 326);
+            this.addToCourse.Location = new System.Drawing.Point(860, 385);
             this.addToCourse.Name = "addToCourse";
             this.addToCourse.Size = new System.Drawing.Size(75, 23);
             this.addToCourse.TabIndex = 16;
@@ -217,19 +217,19 @@
             this.allStudentsGrid.DefaultCellStyle = dataGridViewCellStyle3;
             this.allStudentsGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.allStudentsGrid.GridColor = System.Drawing.Color.White;
-            this.allStudentsGrid.Location = new System.Drawing.Point(636, 368);
+            this.allStudentsGrid.Location = new System.Drawing.Point(636, 416);
             this.allStudentsGrid.MultiSelect = false;
             this.allStudentsGrid.Name = "allStudentsGrid";
             this.allStudentsGrid.RowHeadersVisible = false;
             this.allStudentsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.allStudentsGrid.Size = new System.Drawing.Size(318, 229);
+            this.allStudentsGrid.Size = new System.Drawing.Size(318, 263);
             this.allStudentsGrid.TabIndex = 10;
             this.allStudentsGrid.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.accountStudentsGrid_CellMouseClick);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(800, 332);
+            this.label2.Location = new System.Drawing.Point(738, 371);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 13);
             this.label2.TabIndex = 14;
@@ -237,7 +237,7 @@
             // 
             // accountStudentsSearch
             // 
-            this.accountStudentsSearch.Location = new System.Drawing.Point(848, 329);
+            this.accountStudentsSearch.Location = new System.Drawing.Point(741, 387);
             this.accountStudentsSearch.Name = "accountStudentsSearch";
             this.accountStudentsSearch.Size = new System.Drawing.Size(100, 20);
             this.accountStudentsSearch.TabIndex = 12;
@@ -257,7 +257,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(732, 298);
+            this.label4.Location = new System.Drawing.Point(636, 390);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(97, 18);
             this.label4.TabIndex = 18;
@@ -277,7 +277,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(966, 609);
+            this.ClientSize = new System.Drawing.Size(966, 691);
             this.Controls.Add(this.btnLoadCourses);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);

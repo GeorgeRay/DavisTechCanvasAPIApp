@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace CanvasAPIApp
 {
     class Requester
@@ -19,6 +20,7 @@ namespace CanvasAPIApp
             client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Properties.Settings.Default.CurrentAccessToken);
 
             //sets maximum connections at once, .NET default apparently is 2. Seems to improve performance speed somewhat.
             //I didn't want to increase it too much without knowing what might happen but I read people who set it to 20 or 50 with no problems.
@@ -28,7 +30,7 @@ namespace CanvasAPIApp
 
         public async Task<string> MakeRequestAsync(string url, string accessToken, string parameters = "")
         {
-            string finalUrl = url + $"access_token={accessToken}" + parameters;
+            string finalUrl = url + parameters;
 
             //debug output:
             //Console.WriteLine(finalUrl);            
@@ -43,9 +45,9 @@ namespace CanvasAPIApp
 
         }
         //Delete request created originally for concluding courses for students in Courseform
-        public async Task<string> MakeDeleteRequestAsync(string url, string accessToken, string parameters = "")
+        public async Task<string> MakeDeleteRequestAsync(string url, string parameters = "")
         {
-            string finalUrl = url + $"access_token={accessToken}" + parameters;
+            string finalUrl = url + parameters;
 
             //debug output:
             //Console.WriteLine(finalUrl);            
@@ -59,18 +61,15 @@ namespace CanvasAPIApp
             return responseString;
 
         }
-        //POST method used to invite students to courses, has 4 variables
-        public async Task<string> MakePOSTRequestAsync(string url, string accessToken, Dictionary<string, string> values, string parameters = "")
-        {
-            string finalUrl = url + $"access_token={accessToken}" + parameters;
+        //POST 
+        public async Task<string> MakePOSTRequestAsync(string url, string jsonString)
+        {          
+            //when calling canvas you need to have the object first in the string
+            //var payload = "{\"quiz\":{\"title\":\"test2\"}}";
+            HttpContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
-            var content = new FormUrlEncodedContent(values);
-
-            //debug output:
-            //Console.WriteLine(finalUrl);            
-
-            HttpResponseMessage response = await client.PostAsync(finalUrl, content);
-
+            HttpResponseMessage response = await client.PostAsync(url, content);
+      
             response.EnsureSuccessStatusCode();
 
             string responseString = await response.Content.ReadAsStringAsync();

@@ -284,7 +284,7 @@ namespace CanvasAPIApp
                 try
                 {
                     //Make api call
-                    restResult = await requester.MakeDeleteRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken);
+                    restResult = await requester.MakeDeleteRequestAsync(endPoint);
 
                     MessageBox.Show(courseName + " has been concluded for " + studentName);
                     populateCourseStudents();
@@ -315,17 +315,15 @@ namespace CanvasAPIApp
                     //get student ID from list
                     Int64 studentID = Int64.Parse(allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString());
                     string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments?";//Get base endpoint from setting
-                    var enrollmentUserId = new Dictionary<string, string>
-                            {
-                                { "enrollment[user_id]", allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["user_ID"].Value.ToString()},
-                            };
+                    var userId = allStudentsGrid.Rows[allStudentsGrid.CurrentCell.RowIndex].Cells["user_ID"].Value.ToString();
+                    var jasonObject = $"{{\"enrollment\": {{\"user_id\": \"{userId}\"}}}}";
 
 
                     //Make api call
                     try
                     {
                         //add student and repopulate list
-                        restResult = await requester.MakePOSTRequestAsync(endPoint, Properties.Settings.Default.CurrentAccessToken, enrollmentUserId);
+                        restResult = await requester.MakePOSTRequestAsync(endPoint, jasonObject);
                         MessageBox.Show(studentName + " has been invited to " + courseName);
                         populateCourseStudents();
                     }
