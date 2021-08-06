@@ -91,6 +91,16 @@ namespace CanvasAPIApp
             tabPageGradingQueue.Controls.Add(gradingQueue);
             gradingQueue.Visible = true;
 
+            //Load Grading History
+            GradingHistoryForm gradingHistory = new GradingHistoryForm();
+
+            //tab setup
+            gradingHistory.TopLevel = false;
+            gradingHistory.FormBorderStyle = FormBorderStyle.None;
+            gradingHistory.Dock = DockStyle.Fill;
+            tabGradingHistory.Controls.Add(gradingHistory);     
+            gradingHistory.Visible = true;
+
         }//End Main Form Loading
 
         //Close Main Form/Application

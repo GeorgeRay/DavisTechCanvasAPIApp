@@ -55,6 +55,7 @@
             this.tabPageModule = new System.Windows.Forms.TabPage();
             this.tabPageCalendar = new System.Windows.Forms.TabPage();
             this.tabPageGradingQueue = new System.Windows.Forms.TabPage();
+            this.tabGradingHistory = new System.Windows.Forms.TabPage();
             this.apiMenuStrip.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.SuspendLayout();
@@ -206,6 +207,7 @@
             this.tabControlMain.Controls.Add(this.tabPageModule);
             this.tabControlMain.Controls.Add(this.tabPageCalendar);
             this.tabControlMain.Controls.Add(this.tabPageGradingQueue);
+            this.tabControlMain.Controls.Add(this.tabGradingHistory);
             this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlMain.Location = new System.Drawing.Point(0, 24);
             this.tabControlMain.Name = "tabControlMain";
@@ -218,7 +220,7 @@
             // 
             this.tabPageCourses.Location = new System.Drawing.Point(4, 22);
             this.tabPageCourses.Name = "tabPageCourses";
-            this.tabPageCourses.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageCourses.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageCourses.Size = new System.Drawing.Size(976, 661);
             this.tabPageCourses.TabIndex = 3;
             this.tabPageCourses.Text = "Courses";
@@ -228,8 +230,8 @@
             // 
             this.tabPageAssign.Location = new System.Drawing.Point(4, 22);
             this.tabPageAssign.Name = "tabPageAssign";
-            this.tabPageAssign.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageAssign.Size = new System.Drawing.Size(976, 714);
+            this.tabPageAssign.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAssign.Size = new System.Drawing.Size(976, 661);
             this.tabPageAssign.TabIndex = 0;
             this.tabPageAssign.Text = "Assignments";
             this.tabPageAssign.UseVisualStyleBackColor = true;
@@ -238,8 +240,8 @@
             // 
             this.tabPageQuiz.Location = new System.Drawing.Point(4, 22);
             this.tabPageQuiz.Name = "tabPageQuiz";
-            this.tabPageQuiz.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageQuiz.Size = new System.Drawing.Size(976, 714);
+            this.tabPageQuiz.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageQuiz.Size = new System.Drawing.Size(976, 661);
             this.tabPageQuiz.TabIndex = 1;
             this.tabPageQuiz.Text = "Quizzes";
             this.tabPageQuiz.UseVisualStyleBackColor = true;
@@ -248,7 +250,7 @@
             // 
             this.tabPagePages.Location = new System.Drawing.Point(4, 22);
             this.tabPagePages.Name = "tabPagePages";
-            this.tabPagePages.Size = new System.Drawing.Size(976, 714);
+            this.tabPagePages.Size = new System.Drawing.Size(976, 661);
             this.tabPagePages.TabIndex = 2;
             this.tabPagePages.Text = "Pages";
             this.tabPagePages.UseVisualStyleBackColor = true;
@@ -257,7 +259,7 @@
             // 
             this.tabPageModule.Location = new System.Drawing.Point(4, 22);
             this.tabPageModule.Name = "tabPageModule";
-            this.tabPageModule.Size = new System.Drawing.Size(976, 714);
+            this.tabPageModule.Size = new System.Drawing.Size(976, 661);
             this.tabPageModule.TabIndex = 4;
             this.tabPageModule.Text = "Modules";
             this.tabPageModule.UseVisualStyleBackColor = true;
@@ -266,7 +268,7 @@
             // 
             this.tabPageCalendar.Location = new System.Drawing.Point(4, 22);
             this.tabPageCalendar.Name = "tabPageCalendar";
-            this.tabPageCalendar.Size = new System.Drawing.Size(976, 714);
+            this.tabPageCalendar.Size = new System.Drawing.Size(976, 661);
             this.tabPageCalendar.TabIndex = 5;
             this.tabPageCalendar.Text = "Calendar";
             this.tabPageCalendar.UseVisualStyleBackColor = true;
@@ -275,11 +277,21 @@
             // 
             this.tabPageGradingQueue.Location = new System.Drawing.Point(4, 22);
             this.tabPageGradingQueue.Name = "tabPageGradingQueue";
-            this.tabPageGradingQueue.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageGradingQueue.Size = new System.Drawing.Size(976, 714);
+            this.tabPageGradingQueue.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGradingQueue.Size = new System.Drawing.Size(976, 661);
             this.tabPageGradingQueue.TabIndex = 6;
             this.tabPageGradingQueue.Text = "Grading Queue";
             this.tabPageGradingQueue.UseVisualStyleBackColor = true;
+            // 
+            // tabGradingHistory
+            // 
+            this.tabGradingHistory.Location = new System.Drawing.Point(4, 22);
+            this.tabGradingHistory.Name = "tabGradingHistory";
+            this.tabGradingHistory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabGradingHistory.Size = new System.Drawing.Size(976, 661);
+            this.tabGradingHistory.TabIndex = 7;
+            this.tabGradingHistory.Text = "Grading History";
+            this.tabGradingHistory.UseVisualStyleBackColor = true;
             // 
             // CanvasAPIMainForm
             // 
@@ -332,6 +344,7 @@
         private System.Windows.Forms.ToolStripMenuItem gradingQueueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dataSourcesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mongoDBToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabGradingHistory;
     }
 }
 
