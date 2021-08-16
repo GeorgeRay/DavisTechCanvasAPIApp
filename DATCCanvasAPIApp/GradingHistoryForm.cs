@@ -321,8 +321,16 @@ namespace CanvasAPIApp
                 //Make API Call
                 Requester requester = new Requester();
                 string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/users/{grader_id}?&";
-
-                string json = await requester.MakeRequestAsync(endPoint);
+                string json;
+                try
+                {
+                    json = await requester.MakeRequestAsync(endPoint);                    
+                }
+                catch (Exception e)
+                {                    
+                    //on failed request saving the grader id as the grader name.
+                    json = $"{{\"id\":{grader_id},\"name\":\"{grader_id} - {e.Message}\"}}";
+                }
                 if (json != "")
                 {
                     dynamic jsonObj = JsonConvert.DeserializeObject(json);
@@ -336,6 +344,8 @@ namespace CanvasAPIApp
                         //do nothing Because of the async I cannot guarantee that the key has already been written.
                     }
                 }
+
+
             }
         }
 
