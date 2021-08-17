@@ -100,8 +100,8 @@ namespace CanvasAPIApp
             string urlParameters;
             urlParameters = "student_ids[]=all";
             urlParameters += "&include[]=assignment";
-            urlParameters += "&include[]=submission_comments";
-            urlParameters += $"&graded_since={dtpEarliestDate.Value.ToShortDateString()}T00:00:00Z";
+            urlParameters += "&include[]=submission_comments";            
+            urlParameters += $"&graded_since={dtpEarliestDate.Value.ToString("yyyy-MM-dd")}T00:00:00Z";
             urlParameters += "&enrollment_state=active";
 
             //async webcalls vars
@@ -115,8 +115,16 @@ namespace CanvasAPIApp
                 tasks.Add(Task.Run(async () =>
                 {
                     string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/courses/{course.CourseID}/students/submissions?{urlParameters}&";
-
-                    string json = await requester.MakeRequestAsync(endPoint);
+                    string json = "";
+                    try
+                    {
+                        json = await requester.MakeRequestAsync(endPoint);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show($"{e.Message}\n{e.StackTrace}");
+                    }
+                    
                     if (json != "")
                     {
                         dynamic jsonObj = JsonConvert.DeserializeObject(json);
@@ -185,18 +193,27 @@ namespace CanvasAPIApp
 
                 // get jsonObj file
                 string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?enrollment_type=teacher&per_page=1000&";//Get endpoint
-
-                var json = await requester.MakeRequestAsync(endPoint);
-                //if request fails a empty string will be returned, resulting in a null object
-                if (json != "")
+                try
                 {
-                    dynamic jsonObj = JsonConvert.DeserializeObject(json);
-
-                    foreach (var course in jsonObj)
+                    var json = await requester.MakeRequestAsync(endPoint);
+                    //if request fails a empty string will be returned, resulting in a null object
+                    if (json != "")
                     {
-                        tempCourseList.Add(new Course(Convert.ToString(course.id), Convert.ToString(course.name)));
+                        dynamic jsonObj = JsonConvert.DeserializeObject(json);
+
+                        foreach (var course in jsonObj)
+                        {
+                            tempCourseList.Add(new Course(Convert.ToString(course.id), Convert.ToString(course.name)));
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                }
+                
+             
                 return tempCourseList;
             });
         }
