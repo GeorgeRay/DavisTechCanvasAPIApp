@@ -94,14 +94,18 @@ namespace CanvasAPIApp
         private async Task<List<GradingHistoryEvent>> populateGradingHistory(List<Course> courseList)
         {
             Requester requester = new Requester();
-
-
             List<GradingHistoryEvent> gradingHistoryList = new List<GradingHistoryEvent>();
+
+            //getting the offset hours for the graded since parameter for the api call.
+            var offset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).Hours;
+            var intOffsetHours = offset > 0 ? 24 - offset : 0 - offset;
+            string strOffsethours = offset < 12 ? "0" + intOffsetHours.ToString() : intOffsetHours.ToString();
+            
             string urlParameters;
             urlParameters = "student_ids[]=all";
             urlParameters += "&include[]=assignment";
             urlParameters += "&include[]=submission_comments";            
-            urlParameters += $"&graded_since={dtpEarliestDate.Value.ToString("yyyy-MM-dd")}T00:00:00Z";
+            urlParameters += $"&graded_since={dtpEarliestDate.Value.ToString("yyyy-MM-dd")}T{strOffsethours}:00:00Z";
             urlParameters += "&enrollment_state=active";
 
             //async webcalls vars
@@ -356,9 +360,10 @@ namespace CanvasAPIApp
                     {
                         graders.Add(grader_id, this.grader_name);
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         //do nothing Because of the async I cannot guarantee that the key has already been written.
+                        Debug.WriteLine($"{ex.Message} {ex.StackTrace}");
                     }
                 }
 
