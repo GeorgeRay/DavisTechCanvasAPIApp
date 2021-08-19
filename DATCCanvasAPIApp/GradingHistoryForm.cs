@@ -107,9 +107,10 @@ namespace CanvasAPIApp
             urlParameters += "&include[]=submission_comments";            
             urlParameters += $"&graded_since={dtpEarliestDate.Value.ToString("yyyy-MM-dd")}T{strOffsethours}:00:00Z";
             urlParameters += "&enrollment_state=active";
+            urlParameters += "&per_page=1000";
 
             //async webcalls vars
-            List<Task> tasks = new List<Task>();
+            List <Task> tasks = new List<Task>();
 
             // gets grading event history
             // adds each call to task

@@ -254,6 +254,7 @@ namespace CanvasAPIApp
             urlParameters += "&workflow_state[]=submitted";
             urlParameters += "&workflow_state[]=pending_review";
             urlParameters += "&enrollment_state=active";
+            urlParameters += "&per_page=1000";
 
             //async webcalls vars
             List<Task> tasks = new List<Task>();
