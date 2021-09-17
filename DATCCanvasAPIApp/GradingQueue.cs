@@ -172,15 +172,15 @@ namespace CanvasAPIApp
             //Bring app to the front if there is a priority and Nothing reserved
             //if an assignment is an alert assignment and not reserved notify user if they don't have an alert assignment reserved.
             var unReservedAlertedAssignments = from assignment in ungradedAssignmentList
-                                             where assignment.alert == true
-                                             && assignment.reserved == false
-                                             select assignment;
+                                               where assignment.alert == true
+                                               && assignment.reserved == false
+                                               select assignment;
 
             var userReservedAlertedAssignments = from assignment in ungradedAssignmentList
-                                             where assignment.alert == true
-                                             && assignment.reserved == true
-                                             && assignment.workflow_state.Contains(Properties.Settings.Default.AppUserName)
-                                             select assignment;
+                                                 where assignment.alert == true
+                                                 && assignment.reserved == true
+                                                 && assignment.workflow_state.Contains(Properties.Settings.Default.AppUserName)
+                                                 select assignment;
 
             if (Form.ActiveForm != mainForm && userReservedAlertedAssignments.Count() == 0 && unReservedAlertedAssignments.Count() > 0)
             {
@@ -243,18 +243,21 @@ namespace CanvasAPIApp
         }
 
         // return priority based on assignment name
-        private (int,bool) assignPriority(string assignmentName)
+        private (int, bool) assignPriority(string assignmentName)
         {
             // check if name contains any flag and return priority
-            foreach (PriorityFlag flag in priorityFlags)
+            if (priorityFlags != null)
             {
-                if (assignmentName.ToLower().Contains(flag.PriorityText.ToLower()))
-                {                   
-                    return (flag.PriorityLevel, flag.Alert);
+                foreach (PriorityFlag flag in priorityFlags)
+                {
+                    if (assignmentName.ToLower().Contains(flag.PriorityText.ToLower()))
+                    {
+                        return (flag.PriorityLevel, flag.Alert);
+                    }
                 }
             }
             //otherwise return the set default 
-            return (defaultPriority,false);
+            return (defaultPriority, false);
         }
 
         private async Task<List<GradingAssignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
@@ -318,7 +321,7 @@ namespace CanvasAPIApp
                                     var reserved = false;
                                     var alert = false;
                                     //assigning priority for sorting
-                                    (priority,alert) = assignPriority($"{assignment_name} {course.CourseName}");
+                                    (priority, alert) = assignPriority($"{assignment_name} {course.CourseName}");
                                     //see if assignment is reserved                                
                                     var results = gradingReservedList.Where(reservedAssignment => reservedAssignment._id == speed_grader_url);
                                     if (results.Count() > 0)
@@ -329,7 +332,7 @@ namespace CanvasAPIApp
                                         //remove the item from the grading reserve list, the list will be used to trim up the grading database
                                         gradingReservedList.Remove(theReservation);
                                     }
- 
+
                                     ungradedAssignmentList.Add(new GradingAssignment(reserved, priority, alert, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url, grades_url));
                                 }
                             }

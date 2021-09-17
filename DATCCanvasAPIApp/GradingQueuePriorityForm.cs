@@ -28,12 +28,16 @@ namespace CanvasAPIApp
             nmbPriority.Value = Properties.Settings.Default.DefaultPriority;
 
             List<PriorityFlag> flags = JsonConvert.DeserializeObject<List <PriorityFlag>>(Properties.Settings.Default.PriorityFlags);
-            
+
             //fills data grid with each priority
-            foreach (PriorityFlag flag in flags)
-            {               
-                DataGridViewRow row = new DataGridViewRow();
-                dgvPriority.Rows.Add(new object[] { flag.PriorityText, flag.PriorityLevel.ToString(), flag.Alert });
+            if (flags != null)
+            {
+                foreach (PriorityFlag flag in flags)
+                {
+
+                    DataGridViewRow row = new DataGridViewRow();
+                    dgvPriority.Rows.Add(new object[] { flag.PriorityText, flag.PriorityLevel.ToString(), flag.Alert });
+                }
             }
         }//end on load
 
