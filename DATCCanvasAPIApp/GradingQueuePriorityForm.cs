@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace CanvasAPIApp
 {
@@ -26,13 +27,13 @@ namespace CanvasAPIApp
             
             nmbPriority.Value = Properties.Settings.Default.DefaultPriority;
 
-            List<KeyValuePair<int, string>> flags = GradingQueue.prioritySettings.priorityFlags;
+            List<PriorityFlag> flags = JsonConvert.DeserializeObject<List <PriorityFlag>>(Properties.Settings.Default.PriorityFlags);
             
             //fills data grid with each priority
-            foreach (KeyValuePair<int, string> flag in flags)
-            {
+            foreach (PriorityFlag flag in flags)
+            {               
                 DataGridViewRow row = new DataGridViewRow();
-                dgvPriority.Rows.Add(new object[] {flag.Value, flag.Key.ToString() });
+                dgvPriority.Rows.Add(new object[] { flag.PriorityText, flag.PriorityLevel.ToString(), flag.Alert });
             }
         }//end on load
 
@@ -48,11 +49,10 @@ namespace CanvasAPIApp
         {
             try
             {
-                List<KeyValuePair<int, string>> flags = new List<KeyValuePair<int, string>>();
+                List<PriorityFlag> flags = new List<PriorityFlag>();
 
                 for (int i = 0; i < dgvPriority.Rows.Count - 1; i++)
-                {
-
+                {                    
                     DataGridViewRow row = dgvPriority.Rows[i];
 
                     if (row.Cells[0].Value == null || row.Cells[1].Value == null || row.Cells[0].Value.ToString() == "" || row.Cells[1].Value.ToString() == "")
@@ -60,15 +60,16 @@ namespace CanvasAPIApp
                         
                         throw new Exception("Values and priorites must be set.");
                     }
+                    PriorityFlag flag = new PriorityFlag(int.Parse(row.Cells[1].Value.ToString()), row.Cells[0].Value.ToString(), Convert.ToBoolean(row.Cells[2].Value));
                     
-                    KeyValuePair<int, string> flag = new KeyValuePair<int, string>(int.Parse(row.Cells[1].Value.ToString()), row.Cells[0].Value.ToString());
-
                     flags.Add(flag);
                 }
 
-                GradingQueue.prioritySettings.priorityFlags = flags;
-
-                GradingQueue.prioritySettings.SaveSettings();
+                Properties.Settings.Default.PriorityFlags = JsonConvert.SerializeObject(flags);
+                Properties.Settings.Default.Save();
+                //Update flags default priority on the grading queue form.
+                GradingQueue.priorityFlags = flags;
+                GradingQueue.defaultPriority = (int)nmbPriority.Value;
             }
             catch (Exception exc)
             {
@@ -116,5 +117,37 @@ namespace CanvasAPIApp
             Properties.Settings.Default.DefaultPriority = GradingQueue.defaultPriority;
             Properties.Settings.Default.Save();
         }
+
+    }
+
+    public class PriorityFlag
+    {
+   
+        public int PriorityLevel { get; set; }
+        public string PriorityText { get; set ; } 
+        public bool Alert { get; set; }
+
+        public PriorityFlag(int newPriorityLevel, string newValue, bool newAlert = false)
+        {
+            if (newPriorityLevel != 0)
+            {
+                PriorityLevel = newPriorityLevel;
+            }
+            else
+            {
+                PriorityLevel = Properties.Settings.Default.DefaultPriority;
+            }
+            PriorityLevel = newPriorityLevel;
+            if (newValue is null)
+            {
+                PriorityText = "Failed to load";
+            }
+            else
+            {
+                PriorityText = newValue;
+            }          
+            Alert = newAlert;
+        }
+
     }
 }

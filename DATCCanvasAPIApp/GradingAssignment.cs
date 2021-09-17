@@ -4,8 +4,9 @@ namespace CanvasAPIApp
 {
     internal class GradingAssignment
     {
-        public bool graded { get; set; }
+        public bool reserved { get; set; }
         public int priority { get; set; }
+        public bool alert { get; set; }
         public string courseName { get; set; }
         public string assignment_name { get; set; }
         public DateTime submitted_at { get; set; }
@@ -13,10 +14,11 @@ namespace CanvasAPIApp
         public string speed_grader_url { get; set; }
         public string grades_url { get; private set; }
 
-        public GradingAssignment(bool reserved, int priority, string courseName, string assignment_name, DateTime submitted_at, string workflow_state, string speed_grader_url, string grades_url)
+        public GradingAssignment(bool reserved, int priority, bool alert, string courseName, string assignment_name, DateTime submitted_at, string workflow_state, string speed_grader_url, string grades_url)
         {
-            this.graded = reserved;
+            this.reserved = reserved;
             this.priority = priority;
+            this.alert = alert;
             this.courseName = courseName;
             this.assignment_name = assignment_name;
             this.submitted_at = submitted_at;

@@ -82,7 +82,7 @@ namespace CanvasAPIApp
             moduleForm.Visible = true;
 
             //Load Grading Queue
-            GradingQueue gradingQueue = new GradingQueue();
+            GradingQueue gradingQueue = new GradingQueue(this);
 
             //tab setup
             gradingQueue.TopLevel = false;
@@ -125,7 +125,7 @@ namespace CanvasAPIApp
             accessTokenForm.ShowDialog();
             Cursor.Current = Cursors.Default;
             //Load Grading Queue
-            GradingQueue gradingQueue = new GradingQueue();
+            GradingQueue gradingQueue = new GradingQueue(this);
 
             //tab setup
             gradingQueue.TopLevel = false;

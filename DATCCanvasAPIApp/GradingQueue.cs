@@ -8,7 +8,6 @@ using System.Linq;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Driver.Linq;
-using System.Globalization;
 using System.Data;
 
 namespace CanvasAPIApp
@@ -16,6 +15,7 @@ namespace CanvasAPIApp
     public partial class GradingQueue : Form
     {
         // declarations
+        Form mainForm;
         List<GradingAssignment> ungradedAssignmentList;
         private bool isChanging = false;
         private bool connectedToMongoDB = false;
@@ -24,15 +24,16 @@ namespace CanvasAPIApp
 
         public static List<Course> CourseList { get; set; } = new List<Course>();
 
-        public static PrioritySettings prioritySettings = new PrioritySettings();
+        public static List<PriorityFlag> priorityFlags = new List<PriorityFlag>();
         public static int defaultPriority { get; set; }
 
         private bool mongoWarningshown = false;
 
         Requester requester = new Requester();
 
-        public GradingQueue()
+        public GradingQueue(Form contextMainForm)
         {
+            mainForm = contextMainForm;
             InitializeComponent();
             //Checking MongoDB has been set up
             if (Properties.Settings.Default.MongoDBDefaultDB != "")
@@ -66,10 +67,10 @@ namespace CanvasAPIApp
 
         private void GradingQueue_Load(object sender, EventArgs e)
         {
-            prioritySettings = new PrioritySettings();
+            priorityFlags = JsonConvert.DeserializeObject<List<PriorityFlag>>(Properties.Settings.Default.PriorityFlags);
             defaultPriority = Properties.Settings.Default.DefaultPriority;
             //The checking the auto refresh will load the queue for the first time
-            
+
             cbxAutoRefresh_CheckedChanged(this, e);
             //await RefreshQueue();
 
@@ -158,15 +159,35 @@ namespace CanvasAPIApp
             if (sortColumn.Name == "Priority")
             {
                 gradingDataGrid.Sort(gradingDataGrid.Columns["Submit_at"], System.ComponentModel.ListSortDirection.Ascending);
-                gradingDataGrid.Sort(gradingDataGrid.Columns["Priority"], sortDirection);               
+                gradingDataGrid.Sort(gradingDataGrid.Columns["Priority"], sortDirection);
 
-            }           
+            }
             else
             {
                 gradingDataGrid.Sort(sortColumn, sortDirection);
             }
             // using this method as hook to enable courseFilterTxt
             enableCourseFilter();
+
+            //Bring app to the front if there is a priority and Nothing reserved
+            //if an assignment is an alert assignment and not reserved notify user if they don't have an alert assignment reserved.
+            var unReservedAlertedAssignments = from assignment in ungradedAssignmentList
+                                             where assignment.alert == true
+                                             && assignment.reserved == false
+                                             select assignment;
+
+            var userReservedAlertedAssignments = from assignment in ungradedAssignmentList
+                                             where assignment.alert == true
+                                             && assignment.reserved == true
+                                             && assignment.workflow_state.Contains(Properties.Settings.Default.AppUserName)
+                                             select assignment;
+
+            if (Form.ActiveForm != mainForm && userReservedAlertedAssignments.Count() == 0 && unReservedAlertedAssignments.Count() > 0)
+            {
+                mainForm.WindowState = FormWindowState.Minimized;
+                mainForm.Show();
+                mainForm.WindowState = FormWindowState.Normal;
+            }
 
         }
 
@@ -179,10 +200,10 @@ namespace CanvasAPIApp
                     return mongoDatabase.GetCollection<ReservedAssignment>(Properties.Settings.Default.MongoDBGradingCollection).AsQueryable<ReservedAssignment>().ToList();
                 }
                 catch (Exception)
-                {                    
+                {
                     return new List<ReservedAssignment>();
                 }
-               
+
             });
         }
 
@@ -201,10 +222,10 @@ namespace CanvasAPIApp
                 foreach (GradingAssignment assignment in assignmentList)
                 {
 
-                    gradingDataGrid.Rows.Add(assignment.graded, assignment.priority, assignment.courseName,
+                    gradingDataGrid.Rows.Add(assignment.reserved, assignment.priority, assignment.courseName,
                         assignment.assignment_name, assignment.submitted_at, assignment.workflow_state,
                         assignment.speed_grader_url, assignment.grades_url);
-                }  
+                }
             }
         }
 
@@ -222,24 +243,18 @@ namespace CanvasAPIApp
         }
 
         // return priority based on assignment name
-        private int assignPriority(string assignmentName)
+        private (int,bool) assignPriority(string assignmentName)
         {
             // check if name contains any flag and return priority
-            for (int i = 0; i < prioritySettings.priorityFlags.Count; i++)
+            foreach (PriorityFlag flag in priorityFlags)
             {
-
-                KeyValuePair<int, string> flag = GradingQueue.prioritySettings.priorityFlags[i];
-
-                if (assignmentName.ToLower().Contains(flag.Value.ToLower()))
-                {
-
-                    return flag.Key;
+                if (assignmentName.ToLower().Contains(flag.PriorityText.ToLower()))
+                {                   
+                    return (flag.PriorityLevel, flag.Alert);
                 }
-
             }
-
             //otherwise return the set default 
-            return defaultPriority;
+            return (defaultPriority,false);
         }
 
         private async Task<List<GradingAssignment>> populateGradingEventHistory(List<Course> courseList, List<ReservedAssignment> gradingReservedList)
@@ -301,8 +316,9 @@ namespace CanvasAPIApp
                                     var speed_grader_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/gradebook/speed_grader?assignment_id={assignment_id}&student_id={user_id}";
                                     var grades_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/grades/{user_id}";
                                     var reserved = false;
+                                    var alert = false;
                                     //assigning priority for sorting
-                                    priority = assignPriority($"{assignment_name} {course.CourseName}");
+                                    (priority,alert) = assignPriority($"{assignment_name} {course.CourseName}");
                                     //see if assignment is reserved                                
                                     var results = gradingReservedList.Where(reservedAssignment => reservedAssignment._id == speed_grader_url);
                                     if (results.Count() > 0)
@@ -313,8 +329,8 @@ namespace CanvasAPIApp
                                         //remove the item from the grading reserve list, the list will be used to trim up the grading database
                                         gradingReservedList.Remove(theReservation);
                                     }
-
-                                    ungradedAssignmentList.Add(new GradingAssignment(reserved, priority, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url, grades_url));
+ 
+                                    ungradedAssignmentList.Add(new GradingAssignment(reserved, priority, alert, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url, grades_url));
                                 }
                             }
                         }
@@ -333,28 +349,28 @@ namespace CanvasAPIApp
         private async Task<List<Course>> populateListOfCourses()
         {
 
-            return await Task.Run( async () =>
-            {
+            return await Task.Run(async () =>
+           {
 
-                List<Course> tempCourseList = new List<Course>();
+               List<Course> tempCourseList = new List<Course>();
 
-                // get jsonObj file
-                string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?enrollment_type=teacher&per_page=1000&";//Get endpoint
-                
-                var json = await requester.MakeRequestAsync(endPoint);
-                //if request fails a empty string will be returned, resulting in a null object
-                if (json != "")
-                {
-                    dynamic jsonObj = JsonConvert.DeserializeObject(json);
+               // get jsonObj file
+               string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses?enrollment_type=teacher&per_page=1000&";//Get endpoint
 
-                    foreach (var course in jsonObj)
-                    {
+               var json = await requester.MakeRequestAsync(endPoint);
+               //if request fails a empty string will be returned, resulting in a null object
+               if (json != "")
+               {
+                   dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
-                        tempCourseList.Add(new Course(Convert.ToString(course.id), Convert.ToString(course.name)));
-                    }
-                }
-                return tempCourseList;
-            });
+                   foreach (var course in jsonObj)
+                   {
+
+                       tempCourseList.Add(new Course(Convert.ToString(course.id), Convert.ToString(course.name)));
+                   }
+               }
+               return tempCourseList;
+           });
         }
 
         private async void cbxAutoRefresh_CheckedChanged(object sender, EventArgs e)
@@ -436,7 +452,7 @@ namespace CanvasAPIApp
                         }
                         else //Reserved is not checked
                         {
-                            
+
                             string url = gradingDataGrid.Rows[e.RowIndex].Cells[6].EditedFormattedValue.ToString();
 
                             //Add the data to the database
@@ -446,7 +462,7 @@ namespace CanvasAPIApp
 
                                 BsonDocument documentToWrite = new BsonDocument { { "_id", url }, { "grader", Properties.Settings.Default.AppUserName }, { "reserved_at", DateTime.Now.ToString() } };
                                 try
-                                { 
+                                {
                                     Process browserTab = Process.Start(url); //grading url in new tab
                                     mongoCollection.InsertOne(documentToWrite); //try to write to database
                                     //continue if successful:
@@ -463,7 +479,7 @@ namespace CanvasAPIApp
 
                                         gradingDataGrid.CurrentCell.Value = true;
                                         this.Activate(); //pulls the form into focus to display message
-                                       
+
                                         MessageBox.Show($"This assignment was reserved by {grader.Value}");
 
                                         RefreshQueue(); //refresh queue to update reserved checkbox
@@ -558,63 +574,5 @@ namespace CanvasAPIApp
 
             await RefreshQueue();
         }
-
-
-        public class PrioritySettings
-        {
-
-            public List<KeyValuePair<int, string>> priorityFlags { get; set; }
-
-            //constructor, initialized flag list / loads settings
-            public PrioritySettings()
-            {
-                priorityFlags = new List<KeyValuePair<int, string>>();
-                LoadSettings();
-            }
-
-            //clears lists
-            public void ClearPriorityList()
-            {
-                priorityFlags.Clear();
-            }
-
-            //sets priority list with a string, separated by commas
-            public void SetPrioritiesJson(string json)
-            {
-                ClearPriorityList();
-
-                priorityFlags = JsonConvert.DeserializeObject<List<KeyValuePair<int, string>>>(json);
-
-                SortPriorities();
-            }
-
-            //sorts by priority
-            public void SortPriorities()
-            {
-                priorityFlags = priorityFlags.OrderBy(sort => sort.Key).ToList<KeyValuePair<int, string>>();
-
-            }
-
-            //loads settings from properties
-            public void LoadSettings()
-            {
-                string json = Properties.Settings.Default.PriorityFlags;
-
-                if (!String.IsNullOrEmpty(json))
-                    SetPrioritiesJson(json);
-            }
-
-            //saves settings to properties
-            public void SaveSettings()
-            {
-                string json = JsonConvert.SerializeObject(priorityFlags);
-
-                Properties.Settings.Default.PriorityFlags = json;
-
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        
     }
 }

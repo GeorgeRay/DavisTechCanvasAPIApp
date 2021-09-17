@@ -35,6 +35,7 @@ namespace CanvasAPIApp
             this.dgvPriority = new System.Windows.Forms.DataGridView();
             this.keywordsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.priorityColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.alert = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btnDeleteSelected = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -81,7 +82,8 @@ namespace CanvasAPIApp
             this.dgvPriority.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPriority.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.keywordsColumn,
-            this.priorityColumn});
+            this.priorityColumn,
+            this.alert});
             this.dgvPriority.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgvPriority.Location = new System.Drawing.Point(12, 27);
             this.dgvPriority.Name = "dgvPriority";
@@ -93,13 +95,13 @@ namespace CanvasAPIApp
             // 
             // keywordsColumn
             // 
-            this.keywordsColumn.FillWeight = 85F;
+            this.keywordsColumn.FillWeight = 124.2674F;
             this.keywordsColumn.HeaderText = "Keywords";
             this.keywordsColumn.Name = "keywordsColumn";
             // 
             // priorityColumn
             // 
-            this.priorityColumn.FillWeight = 15F;
+            this.priorityColumn.FillWeight = 21.92955F;
             this.priorityColumn.HeaderText = "Priority";
             this.priorityColumn.Items.AddRange(new object[] {
             "1",
@@ -113,6 +115,16 @@ namespace CanvasAPIApp
             "9"});
             this.priorityColumn.Name = "priorityColumn";
             this.priorityColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // alert
+            // 
+            this.alert.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.alert.FillWeight = 1F;
+            this.alert.HeaderText = "Alert";
+            this.alert.Name = "alert";
+            this.alert.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.alert.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.alert.Width = 53;
             // 
             // btnDeleteSelected
             // 
@@ -197,10 +209,11 @@ namespace CanvasAPIApp
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.DataGridView dgvPriority;
         private System.Windows.Forms.Button btnDeleteSelected;
-        private System.Windows.Forms.DataGridViewTextBoxColumn keywordsColumn;
-        private System.Windows.Forms.DataGridViewComboBoxColumn priorityColumn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown nmbPriority;
+        private System.Windows.Forms.DataGridViewTextBoxColumn keywordsColumn;
+        private System.Windows.Forms.DataGridViewComboBoxColumn priorityColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn alert;
     }
 }
