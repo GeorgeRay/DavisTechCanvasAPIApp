@@ -9,6 +9,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Driver.Linq;
 using System.Data;
+using System.Globalization;
 
 namespace CanvasAPIApp
 {
@@ -221,9 +222,9 @@ namespace CanvasAPIApp
             {
                 foreach (GradingAssignment assignment in assignmentList)
                 {
-                    var user_lastname = assignment.user_name[assignment.user_name.Length - 1];
+                    var user_firstName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase( assignment.user_name[0].ToLower());                    
                     gradingDataGrid.Rows.Add(assignment.reserved, assignment.priority, assignment.courseName,
-                        $"{assignment.assignment_name} ({user_lastname})", assignment.submitted_at, assignment.workflow_state,
+                        $"{assignment.assignment_name} ({user_firstName})", assignment.submitted_at, assignment.workflow_state,
                         assignment.speed_grader_url, assignment.grades_url);
                 }
             }
