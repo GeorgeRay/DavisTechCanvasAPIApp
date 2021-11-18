@@ -221,9 +221,9 @@ namespace CanvasAPIApp
             {
                 foreach (GradingAssignment assignment in assignmentList)
                 {
-
+                    var user_lastname = assignment.user_name[assignment.user_name.Length - 1];
                     gradingDataGrid.Rows.Add(assignment.reserved, assignment.priority, assignment.courseName,
-                        assignment.assignment_name, assignment.submitted_at, assignment.workflow_state,
+                        $"{assignment.assignment_name} ({user_lastname})", assignment.submitted_at, assignment.workflow_state,
                         assignment.speed_grader_url, assignment.grades_url);
                 }
             }
@@ -265,6 +265,7 @@ namespace CanvasAPIApp
             List<GradingAssignment> ungradedAssignmentList = new List<GradingAssignment>();
             string urlParameters;
             urlParameters = "student_ids[]=all";
+            urlParameters += "&include[]=user";
             urlParameters += "&include[]=assignment";
             urlParameters += "&workflow_state[]=submitted";
             urlParameters += "&workflow_state[]=pending_review";
@@ -305,6 +306,7 @@ namespace CanvasAPIApp
                                     var workflow_state = Convert.ToString(submission.workflow_state);
                                     var assignment_id = Convert.ToString(submission.assignment_id);
                                     var user_id = Convert.ToString(submission.user_id);
+                                    var user_name = Convert.ToString(submission.user.name);
                                     var priority = -1;
                                     var graded_at = Convert.ToString(submission.graded_at);
                                     var posted_at = Convert.ToString(submission.posted_at);
@@ -330,7 +332,7 @@ namespace CanvasAPIApp
                                         gradingReservedList.Remove(theReservation);
                                     }
  
-                                    ungradedAssignmentList.Add(new GradingAssignment(reserved, priority, alert, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url, grades_url));
+                                    ungradedAssignmentList.Add(new GradingAssignment(reserved, user_name,priority, alert, course.CourseName, assignment_name, submitted_at, workflow_state, speed_grader_url, grades_url));
                                 }
                             }
                         }
