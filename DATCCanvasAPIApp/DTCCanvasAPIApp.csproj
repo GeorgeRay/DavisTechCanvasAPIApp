@@ -12,13 +12,13 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
-    <PublishUrl>\\wingroup\Group\Software Development\Software\CanvasAssistant\</PublishUrl>
+    <PublishUrl>C:\Users\rayeg\Davis Technical College\Software Development - Documents\CanvasAssistant\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Unc</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -26,6 +26,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>https://davistechcollege.sharepoint.com/:f:/r/SoftwareDevelopment/Shared%2520Documents/CanvasAssistant/</InstallUrl>
     <ProductName>Canvas API Application</ProductName>
     <PublisherName>Davis Technical College</PublisherName>
     <ApplicationRevision>48</ApplicationRevision>
