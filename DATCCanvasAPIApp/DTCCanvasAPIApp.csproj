@@ -29,7 +29,7 @@
     <InstallUrl>https://davistechcollege.sharepoint.com/:f:/r/SoftwareDevelopment/Shared%2520Documents/CanvasAssistant/</InstallUrl>
     <ProductName>Canvas API Application</ProductName>
     <PublisherName>Davis Technical College</PublisherName>
-    <ApplicationRevision>49</ApplicationRevision>
+    <ApplicationRevision>50</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
