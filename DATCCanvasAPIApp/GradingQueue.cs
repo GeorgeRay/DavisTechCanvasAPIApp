@@ -68,7 +68,11 @@ namespace CanvasAPIApp
 
         private void GradingQueue_Load(object sender, EventArgs e)
         {
-            priorityFlags = JsonConvert.DeserializeObject<List<PriorityFlag>>(Properties.Settings.Default.PriorityFlags);
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.PriorityFlags))
+            {
+                priorityFlags = JsonConvert.DeserializeObject<List<PriorityFlag>>(Properties.Settings.Default.PriorityFlags);
+            }
+
             defaultPriority = Properties.Settings.Default.DefaultPriority;
             //The checking the auto refresh will load the queue for the first time
 
