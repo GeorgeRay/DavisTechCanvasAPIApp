@@ -188,7 +188,9 @@ namespace CanvasAPIApp
                 dynamic jsonObj = JsonConvert.DeserializeObject(json);
                 courseStudentsGrid.Columns.Add("studentName", "Name");
                 courseStudentsGrid.Columns.Add("studentID", "ID");
-                courseStudentsGrid.Columns.Add("last_activity_at", "Last Activity");
+                var lastActivityIndex = courseStudentsGrid.Columns.Add("last_activity_at", "Last Activity");
+                courseStudentsGrid.Columns[lastActivityIndex].ValueType = typeof(DateTime);
+                courseStudentsGrid.Columns[lastActivityIndex].DefaultCellStyle.Format = "d";
                 courseStudentsGrid.Columns.Add("EnrollmentID", "EnrollmentID");
                 courseStudentsGrid.Columns["EnrollmentID"].Visible = false; //We don't need to show the canvas ID but will use it to work with students.
 
@@ -198,7 +200,7 @@ namespace CanvasAPIApp
                     String enrollemntTypeString = Convert.ToString(student.type);
                     enrollemntTypeString = enrollemntTypeString.Substring(0, enrollemntTypeString.Length - 10);
                     var displayName = $"{Convert.ToString(student.user.name)} ({enrollemntTypeString})";
-                    var displayDate = (Convert.ToString(student.last_activity_at)).Split(' ')[0];
+                    var displayDate = Convert.ToDateTime(student.last_activity_at == null ? "1/1/1900" : student.last_activity_at);
                     courseStudentsGrid.Rows.Add(displayName, (Convert.ToString(student.user.sis_user_id)), displayDate, Convert.ToString(student.id));
                 }
                 courseStudentsGrid.Sort(courseStudentsGrid.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
