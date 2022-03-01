@@ -64,6 +64,7 @@ namespace CanvasAPIApp
             CanvasAPIMainForm.GlobalCourseID = 1;
 
             //async webcalls vars
+            var listOfErrorsOnAPICall = "";
             List<Tuple<string, string, string>> studentList = new List<Tuple<string, string, string>>();
             List<Task> tasks = new List<Task>();
 
@@ -130,11 +131,17 @@ namespace CanvasAPIApp
                 //set up each call in a task list
                 tasks.Add(Task.Run(async () =>
                 {
-                    endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + course.id + "/users?per_page=1000&"; //Get endpoint
+                    try
+                    {                  
+                        endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + course.id + "/users?per_page=1000&"; //Get endpoint
 
-                    json = await requester.MakeRequestAsync(endPoint);
-                    jsonObj = JsonConvert.DeserializeObject(json);
-
+                        json = await requester.MakeRequestAsync(endPoint);
+                        jsonObj = JsonConvert.DeserializeObject(json);
+                    }
+                    catch(Exception ex)
+                    {
+                        listOfErrorsOnAPICall += $"Error requesting users on course ID: {course.id} - Error Message: {ex.Message}\n";
+                    }
                     //list to add student id's to after they have been added to the all students list
                     string currentCourseID = Convert.ToString(course.id);
 
@@ -173,6 +180,12 @@ namespace CanvasAPIApp
             removeFromCourse.Enabled = false;
             courseDataGridView.Sort(courseDataGridView.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
             courseDataGridView.ClearSelection();
+
+            //If there were errors on the API call, show them in a message box.
+            if (!String.IsNullOrEmpty(listOfErrorsOnAPICall))
+            {
+                MessageBox.Show(listOfErrorsOnAPICall);
+            }
         }
 
         private async void populateCourseStudents()
