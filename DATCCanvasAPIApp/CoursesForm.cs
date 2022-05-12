@@ -374,8 +374,27 @@ namespace CanvasAPIApp
                     {
                         //add student and repopulate list
                         restResult = await requester.MakePOSTRequestAsync(endPoint, jasonObject);
-                        MessageBox.Show(studentName + " has been invited to " + courseName);
-                        populateCourseStudents();
+                        //Adding students to a group if it exists
+                        //get the groups for the course
+                        string jsonGroupResults = "No Call Made";//this will be over written by results from web call
+                        string groupsEndPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/groups?per_page=1000";
+                        jsonGroupResults = await requester.MakeRequestAsync(groupsEndPoint);
+                        //Convert JSON to Group object 
+                        var groupList = JsonConvert.DeserializeObject<IList<CourseGroup>>(jsonGroupResults);
+                        //if there are groups show message box with list of groups with a check box.
+                        if (groupList.Count > 0)
+                        {
+                            GroupEnrollmentForm groupEnrollment = new GroupEnrollmentForm(groupList, studentName, courseName,userId);
+
+                            var response = groupEnrollment.ShowDialog();                  
+                            //If form comes back yes, loop through check boxes 
+                        }
+                        else
+                        {
+                            MessageBox.Show(studentName + " has been invited to " + courseName);
+                        }
+                       
+                        populateCourseStudents(); 
                     }
                     catch (Exception apiException)
                     {
