@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -289,16 +290,50 @@ namespace CanvasAPIApp
             string studentID = courseStudentsGrid.Rows[courseStudentsGrid.CurrentCell.RowIndex].Cells["studentID"].Value.ToString();
             string enrollmentID = courseStudentsGrid.Rows[courseStudentsGrid.CurrentCell.RowIndex].Cells["enrollmentID"].Value.ToString();
 
-            //verify that selected student is to be removed
-            DialogResult removeStudent = MessageBox.Show($"Are you sure you want to conclude {courseName} for {studentName}?", "Remove Student", MessageBoxButtons.YesNo);
-            if (removeStudent == DialogResult.Yes)
+            //get the groups for the course
+            string jsonGroupResults = "No Call Made";//this will be over written by results from web call
+            try
             {
-                string restResult = "No Call Made";//this will be over written by results from web call
-                var tokenParameter = coursesAccessToken;//Create
-                string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments/" + enrollmentID + "?";
+                string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/groups?include[]=users&per_page=1000";
+                jsonGroupResults = await requester.MakeRequestAsync(endPoint);
+            }
+            catch (Exception apiException)
+            {
+
+                MessageBox.Show("Error during API call.\n" + apiException.Message);
+            }
+
+            //Convert JSON to Group object loop through each group and see if user is in user array if it is save the data need to remove student from group.
+            var groupList = JsonConvert.DeserializeObject<IList<CourseGroup>>(jsonGroupResults);
+            List<CourseGroup> listOfEnrolledGroups = new List<CourseGroup>();            
+            string stringListOfEnrolledGroups = "";
+            foreach(CourseGroup group in groupList)
+            {                
+                if (group.users.Any(u => u.sis_user_id == studentID))
+                {
+                    listOfEnrolledGroups.Add(group);
+                    stringListOfEnrolledGroups += group.name + '\n';
+                }
+            }            
+
+            //verify that selected student is to be removed listing the group they are in
+            DialogResult removeStudent = MessageBox.Show($"Are you sure you want to conclude {courseName} for {studentName}?" +
+                $"\nGroups:\n{stringListOfEnrolledGroups}", "Remove Student", MessageBoxButtons.YesNo);
+            if (removeStudent == DialogResult.Yes)
+            {               
                 try
                 {
+                    string restResult = "No Call Made";//this will be over written by results from web call             
                     //Make api call
+                    //Remove student from group
+                    foreach (CourseGroup group in listOfEnrolledGroups)
+                    {
+                        var user = group.users.First(u => u.sis_user_id == studentID);
+                        string endPointGroup = Properties.Settings.Default.InstructureSite + "/api/v1/groups/" + group.id + "/users/" + user.id + "?";
+                        restResult = await requester.MakeDeleteRequestAsync(endPointGroup);
+                    }
+                    //Remove Student from course
+                    string endPoint = Properties.Settings.Default.InstructureSite + "/api/v1/courses/" + CanvasAPIMainForm.GlobalCourseID + "/enrollments/" + enrollmentID + "?";
                     restResult = await requester.MakeDeleteRequestAsync(endPoint);
 
                     MessageBox.Show(courseName + " has been concluded for " + studentName);
@@ -373,5 +408,22 @@ namespace CanvasAPIApp
         {
             loadCourseLists();
         }
+    }
+
+    public class User
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public string sis_user_id { get; set; }
+
+    }
+
+    public class CourseGroup
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public int members_count { get; set; }
+        public List<User> users { get; set; }
+
     }
 }
