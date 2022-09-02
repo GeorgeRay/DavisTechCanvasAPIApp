@@ -14,6 +14,8 @@ The first time opening the application, a settings form will automatically promp
 
 ![help George](https://github.com/bell-kevin/DavisTechCanvasAPIApp/blob/master/help.PNG)
 
+![token](https://github.com/bell-kevin/DavisTechCanvasAPIApp/blob/master/token.PNG)
+
 ## Contributing
 
 ## Credits
