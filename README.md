@@ -10,6 +10,10 @@ Make sure you can run Visual Studio on your computer. Visual Studio Code will no
 ## Usage
 The first time opening the application, a settings form will automatically prompt you for your Canvas URL (for example, "https://schoolname.instructure.com/") and your access token. Access tokens can be generated on Canvas at instructure.com/profile (for example, "https://schoolname.instructure.com/profile"). You know you have configured the API token and website correctly when your name appears in the window. 
 
+![account](https://github.com/bell-kevin/DavisTechCanvasAPIApp/blob/master/account.PNG)
+
+![help George](https://github.com/bell-kevin/DavisTechCanvasAPIApp/blob/master/help.PNG)
+
 ## Contributing
 
 ## Credits
