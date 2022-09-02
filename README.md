@@ -20,7 +20,9 @@ The first time opening the application, a settings form will automatically promp
 
 ## Credits
 George Ray
+
 AJ Hepler
+
 Kevin Bell
 
 ## License
