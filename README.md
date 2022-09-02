@@ -1,6 +1,8 @@
 # DTC Canvas API App
 This application is designed to work as a help-mate to the Instructure Canvas Web Applicaton.
 
+![window](https://github.com/bell-kevin/DavisTechCanvasAPIApp/blob/master/window.PNG)
+
 ## Motivation
 This app was designed for the faculty at the Davis Technical College to help them work with Canvas more efficently. Some features are very specific to the Davis Tech teaching environment.
 
