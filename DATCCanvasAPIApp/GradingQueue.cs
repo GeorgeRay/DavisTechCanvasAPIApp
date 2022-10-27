@@ -17,7 +17,7 @@ namespace CanvasAPIApp
     {
         // declarations
         Form mainForm;
-        List<GradingAssignment> ungradedAssignmentList;
+        List<GradingAssignment> ungradedAssignmentList = new List<GradingAssignment>(){ };
         private bool isChanging = false;
         private bool connectedToMongoDB = false;
         MongoClient mongoClient;
@@ -85,17 +85,26 @@ namespace CanvasAPIApp
         {
             //forces a reload of courses then continues to load assignments
             lblMessageBox.Text = "Getting Courses";
-            CourseList = await populateListOfCourses();
+            try
+            {
+                CourseList = await populateListOfCourses();
+            }
+            catch (Exception ex)
+            {
+                lblMessageBox.Text = ex.Message;
+            }
             await RefreshQueue();
         }
 
         private async Task RefreshQueue()
         {
             //reload the data
+            lblMessageBox.Text = "Getting Courses";
             cbxAutoRefresh.Enabled = false;
             btnRefreshQueue.Enabled = false;
             btnLoadCourses.Enabled = false;
-            lblMessageBox.Text = "Getting Courses";
+            DateTime date = new DateTime();
+            
 
             //saves sorting for after refresh defalts to priority if nothing is selected
             var sortColumn = gradingDataGrid.SortedColumn != null ? gradingDataGrid.SortedColumn : gradingDataGrid.Columns[1];
@@ -111,7 +120,19 @@ namespace CanvasAPIApp
             //gets courses if they aren't already set
             if (CourseList.Count == 0)
             {
-                CourseList = await populateListOfCourses();
+                try
+                {
+                    CourseList = await populateListOfCourses();
+                }
+                catch (Exception ex)
+                {
+                    lblMessageBox.Text = ex.Message;
+                    //turn back on the buttons
+                    btnRefreshQueue.Enabled = true;
+                    cbxAutoRefresh.Enabled = true;
+                    btnLoadCourses.Enabled = true;
+                    return;
+                }
             }
 
             lblMessageBox.Text = "Getting Reserved Assignments";
@@ -122,22 +143,25 @@ namespace CanvasAPIApp
             }
             if (CourseList.Count > 0)
             {
-                lblMessageBox.Text = "Getting Assignments";
-                ungradedAssignmentList = await populateGradingEventHistory(CourseList, gradingReservedList);
-                if (ungradedAssignmentList.Count == 0)
+                try
                 {
-                    DateTime date = new DateTime();
-                    date = DateTime.Now;
-                    lblMessageBox.Text = $"Grading Queue is Empty. Last refresh: {date.ToString("t")}";
-                    clearDataGridView();
+                    lblMessageBox.Text = "Getting Assignments";
+                    ungradedAssignmentList = await populateGradingEventHistory(CourseList, gradingReservedList);
+                    if (ungradedAssignmentList.Count == 0)
+                    { 
+                        lblMessageBox.Text = $"Grading Queue is Empty. Last refresh: {DateTime.Now:t}";
+                        clearDataGridView();
+                    }
+                    else
+                    {
+                        lblMessageBox.Text = "Populating List";
+                        LoadDataGridView(courseFilter(ungradedAssignmentList, courseFilterTxt.Text));                       
+                        lblMessageBox.Text = $"Last refresh: {DateTime.Now:t}";
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    lblMessageBox.Text = "Populating List";
-                    LoadDataGridView(courseFilter(ungradedAssignmentList, courseFilterTxt.Text));
-                    DateTime date = new DateTime();
-                    date = DateTime.Now;
-                    lblMessageBox.Text = $"Last refresh: {date.ToString("t")}";
+                    lblMessageBox.Text = $"{DateTime.Now:t} {ex.Message}";
                 }
             }
             else
