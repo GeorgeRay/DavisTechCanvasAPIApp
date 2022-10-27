@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace CanvasAPIApp
 {
@@ -104,6 +105,7 @@ namespace CanvasAPIApp
             string urlParameters;
             urlParameters = "student_ids[]=all";
             urlParameters += "&include[]=assignment";
+            urlParameters += "&include[]=user";
             urlParameters += "&include[]=submission_comments";            
             urlParameters += $"&graded_since={dtpEarliestDate.Value.ToString("yyyy-MM-dd")}T{strOffsethours}:00:00Z";
             urlParameters += "&enrollment_state=active";
@@ -159,6 +161,7 @@ namespace CanvasAPIApp
                                 var assignment = submission.assignment;
                                 var workflow_state = Convert.ToString(submission.workflow_state);
                                 var assignment_id = Convert.ToString(submission.assignment_id);
+                                var user_name = Convert.ToString(submission.user.name);//new line Brent
                                 var user_id = Convert.ToString(submission.user_id);
                                 var posted_at = Convert.ToString(submission.posted_at);
                                 var preview_url = Convert.ToString(submission.preview_url);
@@ -168,7 +171,7 @@ namespace CanvasAPIApp
                                 var speed_grader_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/gradebook/speed_grader?assignment_id={assignment_id}&student_id={user_id}";
                                 var grades_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/grades/{user_id}";
                                 var gradingEvent = new GradingHistoryEvent(course.CourseName
-                                    , assignment_name, submitted_at, workflow_state, speed_grader_url
+                                    , assignment_name,user_name, submitted_at, workflow_state, speed_grader_url
                                     , grades_url, grader_id, grader_name, graded_at);
 
                                 gradingHistoryList.Add(gradingEvent);
@@ -238,8 +241,9 @@ namespace CanvasAPIApp
             {
                 foreach (GradingHistoryEvent assignment in assignmentList)
                 {
+                    var user_firstName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(assignment.user_name[0].ToLower());//new by Brent
                     gradingDataGrid.Rows.Add(assignment.courseName
-                        , assignment.assignment_name, assignment.submitted_at, assignment.graded_at
+                        , $"{assignment.assignment_name} ({user_firstName})", assignment.submitted_at, assignment.graded_at//new piece by Brent
                         , assignment.hours_to_grade.ToString("0.00"), assignment.grader_name
                         , assignment.speed_grader_url, assignment.grades_url);
                 }
@@ -303,17 +307,18 @@ namespace CanvasAPIApp
         public Int64 grader_id { get; private set; }
         public DateTime graded_at { get; private set; }
         public double hours_to_grade { get; private set; }
-
+        public string[] user_name { get; set; }//new by Brent
 
 
 
         public GradingHistoryEvent(
-            string courseName, string assignment_name, DateTime submitted_at, string workflow_state,
+            string courseName, string assignment_name,string user_name, DateTime submitted_at, string workflow_state,
             string speed_grader_url, string grades_url, string grader_id, string grader_name, DateTime graded_at
             )
         {
             this.courseName = courseName;
             this.assignment_name = assignment_name;
+            this.user_name = user_name.Trim().Split(' ');
             this.submitted_at = submitted_at;
             this.workflow_state = workflow_state;
             this.speed_grader_url = speed_grader_url;
