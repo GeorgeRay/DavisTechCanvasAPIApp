@@ -246,7 +246,7 @@ namespace CanvasAPIApp
             //bool sortByPriority = false;
             clearDataGridView();
 
-            if (assignmentList.Count > 0)
+            if (assignmentList.Count > 0 && assignmentList != null)
             {
                 foreach (GradingAssignment assignment in assignmentList)
                 {
