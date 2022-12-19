@@ -99,10 +99,13 @@ namespace CanvasAPIApp
         private async Task RefreshQueue()
         {
             //reload the data
+            clearDataGridView();
             lblMessageBox.Text = "Getting Courses";
             cbxAutoRefresh.Enabled = false;
             btnRefreshQueue.Enabled = false;
             btnLoadCourses.Enabled = false;
+            gradingDataGrid.Enabled = false;
+           
             DateTime date = new DateTime();
             
 
@@ -150,7 +153,7 @@ namespace CanvasAPIApp
                     if (ungradedAssignmentList.Count == 0)
                     { 
                         lblMessageBox.Text = $"Grading Queue is Empty. Last refresh: {DateTime.Now:t}";
-                        clearDataGridView();
+                        
                     }
                     else
                     {
@@ -167,12 +170,13 @@ namespace CanvasAPIApp
             else
             {
                 lblMessageBox.Text = "No Courses";
-                clearDataGridView();
+                
             }
             //turn back on the buttons
             btnRefreshQueue.Enabled = true;
             cbxAutoRefresh.Enabled = true;
             btnLoadCourses.Enabled = true;
+            gradingDataGrid.Enabled = true;
             //Clean up data remove anything in the database reserved by user that is no longer in the queue
             foreach (ReservedAssignment assignment in gradingReservedList)
             {
@@ -243,8 +247,9 @@ namespace CanvasAPIApp
 
         private void LoadDataGridView(List<GradingAssignment> assignmentList)
         {
+
             //bool sortByPriority = false;
-            clearDataGridView();
+            
 
             if (assignmentList.Count > 0 && assignmentList != null)
             {
@@ -256,6 +261,7 @@ namespace CanvasAPIApp
                         assignment.speed_grader_url, assignment.grades_url);
                 }
             }
+
         }
 
         private void enableCourseFilter()
