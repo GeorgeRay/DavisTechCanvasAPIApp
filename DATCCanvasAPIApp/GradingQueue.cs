@@ -152,10 +152,10 @@ namespace CanvasAPIApp
                 {
                     lblMessageBox.Text = "Getting Assignments";
                     ungradedAssignmentList = await populateGradingEventHistory(CourseList, gradingReservedList);
+                    clearDataGridView();
                     if (ungradedAssignmentList.Count == 0)
                     { 
-                        lblMessageBox.Text = $"Grading Queue is Empty. Last refresh: {DateTime.Now:t}";
-                        
+                        lblMessageBox.Text = $"Grading Queue is Empty. Last refresh: {DateTime.Now:t}";   
                     }
                     else
                     {
@@ -256,21 +256,15 @@ namespace CanvasAPIApp
             
 
             if (assignmentList.Count > 0 && assignmentList != null)
-            {
-                
-                clearDataGridView();
-
+            { 
                 foreach (GradingAssignment assignment in assignmentList)
                 {
                     var user_firstName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase( assignment.user_name[0].ToLower());                    
                     gradingDataGrid.Rows.Add(assignment.reserved, assignment.priority, assignment.courseName,
                         $"{assignment.assignment_name} ({user_firstName})", assignment.submitted_at, assignment.workflow_state,
                         assignment.speed_grader_url, assignment.grades_url);
-                }
-
-                
-            }
-            
+                }                
+            }       
 
         }
 
