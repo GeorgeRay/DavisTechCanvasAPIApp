@@ -22,6 +22,7 @@ namespace CanvasAPIApp
         private bool connectedToMongoDB = false;
         MongoClient mongoClient;
         IMongoDatabase mongoDatabase;
+        int intSecToRefreshQueue;
 
         public static List<Course> CourseList { get; set; } = new List<Course>();
 
@@ -99,13 +100,14 @@ namespace CanvasAPIApp
         private async Task RefreshQueue()
         {
             //reload the data
-            clearDataGridView();
+            
             lblMessageBox.Text = "Getting Courses";
             cbxAutoRefresh.Enabled = false;
             btnRefreshQueue.Enabled = false;
             btnLoadCourses.Enabled = false;
+            Application.UseWaitCursor = true;
             gradingDataGrid.Enabled = false;
-           
+
             DateTime date = new DateTime();
             
 
@@ -177,6 +179,8 @@ namespace CanvasAPIApp
             cbxAutoRefresh.Enabled = true;
             btnLoadCourses.Enabled = true;
             gradingDataGrid.Enabled = true;
+            Application.UseWaitCursor = false;
+
             //Clean up data remove anything in the database reserved by user that is no longer in the queue
             foreach (ReservedAssignment assignment in gradingReservedList)
             {
@@ -253,6 +257,9 @@ namespace CanvasAPIApp
 
             if (assignmentList.Count > 0 && assignmentList != null)
             {
+                
+                clearDataGridView();
+
                 foreach (GradingAssignment assignment in assignmentList)
                 {
                     var user_firstName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase( assignment.user_name[0].ToLower());                    
@@ -260,7 +267,10 @@ namespace CanvasAPIApp
                         $"{assignment.assignment_name} ({user_firstName})", assignment.submitted_at, assignment.workflow_state,
                         assignment.speed_grader_url, assignment.grades_url);
                 }
+
+                
             }
+            
 
         }
 
@@ -272,7 +282,9 @@ namespace CanvasAPIApp
 
         private async void btnRefreshQueue_Click(object sender, EventArgs e)
         {
+            timerRefreshQueue.Stop();
             await RefreshQueue();
+            timerRefreshQueue.Start();
 
 
         }
@@ -416,8 +428,9 @@ namespace CanvasAPIApp
             {
                 await RefreshQueue();
                 nudSeconds.Enabled = true;
-                timerRefreshQueue.Interval = Convert.ToInt32(nudSeconds.Value) * 1000;
+                timerRefreshQueue.Interval = 1000;
                 timerRefreshQueue.Start();
+                intSecToRefreshQueue = (int)nudSeconds.Value;
 
             }
             else
@@ -431,7 +444,12 @@ namespace CanvasAPIApp
 
         private async void timerRefreshQueue_Tick(object sender, EventArgs e)
         {
-            await RefreshQueue();
+            intSecToRefreshQueue--;
+            if (intSecToRefreshQueue == 0)
+            {
+                await RefreshQueue();
+                intSecToRefreshQueue = (int)nudSeconds.Value;
+            }  
         }
 
         private void gradingDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -610,6 +628,11 @@ namespace CanvasAPIApp
 
 
             await RefreshQueue();
+        }
+
+        private void ttShowCounter_Popup(object sender, PopupEventArgs e)
+        {
+            ttShowCounter.SetToolTip(btnRefreshQueue, $"{intSecToRefreshQueue} seconds to next auto refresh");
         }
     }
 }
