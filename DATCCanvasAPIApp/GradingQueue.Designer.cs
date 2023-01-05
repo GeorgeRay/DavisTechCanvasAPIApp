@@ -47,7 +47,6 @@
             this.courseFilterLbl = new System.Windows.Forms.Label();
             this.btnPrioritySettings = new System.Windows.Forms.Button();
             this.btnLoadCourses = new System.Windows.Forms.Button();
-            this.ttShowCounter = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.gradingDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSeconds)).BeginInit();
             this.SuspendLayout();
@@ -156,7 +155,6 @@
             this.btnRefreshQueue.Size = new System.Drawing.Size(128, 23);
             this.btnRefreshQueue.TabIndex = 1;
             this.btnRefreshQueue.Text = "Refresh Assignments";
-            this.ttShowCounter.SetToolTip(this.btnRefreshQueue, "Auto Refresh in ");
             this.btnRefreshQueue.UseVisualStyleBackColor = false;
             this.btnRefreshQueue.Click += new System.EventHandler(this.btnRefreshQueue_Click);
             // 
@@ -252,11 +250,6 @@
             this.btnLoadCourses.UseVisualStyleBackColor = false;
             this.btnLoadCourses.Click += new System.EventHandler(this.btnLoadCourses_Click);
             // 
-            // ttShowCounter
-            // 
-            this.ttShowCounter.ToolTipTitle = "Seconds to refresh";
-            this.ttShowCounter.Popup += new System.Windows.Forms.PopupEventHandler(this.ttShowCounter_Popup);
-            // 
             // GradingQueue
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -302,6 +295,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Workflow_state;
         private System.Windows.Forms.DataGridViewLinkColumn Speedgrader_url;
         private System.Windows.Forms.DataGridViewTextBoxColumn grades_url;
-        private System.Windows.Forms.ToolTip ttShowCounter;
     }
 }

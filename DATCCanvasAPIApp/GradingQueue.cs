@@ -23,6 +23,8 @@ namespace CanvasAPIApp
         MongoClient mongoClient;
         IMongoDatabase mongoDatabase;
         int intSecToRefreshQueue;
+        ToolTip ttTimeToRefresh = new ToolTip();
+        
 
         public static List<Course> CourseList { get; set; } = new List<Course>();
 
@@ -79,6 +81,11 @@ namespace CanvasAPIApp
 
             cbxAutoRefresh_CheckedChanged(this, e);
             //await RefreshQueue();
+
+
+            ttTimeToRefresh.Popup += new PopupEventHandler(this.ttShowCounter_Popup);
+            ttTimeToRefresh.SetToolTip(btnRefreshQueue, $"{intSecToRefreshQueue} seconds to next auto refresh");
+            
 
         }
 
@@ -152,9 +159,10 @@ namespace CanvasAPIApp
                 {
                     lblMessageBox.Text = "Getting Assignments";
                     ungradedAssignmentList = await populateGradingEventHistory(CourseList, gradingReservedList);
-                    clearDataGridView();
+                    
                     if (ungradedAssignmentList.Count == 0)
-                    { 
+                    {
+                        clearDataGridView();
                         lblMessageBox.Text = $"Grading Queue is Empty. Last refresh: {DateTime.Now:t}";   
                     }
                     else
@@ -253,8 +261,8 @@ namespace CanvasAPIApp
         {
 
             //bool sortByPriority = false;
-            
 
+            clearDataGridView();
             if (assignmentList.Count > 0 && assignmentList != null)
             { 
                 foreach (GradingAssignment assignment in assignmentList)
@@ -626,7 +634,9 @@ namespace CanvasAPIApp
 
         private void ttShowCounter_Popup(object sender, PopupEventArgs e)
         {
-            ttShowCounter.SetToolTip(btnRefreshQueue, $"{intSecToRefreshQueue} seconds to next auto refresh");
+           ttTimeToRefresh.SetToolTip(btnRefreshQueue, $"{intSecToRefreshQueue} seconds to next auto refresh");            
         }
+
+      
     }
 }
