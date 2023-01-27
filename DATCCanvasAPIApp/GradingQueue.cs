@@ -22,7 +22,7 @@ namespace CanvasAPIApp
         private bool connectedToMongoDB = false;
         MongoClient mongoClient;
         IMongoDatabase mongoDatabase;
-        int intSecToRefreshQueue;
+        static int intSecToRefreshQueue;
         ToolTip ttTimeToRefresh = new ToolTip();
         
 
@@ -286,6 +286,8 @@ namespace CanvasAPIApp
         {
             timerRefreshQueue.Stop();
             await RefreshQueue();
+            //set the timer value back to the value in the number up down field.
+            intSecToRefreshQueue = (int)nudSeconds.Value;
             timerRefreshQueue.Start();
 
 
@@ -636,7 +638,5 @@ namespace CanvasAPIApp
         {
            ttTimeToRefresh.SetToolTip(btnRefreshQueue, $"{intSecToRefreshQueue} seconds to next auto refresh");            
         }
-
-      
     }
 }
