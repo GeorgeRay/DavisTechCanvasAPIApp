@@ -26,6 +26,7 @@ namespace CanvasAPIApp
         ToolTip ttTimeToRefresh = new ToolTip();
         
 
+
         public static List<Course> CourseList { get; set; } = new List<Course>();
 
         public static List<PriorityFlag> priorityFlags = new List<PriorityFlag>();
@@ -79,13 +80,7 @@ namespace CanvasAPIApp
             defaultPriority = Properties.Settings.Default.DefaultPriority;
             //The checking the auto refresh will load the queue for the first time
 
-            cbxAutoRefresh_CheckedChanged(this, e);
-            //await RefreshQueue();
-
-
-            ttTimeToRefresh.Popup += new PopupEventHandler(this.ttShowCounter_Popup);
-            ttTimeToRefresh.SetToolTip(btnRefreshQueue, $"{intSecToRefreshQueue} seconds to next auto refresh");
-            
+            cbxAutoRefresh_CheckedChanged(this, e);             
 
         }
 
@@ -449,11 +444,14 @@ namespace CanvasAPIApp
         private async void timerRefreshQueue_Tick(object sender, EventArgs e)
         {
             intSecToRefreshQueue--;
+            
             if (intSecToRefreshQueue == 0)
             {
                 await RefreshQueue();
                 intSecToRefreshQueue = (int)nudSeconds.Value;
-            }  
+            }
+            //refresh tool tip on on refresh button
+            ttTimeToRefresh.SetToolTip(btnRefreshQueue, $"{intSecToRefreshQueue} seconds to next auto refresh");
         }
 
         private void gradingDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -632,11 +630,6 @@ namespace CanvasAPIApp
 
 
             await RefreshQueue();
-        }
-
-        private void ttShowCounter_Popup(object sender, PopupEventArgs e)
-        {
-           ttTimeToRefresh.SetToolTip(btnRefreshQueue, $"{intSecToRefreshQueue} seconds to next auto refresh");            
         }
     }
 }
