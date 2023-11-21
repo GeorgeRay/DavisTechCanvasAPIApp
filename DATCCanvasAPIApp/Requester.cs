@@ -5,6 +5,9 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Configuration;
+using System.Web.Configuration;
 
 
 namespace CanvasAPIApp
@@ -30,16 +33,35 @@ namespace CanvasAPIApp
 
         public async Task<string> MakeRequestAsync(string url, string parameters = "")
         {
+            HttpResponseMessage response = new HttpResponseMessage();
             string finalUrl = url + parameters;
+            string responseString = "";
 
             //debug output:
             //Console.WriteLine(finalUrl);            
+            try
+            {
+                response = await client.GetAsync(finalUrl);
+                response.EnsureSuccessStatusCode();
+                responseString = await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                Console.WriteLine(finalUrl);
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(response);
+#endif
+                //write out to log file
+                var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                path = path + "\\CanvasAPIApp\\log.txt";
+                StreamWriter file = new StreamWriter(path, true);
+                file.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()} {ex.Message} {finalUrl}");
+                file.Close();
+            }
 
-            HttpResponseMessage response = await client.GetAsync(finalUrl);
 
-            response.EnsureSuccessStatusCode();
 
-            string responseString = await response.Content.ReadAsStringAsync();
 
             return responseString;
 
@@ -63,13 +85,13 @@ namespace CanvasAPIApp
         }
         //POST 
         public async Task<string> MakePOSTRequestAsync(string url, string jsonString)
-        {          
+        {
             //when calling canvas you need to have the object first in the string
             //var payload = "{\"quiz\":{\"title\":\"test2\"}}";
             HttpContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await client.PostAsync(url, content);
-      
+
             response.EnsureSuccessStatusCode();
 
             string responseString = await response.Content.ReadAsStringAsync();
