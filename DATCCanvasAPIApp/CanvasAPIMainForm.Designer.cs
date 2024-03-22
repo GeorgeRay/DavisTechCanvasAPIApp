@@ -56,6 +56,7 @@
             this.tabPageCalendar = new System.Windows.Forms.TabPage();
             this.tabPageGradingQueue = new System.Windows.Forms.TabPage();
             this.tabGradingHistory = new System.Windows.Forms.TabPage();
+            this.errorMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.apiMenuStrip.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.SuspendLayout();
@@ -70,7 +71,8 @@
             this.helpToolStripMenuItem});
             this.apiMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.apiMenuStrip.Name = "apiMenuStrip";
-            this.apiMenuStrip.Size = new System.Drawing.Size(984, 24);
+            this.apiMenuStrip.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.apiMenuStrip.Size = new System.Drawing.Size(1312, 24);
             this.apiMenuStrip.TabIndex = 1;
             this.apiMenuStrip.Text = "menuStrip1";
             // 
@@ -180,7 +182,8 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutCanvasAPIToolStripMenuItem});
+            this.aboutCanvasAPIToolStripMenuItem,
+            this.errorMessagesToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
@@ -188,7 +191,7 @@
             // aboutCanvasAPIToolStripMenuItem
             // 
             this.aboutCanvasAPIToolStripMenuItem.Name = "aboutCanvasAPIToolStripMenuItem";
-            this.aboutCanvasAPIToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.aboutCanvasAPIToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutCanvasAPIToolStripMenuItem.Text = "About Canvas API";
             this.aboutCanvasAPIToolStripMenuItem.Click += new System.EventHandler(this.aboutCanvasAPIToolStripMenuItem_Click);
             // 
@@ -210,100 +213,117 @@
             this.tabControlMain.Controls.Add(this.tabGradingHistory);
             this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlMain.Location = new System.Drawing.Point(0, 24);
+            this.tabControlMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(984, 687);
+            this.tabControlMain.Size = new System.Drawing.Size(1312, 851);
             this.tabControlMain.TabIndex = 3;
             this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
             // 
             // tabPageCourses
             // 
-            this.tabPageCourses.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCourses.Location = new System.Drawing.Point(4, 25);
+            this.tabPageCourses.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabPageCourses.Name = "tabPageCourses";
-            this.tabPageCourses.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCourses.Size = new System.Drawing.Size(976, 661);
+            this.tabPageCourses.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageCourses.Size = new System.Drawing.Size(1304, 822);
             this.tabPageCourses.TabIndex = 3;
             this.tabPageCourses.Text = "Courses";
             this.tabPageCourses.UseVisualStyleBackColor = true;
             // 
             // tabPageAssign
             // 
-            this.tabPageAssign.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAssign.Location = new System.Drawing.Point(4, 25);
+            this.tabPageAssign.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabPageAssign.Name = "tabPageAssign";
-            this.tabPageAssign.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAssign.Size = new System.Drawing.Size(976, 661);
+            this.tabPageAssign.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageAssign.Size = new System.Drawing.Size(1304, 817);
             this.tabPageAssign.TabIndex = 0;
             this.tabPageAssign.Text = "Assignments";
             this.tabPageAssign.UseVisualStyleBackColor = true;
             // 
             // tabPageQuiz
             // 
-            this.tabPageQuiz.Location = new System.Drawing.Point(4, 22);
+            this.tabPageQuiz.Location = new System.Drawing.Point(4, 25);
+            this.tabPageQuiz.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabPageQuiz.Name = "tabPageQuiz";
-            this.tabPageQuiz.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageQuiz.Size = new System.Drawing.Size(976, 661);
+            this.tabPageQuiz.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageQuiz.Size = new System.Drawing.Size(1304, 817);
             this.tabPageQuiz.TabIndex = 1;
             this.tabPageQuiz.Text = "Quizzes";
             this.tabPageQuiz.UseVisualStyleBackColor = true;
             // 
             // tabPagePages
             // 
-            this.tabPagePages.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePages.Location = new System.Drawing.Point(4, 25);
+            this.tabPagePages.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabPagePages.Name = "tabPagePages";
-            this.tabPagePages.Size = new System.Drawing.Size(976, 661);
+            this.tabPagePages.Size = new System.Drawing.Size(1304, 817);
             this.tabPagePages.TabIndex = 2;
             this.tabPagePages.Text = "Pages";
             this.tabPagePages.UseVisualStyleBackColor = true;
             // 
             // tabPageModule
             // 
-            this.tabPageModule.Location = new System.Drawing.Point(4, 22);
+            this.tabPageModule.Location = new System.Drawing.Point(4, 25);
+            this.tabPageModule.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabPageModule.Name = "tabPageModule";
-            this.tabPageModule.Size = new System.Drawing.Size(976, 661);
+            this.tabPageModule.Size = new System.Drawing.Size(1304, 817);
             this.tabPageModule.TabIndex = 4;
             this.tabPageModule.Text = "Modules";
             this.tabPageModule.UseVisualStyleBackColor = true;
             // 
             // tabPageCalendar
             // 
-            this.tabPageCalendar.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCalendar.Location = new System.Drawing.Point(4, 25);
+            this.tabPageCalendar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabPageCalendar.Name = "tabPageCalendar";
-            this.tabPageCalendar.Size = new System.Drawing.Size(976, 661);
+            this.tabPageCalendar.Size = new System.Drawing.Size(1304, 817);
             this.tabPageCalendar.TabIndex = 5;
             this.tabPageCalendar.Text = "Calendar";
             this.tabPageCalendar.UseVisualStyleBackColor = true;
             // 
             // tabPageGradingQueue
             // 
-            this.tabPageGradingQueue.Location = new System.Drawing.Point(4, 22);
+            this.tabPageGradingQueue.Location = new System.Drawing.Point(4, 25);
+            this.tabPageGradingQueue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabPageGradingQueue.Name = "tabPageGradingQueue";
-            this.tabPageGradingQueue.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGradingQueue.Size = new System.Drawing.Size(976, 661);
+            this.tabPageGradingQueue.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageGradingQueue.Size = new System.Drawing.Size(1304, 817);
             this.tabPageGradingQueue.TabIndex = 6;
             this.tabPageGradingQueue.Text = "Grading Queue";
             this.tabPageGradingQueue.UseVisualStyleBackColor = true;
             // 
             // tabGradingHistory
             // 
-            this.tabGradingHistory.Location = new System.Drawing.Point(4, 22);
+            this.tabGradingHistory.Location = new System.Drawing.Point(4, 25);
+            this.tabGradingHistory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabGradingHistory.Name = "tabGradingHistory";
-            this.tabGradingHistory.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGradingHistory.Size = new System.Drawing.Size(976, 661);
+            this.tabGradingHistory.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabGradingHistory.Size = new System.Drawing.Size(1304, 817);
             this.tabGradingHistory.TabIndex = 7;
             this.tabGradingHistory.Text = "Grading History";
             this.tabGradingHistory.UseVisualStyleBackColor = true;
             // 
+            // errorMessagesToolStripMenuItem
+            // 
+            this.errorMessagesToolStripMenuItem.Name = "errorMessagesToolStripMenuItem";
+            this.errorMessagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.errorMessagesToolStripMenuItem.Text = "Error Messages";
+            this.errorMessagesToolStripMenuItem.Click += new System.EventHandler(this.errorMessagesToolStripMenuItem_Click);
+            // 
             // CanvasAPIMainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(984, 711);
+            this.ClientSize = new System.Drawing.Size(1312, 875);
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.apiMenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.apiMenuStrip;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "CanvasAPIMainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -345,6 +365,7 @@
         private System.Windows.Forms.ToolStripMenuItem dataSourcesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mongoDBToolStripMenuItem;
         private System.Windows.Forms.TabPage tabGradingHistory;
+        private System.Windows.Forms.ToolStripMenuItem errorMessagesToolStripMenuItem;
     }
 }
 

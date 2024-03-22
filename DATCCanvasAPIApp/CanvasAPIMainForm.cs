@@ -211,5 +211,13 @@ namespace CanvasAPIApp
             Cursor.Current = Cursors.Default;
 
         }
+
+        private void errorMessagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ErrorSimpleTextBox errorSimpleTxbForm = new ErrorSimpleTextBox("About", "About");
+
+            errorSimpleTxbForm.StartPosition = FormStartPosition.CenterScreen;
+            errorSimpleTxbForm.ShowDialog();
+        }
     }
 }

@@ -52,17 +52,17 @@ namespace CanvasAPIApp
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(response);
 #endif
+                Properties.Settings.Default.LastErrorThrownOnRequest = 
+                    $"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()} {ex.Message}" +
+                    $"\n{finalUrl}";
+                //2024-03-21 This is not helpful. Writing out the variable above.
                 //write out to log file
-                var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                path = path + "\\CanvasAPIApp\\log.txt";
-                StreamWriter file = new StreamWriter(path, true);
-                file.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()} {ex.Message} {finalUrl}");
-                file.Close();
+                //var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                //path = path + "\\CanvasAPIApp\\log.txt";
+                //StreamWriter file = new StreamWriter(path, true);
+                //file.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()} {ex.Message} {finalUrl}");
+                //file.Close();
             }
-
-
-
-
             return responseString;
 
         }

@@ -101,18 +101,18 @@ namespace CanvasAPIApp
             var offset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).Hours;
             var intOffsetHours = offset > 0 ? 24 - offset : 0 - offset;
             string strOffsethours = offset < 12 ? "0" + intOffsetHours.ToString() : intOffsetHours.ToString();
-            
+
             string urlParameters;
             urlParameters = "student_ids[]=all";
             urlParameters += "&include[]=assignment";
             urlParameters += "&include[]=user";
-            urlParameters += "&include[]=submission_comments";            
+            urlParameters += "&include[]=submission_comments";
             urlParameters += $"&graded_since={dtpEarliestDate.Value.ToString("yyyy-MM-dd")}T{strOffsethours}:00:00Z";
             urlParameters += "&enrollment_state=active";
             urlParameters += "&per_page=1000";
 
             //async webcalls vars
-            List <Task> tasks = new List<Task>();
+            List<Task> tasks = new List<Task>();
 
             // gets grading event history
             // adds each call to task
@@ -131,7 +131,7 @@ namespace CanvasAPIApp
                     {
                         MessageBox.Show($"{e.Message}\n{e.StackTrace}");
                     }
-                    
+
                     if (json != "")
                     {
                         dynamic jsonObj = JsonConvert.DeserializeObject(json);
@@ -171,7 +171,7 @@ namespace CanvasAPIApp
                                 var speed_grader_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/gradebook/speed_grader?assignment_id={assignment_id}&student_id={user_id}";
                                 var grades_url = $"{Properties.Settings.Default.InstructureSite}/courses/{course.CourseID}/grades/{user_id}";
                                 var gradingEvent = new GradingHistoryEvent(course.CourseName
-                                    , assignment_name,user_name, submitted_at, workflow_state, speed_grader_url
+                                    , assignment_name, user_name, submitted_at, workflow_state, speed_grader_url
                                     , grades_url, grader_id, grader_name, graded_at);
 
                                 gradingHistoryList.Add(gradingEvent);
@@ -220,21 +220,21 @@ namespace CanvasAPIApp
 
                     MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
                 }
-                
-             
+
+
                 return tempCourseList;
             });
         }
         private void LoadDataGridView(List<GradingHistoryEvent> assignmentList)
         {
 
-            gradingDataGrid.Rows.Clear();       
-        
+            gradingDataGrid.Rows.Clear();
+
             //filter list
             if (cbxShowAutoGraded.Checked == false)
             {
-                assignmentList = assignmentList.Where(result => !result.grader_name.Equals("auto graded")).OrderByDescending(grade_time =>grade_time.graded_at).ToList();
-                            
+                assignmentList = assignmentList.Where(result => !result.grader_name.Equals("auto graded")).OrderByDescending(grade_time => grade_time.graded_at).ToList();
+
             }
 
             if (assignmentList.Count > 0)
@@ -312,7 +312,7 @@ namespace CanvasAPIApp
 
 
         public GradingHistoryEvent(
-            string courseName, string assignment_name,string user_name, DateTime submitted_at, string workflow_state,
+            string courseName, string assignment_name, string user_name, DateTime submitted_at, string workflow_state,
             string speed_grader_url, string grades_url, string grader_id, string grader_name, DateTime graded_at
             )
         {
@@ -349,15 +349,9 @@ namespace CanvasAPIApp
                 Requester requester = new Requester();
                 string endPoint = Properties.Settings.Default.InstructureSite + $"/api/v1/users/{grader_id}?&";
                 string json;
-                try
-                {
-                    json = await requester.MakeRequestAsync(endPoint);                    
-                }
-                catch (Exception e)
-                {                    
-                    //on failed request saving the grader id as the grader name.
-                    json = $"{{\"id\":{grader_id},\"name\":\"{grader_id} - {e.Message}\"}}";
-                }
+
+                json = await requester.MakeRequestAsync(endPoint);
+
                 if (json != "")
                 {
                     dynamic jsonObj = JsonConvert.DeserializeObject(json);

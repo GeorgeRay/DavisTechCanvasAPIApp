@@ -16,7 +16,7 @@ namespace CanvasAPIApp
 
         private void HelpSimpleTextBox_Load_1(object sender, EventArgs e)
         {
-            string version;
+            string version;            
 
             try
             {
@@ -27,7 +27,7 @@ namespace CanvasAPIApp
                 version = "Version number not available during debugging";
             }
                 
-                string helpText = "Version: " + version;
+                string helpText = $"Version: {version}";
                 rtbHelpOutput.Text = helpText;
            
 

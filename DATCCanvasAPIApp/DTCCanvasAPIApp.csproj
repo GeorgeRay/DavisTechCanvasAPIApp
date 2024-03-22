@@ -28,7 +28,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>Canvas API Application</ProductName>
     <PublisherName>Davis Technical College</PublisherName>
-    <ApplicationRevision>68</ApplicationRevision>
+    <ApplicationRevision>69</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -249,6 +249,12 @@
     <Compile Include="GroupEnrollmentForm.Designer.cs">
       <DependentUpon>GroupEnrollmentForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ErrorSimpleTextBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ErrorSimpleTextBox.Designer.cs">
+      <DependentUpon>ErrorSimpleTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="MongoDBForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -336,6 +342,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GroupEnrollmentForm.resx">
       <DependentUpon>GroupEnrollmentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ErrorSimpleTextBox.resx">
+      <DependentUpon>ErrorSimpleTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MongoDBForm.resx">
       <DependentUpon>MongoDBForm.cs</DependentUpon>
